@@ -1,6 +1,6 @@
 # Next-Generation Word-by-Word Prototype
 
-*Please use [pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) for code contributions instead of forking this repo. We will add you as a collaborators to the repository. 🚀*
+*Please use [pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) for code contributions instead of forking this repo. We will add you as a collaborator to the repository. 🚀*
 
 ## Objective
 
