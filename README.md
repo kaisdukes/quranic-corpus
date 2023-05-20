@@ -1,5 +1,9 @@
 # Next-Generation Word-by-Word Prototype
 
+*Please use [pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) for code contributions instead of forking this repo. This helps us collaborate better. 🚀*
+
+## Objective
+
 The prototype focuses on revamping the highly visited word-by-word section of the Quranic Corpus. Our goal is to create a Quran reader that is familiar and intuitive, mirroring the layout of a physical Quran. This new prototype aims to offer quick access to word-by-word translation, roots, transliteration, and audio without compromising simplicity and responsiveness across various devices. This clean, user-friendly interface will facilitate the exploration of the rich data in the Quranic Corpus, catering to both seasoned users and newcomers alike. We want to draw on inspiration from eLearning platforms, to build the best engaging Quranic learning platform.
 
 ## Running locally
