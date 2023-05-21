@@ -1,7 +1,7 @@
 {
   "name": "quranic-corpus",
   "version": "0.1.0",
-  "homepage": "https://kaisdukes.github.io/quranic-corpus",
+  "homepage": "https://kaisdukes.github.io/wbw-prototype",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
