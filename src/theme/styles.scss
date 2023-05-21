@@ -1,0 +1,63 @@
+:root {
+    --default-arabic-font-family: Hafs;
+    --default-pos-tag-font-family: Arial;
+}
+
+@font-face {
+    font-family: 'Hafs';
+    src: url('../fonts/hafs.woff2');
+}
+
+.navy {
+    color: #1301b8;
+}
+
+.seagreen {
+    color: #32bd2f
+}
+
+.seagreen-light {
+    color: #3ece39;
+}
+
+.sky {
+    color: #548dd4;
+}
+
+.sky-light {
+    color: #6f9fdb;
+}
+
+.metal {
+    color: #5c7085;
+}
+
+.metal-light {
+    color: #70869c;
+}
+
+.rust {
+    color: #ad2323;
+}
+
+.rust-light {
+    color: #d73535;
+}
+
+.gray {
+    color: #575757;
+}
+
+.orange {
+    color: #e37010;
+}
+
+.orange-light {
+    color: #ef7d21;
+}
+
+a,
+a:visited {
+    color: #4886d0;
+    text-decoration: none;
+}

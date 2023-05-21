@@ -1,0 +1,40 @@
+.home {
+
+    .compare {
+        display: flex;
+        gap: 50px;
+
+        .bitmap-container {
+            width: 500;
+            height: 440;
+
+            .token-table {
+                font: 0.833em Arial;
+                line-height: 1.6em;
+                border-collapse: collapse;
+
+                td {
+                    text-align: center;
+                    padding: 0;
+                    margin: 0;
+
+                    &:nth-child(1) {
+                        width: 112px;
+                    }
+
+                    &:nth-child(2) {
+                        width: 156px;
+                    }
+
+                    &:nth-child(3) {
+                        width: 232px;
+                    }
+
+                    .location {
+                        color: #787878;
+                    }
+                }
+            }
+        }
+    }
+}

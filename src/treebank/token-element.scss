@@ -1,0 +1,36 @@
+.token-element {
+    display: inline-block;
+
+    .token-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .segment-container {
+            margin-top: 15px;
+
+            .segment {
+                font-family: var(--default-arabic-font-family);
+                font-size: 32px;
+            }
+        }
+
+        .pos-tag-container {
+            display: flex;
+            font-family: var(--default-pos-tag-font-family);
+            font-size: 18px;
+            gap: 25px;
+            margin-top: 4px;
+
+            .pos-tag {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .node-circle {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+    }
+}

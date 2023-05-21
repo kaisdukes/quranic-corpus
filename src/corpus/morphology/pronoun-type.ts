@@ -1,0 +1,1 @@
+export type PronounType = 'obj' | 'obj2' | 'subj';
