@@ -1,12 +1,11 @@
 .verse-element {
-    background: rgb(233, 242, 226);
 
     .verse-header {
         .verse-number {
-            border: 2px solid blue;
-            border-radius: 10px;
+            border: 1px solid #b0b0b0;
+            border-radius: 20px;
             display: inline-block;
-            padding: 5px;
+            padding: 5px 10px;
         }
     }
 
@@ -21,10 +20,6 @@
     }
 
     .token-element {
-        border: 2px solid rgb(4, 128, 0);
-        padding: 5px;
-        border-radius: 10px;
-        background: white;
         direction: ltr;
     }
 }
