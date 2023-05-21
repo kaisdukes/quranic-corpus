@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Token } from '../corpus/orthography/token';
-import { TokenHeader } from './token-header';
+import { TokenFooter } from './token-footer';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
@@ -25,7 +25,6 @@ export const TokenElement = ({ token }: Props) => {
     return (
         <div className='token-element'>
             <div className='token-content'>
-                <TokenHeader token={token} />
                 <div className='segment-container'>
                     {
                         segments.map((segment, i) => (
@@ -36,6 +35,7 @@ export const TokenElement = ({ token }: Props) => {
                         ))
                     }
                 </div>
+                <TokenFooter token={token} />
             </div>
         </div>
     )
