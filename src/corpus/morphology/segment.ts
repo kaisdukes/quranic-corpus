@@ -2,7 +2,7 @@ import { PosTag } from './pos-tag'
 import { PronounType } from './pronoun-type'
 
 export type Segment = {
-    text: string,
+    arabic: string,
     posTag: PosTag,
     pronounType?: PronounType
 }

@@ -11,14 +11,13 @@ type Props = {
 }
 
 export const TokenElement = ({ token }: Props) => {
-
     const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
 
     const { segments } = token;
 
     const joinedSegments = useMemo(() => {
-        const joinedSegments = segments.map(segment => segment.text);
+        const joinedSegments = segments.map(segment => segment.arabic);
         arabicTextService.insertZeroWidthJoinersForSafari(joinedSegments);
         return joinedSegments;
     }, [segments]);

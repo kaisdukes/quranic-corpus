@@ -1,4 +1,4 @@
-import { formatLocation } from '../corpus/location';
+import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
 import './token-header.scss';
 
@@ -8,7 +8,7 @@ type Props = {
 
 export const TokenHeader = ({ token }: Props) => {
     const { location, translation, phonetic, root } = token;
-    const locationText = formatLocation(location);
+    const locationText = formatLocationWithBrackets(location);
     return (
         <div className='token-header'>
             <div className='location'>{locationText}</div>
