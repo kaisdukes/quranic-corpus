@@ -9,7 +9,7 @@ export const WordByWordView = () => {
 
     const [verses, setVerses] = useState<Verse[]>();
     const morphologyService = container.resolve(MorphologyService);
-    const location = [2, 120];
+    const location = [2, 114];
 
     useEffect(() => {
         (async () => {

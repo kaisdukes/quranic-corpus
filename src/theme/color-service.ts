@@ -4,20 +4,45 @@ import { singleton } from 'tsyringe';
 @singleton()
 export class ColorService {
 
+    private posTagColors: Map<string, string> = new Map([
+        ['ADJ', 'purple'],
+        ['CIRC', 'navy'],
+        ['COM', 'navy'],
+        ['COND', 'orange'],
+        ['CONJ', 'navy'],
+        ['DEM', 'brown'],
+        ['DET', 'gray'],
+        ['INL', 'orange'],
+        ['INTG', 'rose'],
+        ['LOC', 'orange'],
+        ['N', 'sky'],
+        ['NEG', 'red'],
+        ['PN', 'blue'],
+        ['P', 'rust'],
+        ['PREV', 'orange'],
+        ['PRP', 'gold'],
+        ['PRO', 'red'],
+        ['REL', 'gold'],
+        ['REM', 'navy'],
+        ['RSLT', 'navy'],
+        ['SUB', 'gold'],
+        ['T', 'orange'],
+        ['V', 'seagreen'],
+        ['VOC', 'green']
+    ]);
+
     getSegmentColor(segment: Segment): string {
-        switch (segment.posTag) {
-            case 'DET':
-                return 'gray';
-            case 'N':
-                return 'sky';
-            case 'P':
-                return 'rust';
-            case 'PRON':
-                return segment.pronounType === 'subj' ? 'sky' : 'metal';
-            case 'REM':
-                return 'navy';
-            case 'V':
-                return 'seagreen';
+        const { posTag } = segment;
+        const color = this.posTagColors.get(posTag);
+        if (color) {
+            return color;
         }
+
+        if (posTag === 'PRON') {
+            return segment.pronounType === 'subj' ? 'sky' : 'metal';
+        }
+
+        console.warn('MISSING COLOR FOR TAG: ' + posTag);
+        return ''; // TODO: FIX!!
     }
 }
