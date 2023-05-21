@@ -37,12 +37,9 @@ export class ColorService {
         if (color) {
             return color;
         }
-
         if (posTag === 'PRON') {
             return segment.pronounType === 'subj' ? 'sky' : 'metal';
         }
-
-        console.warn('MISSING COLOR FOR TAG: ' + posTag);
-        return ''; // TODO: FIX!!
+        return 'pink';
     }
 }
