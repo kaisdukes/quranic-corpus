@@ -1,3 +1,5 @@
 .word-by-word-view {
-    border: 5px solid purple;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
 }
