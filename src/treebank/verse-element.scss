@@ -1,3 +1,6 @@
 .verse-element {
     border: 5px solid orange;
+    display: flex;
+    gap: 20px;
+    direction: rtl;
 }
