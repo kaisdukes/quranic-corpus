@@ -1,5 +1,4 @@
 import { WordByWordView } from '../wbw/word-by-word-view';
-import './home.scss';
 
 export const Home = () => {
     return (
