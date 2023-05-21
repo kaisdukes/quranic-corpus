@@ -1,12 +1,24 @@
 .verse-element {
     background: rgb(233, 242, 226);
-    direction: rtl;
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 15px;
-    row-gap: 20px;
-    padding: 20px;
-    border-radius: 20px;
+
+    .verse-header {
+        .verse-number {
+            border: 2px solid blue;
+            border-radius: 10px;
+            display: inline-block;
+            padding: 5px;
+        }
+    }
+
+    .tokens {
+        direction: rtl;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 15px;
+        row-gap: 20px;
+        padding: 20px;
+        border-radius: 20px;
+    }
 
     .token-element {
         border: 2px solid rgb(4, 128, 0);
