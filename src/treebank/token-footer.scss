@@ -6,5 +6,9 @@
     div {
         font: 0.833em Arial;
         line-height: 1.6em;
+
+        &.phonetic {
+            color: #4886d0;
+        }
     }
 }

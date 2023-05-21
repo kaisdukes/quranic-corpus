@@ -11,7 +11,13 @@ export const TokenFooter = ({ token }: Props) => {
     const locationText = formatLocationWithBrackets(location);
     return (
         <div className='token-footer'>
-            <div><a href={`https://corpus.quran.com//qurandictionary.jsp?q=${root}#${locationText}`}>{phonetic}</a></div>
+            <div className='phonetic'>
+                {
+                    root
+                        ? <a href={`https://corpus.quran.com//qurandictionary.jsp?q=${root}#${locationText}`}>{phonetic}</a>
+                        : phonetic
+                }
+            </div>
             <div>{translation}</div>
         </div>
     )
