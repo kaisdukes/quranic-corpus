@@ -1,27 +1,31 @@
 import { singleton } from 'tsyringe';
 
 // characters
-const hamza = '\u0621';
-const alifWithHamzaAbove = '\u0623';
-const dal = '\u062f';
-const thal = '\u0630';
-const ra = '\u0631';
-const zain = '\u0632'
-const waw = '\u0648';
+const hamza = 0x0621;
+const alifWithHamzaAbove = 0x0623;
+const wawWithHamzaAbove = 0x0624;
+const dal = 0x062f;
+const thal = 0x0630;
+const ra = 0x0631;
+const zain = 0x0632;
+const waw = 0x0648;
 
 // diacritics
-const fatha = '\u064E';
-const damma = '\u064F';
-const shadda = '\u0651';
+const fatha = 0x064E;
+const damma = 0x064F;
+const kasra = 0x0650;
+const shadda = 0x0651;
+const sukun = 0x0652;
 
 @singleton()
 export class ArabicTextService {
 
-    insertZeroWidthJoinersForSafari(segments: string[]) {
+    insertZeroWidthJoinersForSafari(segments: (string | undefined)[]) {
         let shouldJoin = false;
         const segmentCount = segments.length;
         for (let i = 0; i < segmentCount; i++) {
             const segment = segments[i];
+            if (!segment) continue;
 
             // prefix
             let joinedSegment = segment;
@@ -30,8 +34,10 @@ export class ArabicTextService {
             }
 
             // suffix
-            if (shouldJoin = i < segmentCount - 1 && this.shouldJoinAfter(segment)) {
-                joinedSegment += '&zwj;'
+            const next = i < segmentCount - 1 ? segments[i + 1] : undefined;
+            shouldJoin = next !== undefined && this.shouldJoinAfter(segment) && this.shouldJoinBefore(next);
+            if (shouldJoin) {
+                joinedSegment += '&zwj;';
             }
             segments[i] = joinedSegment;
         }
@@ -41,17 +47,18 @@ export class ArabicTextService {
 
         // skip diatirics
         const i = text.length - 1;
-        let ch = text.charAt(i);
-        if (ch === fatha || ch === damma) {
-            ch = text.charAt(i - 1);
+        let ch = text.charCodeAt(i);
+        if (ch === fatha || ch === damma || ch === kasra || ch === sukun) {
+            ch = text.charCodeAt(i - 1);
         }
         if (ch === shadda) {
-            ch = text.charAt(i - 2);
+            ch = text.charCodeAt(i - 2);
         }
 
         const nonJoiningLetter =
             ch === hamza
             || ch === alifWithHamzaAbove
+            || ch === wawWithHamzaAbove
             || ch === dal
             || ch === thal
             || ch === ra
@@ -59,5 +66,9 @@ export class ArabicTextService {
             || ch === waw;
 
         return !nonJoiningLetter;
+    }
+
+    private shouldJoinBefore(text: string) {
+        return text.charCodeAt(0) !== hamza;
     }
 }

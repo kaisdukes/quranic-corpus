@@ -27,12 +27,17 @@ export const TokenElement = ({ token }: Props) => {
             <div className='token-content'>
                 <div className='segment-container'>
                     {
-                        segments.map((segment, i) => (
-                            <span
-                                key={`segment-${i}`}
-                                className={`segment ${colorService.getSegmentColor(segment)}`}
-                                dangerouslySetInnerHTML={{ __html: joinedSegments[i] }} />
-                        ))
+                        segments.map((segment, i) => {
+                            const joinedSegment = joinedSegments[i];
+                            return joinedSegment
+                                ? (
+                                    <span
+                                        key={`segment-${i}`}
+                                        className={`segment ${colorService.getSegmentColor(segment)}`}
+                                        dangerouslySetInnerHTML={{ __html: joinedSegment }} />
+                                )
+                                : null;
+                        })
                     }
                 </div>
                 <TokenFooter token={token} />
