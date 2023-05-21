@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
@@ -21,9 +21,10 @@ export const WordByWordView = () => {
         <div className='word-by-word-view'>
             {
                 verses && verses.map((verse, i) => (
-                    <VerseElement
-                        key={`verse-${i}`}
-                        verse={verse} />
+                    <Fragment key={`verse-${i}`}>
+                        {i > 0 && <hr />}
+                        <VerseElement verse={verse} />
+                    </Fragment>
                 ))
             }
         </div>
