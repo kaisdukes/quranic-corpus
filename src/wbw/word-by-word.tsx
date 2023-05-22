@@ -8,11 +8,8 @@ type Props = {
 
 export const WordByWord = ({ chapterNumber }: Props) => {
     return (
-        <NavigationContainer header={<ChapterHeader />}>
-            <h1>Corpus 2.0: Word by Word Test</h1>
-            <p>
-                This design is currently at a basic stage, serving as a color test for word segments.
-            </p>
+        <NavigationContainer header={<ChapterHeader chapterNumber={chapterNumber} />}>
+            <h1>Surah {chapterNumber}</h1>
             {
                 <WordByWordView chapterNumber={chapterNumber} />
             }
