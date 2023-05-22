@@ -3,8 +3,30 @@
     text-align: center;
     padding: 10px;
 
-    a,
-    a:visited {
+    >a,
+    >a:visited {
         color: white;
     }
+}
+
+.chapter-popup {
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-width: 100px;
+    height: 200px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        padding: 10px;
+    }
+}
+
+.chapter-header.show-popup .chapter-popup {
+    display: block;
 }
