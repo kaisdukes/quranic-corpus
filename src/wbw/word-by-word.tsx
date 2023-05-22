@@ -68,11 +68,11 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <div className='chapter-header'>
-                    <img src={chapter.city === 'Makkah' ? makkah : madinah} />
-                    <h1>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
-                </div>
                 <div className='word-by-word-view'>
+                    <div className='chapter-header'>
+                        <img src={chapter.city === 'Makkah' ? makkah : madinah} />
+                        <h1>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
+                    </div>
                     {
                         verses.map((verse, i) => (
                             <Fragment key={`verse-${i}`}>
