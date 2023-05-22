@@ -1,3 +1,4 @@
+import { arabicNumber } from '../arabic/arabic-number';
 import { formatLocation } from '../corpus/location';
 import { Verse } from '../corpus/orthography/verse';
 import { TokenElement } from './token-element';
@@ -25,6 +26,7 @@ export const VerseElement = ({ verse }: Props) => {
                             token={token} />
                     ))
                 }
+                <div className='end-of-verse brown'>{arabicNumber(location[1])}</div>
             </div>
         </div>
     )
