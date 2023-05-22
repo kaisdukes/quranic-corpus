@@ -2,6 +2,10 @@
     display: flex;
     padding: 15px;
 
+    .verse-number {
+        color: gray;
+    }
+
     .tokens {
         direction: rtl;
         display: flex;

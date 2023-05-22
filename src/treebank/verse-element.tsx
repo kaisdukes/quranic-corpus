@@ -13,7 +13,7 @@ export const VerseElement = ({ verse }: Props) => {
 
     return (
         <div className='verse-element'>
-            <div>{location[1]}</div>
+            <div className='verse-number'>{location[1]}</div>
             <div className='tokens'>
                 {
                     tokens.map((token, i) => (
