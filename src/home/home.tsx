@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../images/logo.svg';
 import slack from '../images/slack.svg';
-
 import './home.scss';
 
 export const Home = () => {
+    const randomChapter = Math.floor(Math.random() * 114) + 1;
+
     return (
         <div className='home'>
             <h1>The Quranic Arabic Corpus</h1>
@@ -16,7 +17,7 @@ export const Home = () => {
                 a syntactic treebank and a semantic ontology.
             </p>
             <p className='wbw'>
-                <Link to='/14'>Quran Word by Word</Link>
+                <Link to={`/${randomChapter}`}>Quran Word by Word</Link>
             </p>
             <div className='footer'>
                 <div className='slack'>
