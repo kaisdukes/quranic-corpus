@@ -38,7 +38,14 @@ export class ColorService {
             return color;
         }
         if (posTag === 'PRON') {
-            return segment.pronounType === 'subj' ? 'sky' : 'metal';
+            switch (segment.pronounType) {
+                case 'subj':
+                    return 'sky';
+                case 'obj':
+                    return 'metal';
+                case 'obj2':
+                    return 'orange';
+            }
         }
         return 'pink';
     }
