@@ -21,7 +21,7 @@ export const ChapterHeader = ({ chapterNumber }: Props) => {
             <ul className='chapter-popup'>
                 {surahs.map(surah => (
                     <li key={surah}>
-                        <Link to={`/${surah}`}>Surah {surah}</Link>
+                        <Link to={`/${surah}`} onClick={() => setShowPopup(false)}>Surah {surah}</Link>
                     </li>
                 ))}
             </ul>

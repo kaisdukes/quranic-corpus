@@ -30,8 +30,10 @@ export const WordByWordView = ({ chapterNumber }: Props) => {
     };
 
     useEffect(() => {
+        setVerses([]);
+        setChapterEnd(false);
         loadVerses();
-    }, []);
+    }, [chapterNumber]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {

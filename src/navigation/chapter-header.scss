@@ -21,6 +21,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
     li {
         padding: 10px;
