@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
+import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
 import './word-by-word-view.scss';
 
@@ -36,7 +37,7 @@ export const WordByWordView = ({ chapterNumber }: Props) => {
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !loading) {
+            if (entry.isIntersecting && !loading && !chapterEnd) {
                 loadVerses(verses.length + 1);
             }
         }, {
@@ -53,21 +54,21 @@ export const WordByWordView = ({ chapterNumber }: Props) => {
                 observer.unobserve(loadingRef.current);
             }
         };
-    }, [verses, loading]);
+    }, [verses, loading, chapterEnd]);
 
     return (
         <div className='word-by-word-view'>
             {
                 verses.map((verse, i) => (
                     <Fragment key={`verse-${i}`}>
-                        {i > 0 && <hr />}
                         <VerseElement verse={verse} />
                     </Fragment>
                 ))
             }
-            <div ref={loadingRef}>
-                {!chapterEnd && loading && 'Loading...'}
+            <div>
+                {loading && 'Loading...'}
             </div>
+            <Footer ref={loadingRef}/>
         </div>
     )
 }

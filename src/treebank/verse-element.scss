@@ -1,13 +1,6 @@
 .verse-element {
-
-    .verse-header {
-        .verse-number {
-            border: 1px solid #b0b0b0;
-            border-radius: 20px;
-            display: inline-block;
-            padding: 5px 10px;
-        }
-    }
+    display: flex;
+    padding: 15px;
 
     .tokens {
         direction: rtl;
@@ -17,6 +10,7 @@
         row-gap: 35px;
         padding: 20px;
         border-radius: 20px;
+        flex: 1;
     }
 
     .token-element {

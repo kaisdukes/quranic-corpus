@@ -6,5 +6,5 @@ export type Chapter = {
 
 export const formatChapterTitle = (chapter: Chapter) => {
     const { phonetic, translation } = chapter;
-    return translation ? `${phonetic} ${translation}` : phonetic;
+    return translation ? `${phonetic} (${translation})` : phonetic;
 }
