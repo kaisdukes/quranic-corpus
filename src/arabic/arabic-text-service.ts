@@ -4,6 +4,7 @@ import { singleton } from 'tsyringe';
 const hamza = 0x0621;
 const alifWithHamzaAbove = 0x0623;
 const wawWithHamzaAbove = 0x0624;
+const alif = 0x0627;
 const dal = 0x062f;
 const thal = 0x0630;
 const ra = 0x0631;
@@ -59,6 +60,7 @@ export class ArabicTextService {
             ch === hamza
             || ch === alifWithHamzaAbove
             || ch === wawWithHamzaAbove
+            || ch === alif
             || ch === dal
             || ch === thal
             || ch === ra
