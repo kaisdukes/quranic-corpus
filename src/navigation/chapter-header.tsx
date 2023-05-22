@@ -32,9 +32,9 @@ export const ChapterHeader = ({ chapterNumber }: Props) => {
     }
 
     return (
-        <div className={`chapter-header ${showPopup ? 'show-popup' : ''}`}>
+        <div className='chapter-header'>
             <a href='#' onClick={togglePopup}>Surah {chapterNumber}</a>
-            <ul className='chapter-popup' ref={popupRef}>
+            <ul className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
                 {surahs.map(surah => (
                     <li key={surah}>
                         <Link to={`/${surah}`} onClick={() => setShowPopup(false)}>Surah {surah}</Link>

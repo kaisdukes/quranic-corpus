@@ -14,13 +14,12 @@ export const WordByWordView = ({ chapterNumber }: Props) => {
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
     const morphologyService = container.resolve(MorphologyService);
-    const startVerseNumber = 1;
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
 
-    const loadVerses = async () => {
+    const loadVerses = async (startVerseNumber: number) => {
         setLoading(true);
-        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber + verses.length], 5);
+        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], 5);
         if (newVerses.length > 0) {
             setVerses(prevVerses => [...prevVerses, ...newVerses]);
         } else {
@@ -32,13 +31,13 @@ export const WordByWordView = ({ chapterNumber }: Props) => {
     useEffect(() => {
         setVerses([]);
         setChapterEnd(false);
-        loadVerses();
+        loadVerses(1);
     }, [chapterNumber]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !loading) {
-                loadVerses();
+                loadVerses(verses.length + 1);
             }
         }, {
             rootMargin: '0px',
