@@ -69,8 +69,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
                 <div className='chapter-header'>
-                    <img src={makkah} />
-                    <img src={madinah} />
+                    <img src={chapter.city === 'Makkah' ? makkah : madinah} />
                     <h1>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
                 </div>
                 <div className='word-by-word-view'>

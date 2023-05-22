@@ -1,7 +1,8 @@
 export type Chapter = {
     chapterNumber: number,
     translation: string,
-    phonetic: string
+    phonetic: string,
+    city: string
 }
 
 export const formatChapterTitle = (chapter: Chapter) => {
