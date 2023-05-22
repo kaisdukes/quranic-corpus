@@ -1,0 +1,25 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+
+    .logo {
+        width: 200px;
+        height: auto;
+
+        path {
+            fill: rgb(63, 132, 161);
+        }
+    }
+
+    .intro {
+        margin-top: 40px;
+    }
+
+    .wbw {
+        font-size: 24px;        
+    }
+}
