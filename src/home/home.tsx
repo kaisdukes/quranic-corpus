@@ -15,19 +15,18 @@ export const Home = () => {
                 The corpus provides three levels of analysis: morphological analysis,
                 a syntactic treebank and a semantic ontology.
             </p>
-            <p>
-                <Link className='wbw' to='/1'>Quran Word by Word</Link>
+            <p className='wbw'>
+                <Link to='/1'>Quran Word by Word</Link>
             </p>
-            <hr />
             <div className='footer'>
-                <div>Copyright &copy; Kais Dukes, 2009-2023.</div>
-                <div><a href='https://eps.leeds.ac.uk/computing-applied-computing/staff/33/professor-eric-atwell'>Artificial Intelligence for Language</a></div>
-                <div><a href='https://www.leeds.ac.uk'>University of Leeds</a></div>
                 <div className='slack'>
                     <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1vrmewq5c-TfFf~I7W5e6v3VYDeJsyvw'>
                         <img src={slack} />
                     </a>
                 </div>
+                <div>Copyright &copy; <a href='https://www.linkedin.com/in/kaisdukes'>Kais Dukes</a>, 2009-2023</div>
+                <div><a href='https://eps.leeds.ac.uk/computing-applied-computing/staff/33/professor-eric-atwell'>Artificial Intelligence for Language</a></div>
+                <div><a href='https://eps.leeds.ac.uk/computing'>University of Leeds</a></div>
             </div>
         </div>
     )
