@@ -19,7 +19,7 @@ export const Home = () => {
                 formation (morpology), and meaning (semantics).
             </p>
             <p style={{marginTop: 0}}>
-                To help leaners, the corpus features unique color-coded grammar diagrams that are
+                To help leaners, the corpus features unique color-coded grammar diagrams
                 based on <em>i’rāb</em> (إعراب), the traditional science of Arabic linguistics.
             </p>
             <p className='wbw'>

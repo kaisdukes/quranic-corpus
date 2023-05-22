@@ -43,4 +43,10 @@
         margin-top: 20px;
         margin-bottom: 50px;
     }
+
+    @media only screen and (max-width: 600px) {
+        .logo {
+            height: 150px;
+        }
+    }
 }
