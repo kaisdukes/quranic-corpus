@@ -8,6 +8,7 @@ import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
 import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
+import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
@@ -78,8 +79,9 @@ export const WordByWord = ({ chapterNumber }: Props) => {
                 <div className='word-by-word-view'>
                     <div className='chapter-header'>
                         <img src={chapter.city === 'Makkah' ? makkah : madinah} />
-                        <h1>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
+                        <div>Sūrat {formatChapterTitle(chapter)}</div>
                     </div>
+                    <Bismillah className='bismillah' />
                     {
                         verses.map((verse, i) => (
                             <Fragment key={`verse-${i}`}>
