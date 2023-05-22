@@ -5,6 +5,7 @@
     max-width: 500px;
     margin: auto;
     text-align: center;
+    padding: 25px;
 
     .logo {
         width: 200px;
@@ -17,12 +18,13 @@
     }
 
     .intro {
-        margin-top: 30px;
+        margin-top: 0;
     }
 
     .wbw {
         font-size: 22px;
         font-weight: bold;
+        margin-bottom: 0;
     }
 
     hr {
