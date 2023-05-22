@@ -1,18 +1,24 @@
 .navigation-header {
+    position: relative;
     background: #343540;
 
-    >a,
-    >a:visited {
+    .chapter-name {
         display: flex;
-        color: white;
-        padding: 12px;
-        align-items: center;
         justify-content: center;
 
-        .down {
+        >a,
+        >a:visited {
+            display: inline-flex;
             color: white;
-            width: 15px;
-            margin-left: 5px;
+            padding: 12px;
+            align-items: center;
+            justify-content: center;
+
+            .down {
+                color: white;
+                width: 15px;
+                margin-left: 5px;
+            }
         }
     }
 

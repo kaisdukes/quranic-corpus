@@ -37,10 +37,12 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
 
     return (
         <div className='navigation-header'>
-            <a href='#' onClick={togglePopup}>
-                {chapterNumber}. {chapter.phonetic}
-                <ChevronDown className='down'/>
-            </a>
+            <div className='chapter-name'>
+                <a href='#' onClick={togglePopup}>
+                    {chapterNumber}. {chapter.phonetic}
+                    <ChevronDown className='down'/>
+                </a>
+            </div>
             <ul className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
                 {
                     chapterService.chapters.map(chapter => {
