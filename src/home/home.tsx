@@ -12,10 +12,9 @@ export const Home = () => {
             <h1>The Quranic Arabic Corpus</h1>
             <Logo className='logo' />
             <p className='intro'>
-                Welcome to the Quranic Arabic Corpus, an annotated linguistic resource
-                which shows the Arabic grammar, syntax and morphology for each word in the Holy Quran.
-                The corpus provides three levels of analysis: morphological analysis,
-                a syntactic treebank and a semantic ontology.
+                The Quranic Arabic Corpus is a valuable resource that provides detailed linguistic
+                insights for every word in the Quran. It includes three types of analysis: morphology
+                (the structure of words), syntax (the grammar of sentences), and semantics (meaning).
             </p>
             <p className='wbw'>
                 <Link to={`/${randomChapter}`}>Quran Word by Word</Link>
