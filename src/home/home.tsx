@@ -20,7 +20,7 @@ export const Home = () => {
             </p>
             <p style={{marginTop: 0}}>
                 To help leaners, the corpus features unique color-coded grammar diagrams that are
-                based on <em>i’rāb</em> (إعراب), the traditional Arabic science of linguistics.
+                based on <em>i’rāb</em> (إعراب), the traditional science of Arabic linguistics.
             </p>
             <p className='wbw'>
                 <Link to={`/${randomChapter()}`}>Quran Word by Word</Link>
