@@ -39,10 +39,11 @@
         transform: translateX(-50%);
 
         &.show-popup {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
-        li {
+        .chapter-link {
             padding: 10px;
         }
     }

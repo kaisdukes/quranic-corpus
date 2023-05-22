@@ -12,7 +12,7 @@ type Props = {
 
 export const NavigationHeader = ({ chapterNumber }: Props) => {
     const [showPopup, setShowPopup] = useState(false);
-    const popupRef = useRef<HTMLUListElement | null>(null);
+    const popupRef = useRef<HTMLDivElement | null>(null);
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
 
@@ -23,10 +23,10 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
@@ -40,25 +40,24 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
             <div className='chapter-name'>
                 <a href='#' onClick={togglePopup}>
                     {chapterNumber}. {chapter.phonetic}
-                    <ChevronDown className='down'/>
+                    <ChevronDown className='down' />
                 </a>
             </div>
-            <ul className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
+            <div className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
                 {
                     chapterService.chapters.map(chapter => {
                         const { chapterNumber, phonetic } = chapter;
                         return (
-                            <li key={chapterNumber}>
-                                <Link
-                                    to={`/${chapterNumber}`}
-                                    onClick={() => setShowPopup(false)}>
-                                    {chapterNumber}. {phonetic}
-                                </Link>
-                            </li>
+                            <Link
+                                to={`/${chapterNumber}`}
+                                className='chapter-link'
+                                onClick={() => setShowPopup(false)}>
+                                {chapterNumber}. {phonetic}
+                            </Link>
                         )
                     })
                 }
-            </ul>
+            </div>
         </div>
     )
 }
