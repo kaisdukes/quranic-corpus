@@ -1,11 +1,12 @@
 .chapter-header {
     background: #202123;
     text-align: center;
-    padding: 10px;
 
     >a,
     >a:visited {
+        display: inline-block;
         color: white;
+        padding: 10px;
     }
 }
 
@@ -13,11 +14,12 @@
     display: none;
     position: absolute;
     width: 100%;
-    max-width: 100px;
-    height: 200px;
+    max-width: 200px;
+    height: 250px;
     overflow-y: auto;
     background: white;
     border: 1px solid black;
+    border-top: none;
     list-style: none;
     padding: 0;
     margin: 0;
