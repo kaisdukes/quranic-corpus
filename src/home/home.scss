@@ -30,7 +30,14 @@
     }
 
     .footer {
-        margin-top: 12px;
-        margin-bottom: 20px;
+        margin: 20 0;
+
+        .slack {
+            margin-top: 20px;
+
+            img {
+                height: 35px;
+            }
+        }
     }
 }
