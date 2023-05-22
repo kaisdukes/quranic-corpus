@@ -23,7 +23,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
-    const isLoadingRef = useRef<boolean>(false); // New Ref to track loading state
+    const isLoadingRef = useRef<boolean>(false);
     const morphologyService = container.resolve(MorphologyService);
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
