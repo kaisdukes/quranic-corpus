@@ -14,7 +14,7 @@ export const Home = () => {
                 a syntactic treebank and a semantic ontology.
             </p>
             <p>
-                <Link className='wbw' to='/1'>Word by Word</Link>
+                <Link className='wbw' to='/1'>Quran Word by Word</Link>
             </p>
         </div>
     )
