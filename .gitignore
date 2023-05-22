@@ -4,3 +4,6 @@
 # node.js
 /node_modules
 /build
+
+# ide specific
+.idea/

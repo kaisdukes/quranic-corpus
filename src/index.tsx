@@ -10,20 +10,23 @@ import { WordByWord } from './wbw/word-by-word';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
 
-const chapterRoutes = Array.from({ length: 114 }, (_, i) => {
-    const chapterNumber = i + 1;
-    return {
-        path: `/${chapterNumber}`,
-        element: <WordByWord chapterNumber={chapterNumber} />,
-    };
-});
+// const chapterRoutes = Array.from({ length: 114 }, (_, i) => {
+//     const chapterNumber = i + 1;
+//     return {
+//         path: `/${chapterNumber}`,
+//         element: <WordByWord chapterNumber={chapterNumber} />,
+//     };
+// });
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Home />,
     },
-    ...chapterRoutes
+    {
+        path: '/chapter/:chapterNumber/:verseNumber', // Include verseNumber as a URL parameter
+        element: <WordByWord />,
+    },
 ]);
 
 const Root = () => {

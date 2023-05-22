@@ -11,14 +11,15 @@ import { container } from 'tsyringe';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
+import {useParams} from "react-router-dom";
 
-type Props = {
-    chapterNumber: number
-}
 
-export const WordByWord = ({ chapterNumber }: Props) => {
+export const WordByWord = ({}) => {
+    const { chapterNumber, verseNumber } = useParams();
+    const parsedChapterNumber = Number(chapterNumber);
+    const parsedVerseNumber = Number(verseNumber);
     const chapterService = container.resolve(ChapterService);
-    const chapter = chapterService.getChapter(chapterNumber);
+    const chapter = chapterService.getChapter(parsedChapterNumber);
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     const loadVerses = async (startVerseNumber: number) => {
         setLoading(true);
         console.log('LOADING VERSE ' + startVerseNumber);
-        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], 5);
+        const newVerses = await morphologyService.getMorphology([parsedChapterNumber, startVerseNumber], 5);
         if (newVerses.length > 0) {
             setVerses(prevVerses => [...prevVerses, ...newVerses]);
         } else {
@@ -66,7 +67,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     }, [verses, loading, chapterEnd]);
 
     return (
-        <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
+        <NavigationContainer header={<NavigationHeader chapterNumber={parsedChapterNumber} />}>
             <div className='word-by-word'>
                 <div className='chapter-header'>
                     <img src={chapter.city === 'Makkah' ? makkah : madinah} />
