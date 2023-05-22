@@ -2,6 +2,7 @@ import { NavigationContainer } from '../navigation/navigation-container';
 import { NavigationHeader } from '../navigation/navigation-header';
 import { WordByWordView } from './word-by-word-view';
 import { ChapterService } from '../corpus/orthography/chapter-service';
+import { formatChapterTitle } from '../corpus/orthography/chapter';
 import { container } from 'tsyringe';
 
 type Props = {
@@ -14,7 +15,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
 
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
-            <h1>{chapter.phonetic} ({chapter.translation})</h1>
+            <h1>{formatChapterTitle(chapter)}</h1>
             {
                 <WordByWordView chapterNumber={chapterNumber} />
             }

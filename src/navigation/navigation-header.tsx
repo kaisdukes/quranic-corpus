@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ChapterService } from '../corpus/orthography/chapter-service';
+import { formatChapterTitle } from '../corpus/orthography/chapter';
 import { container } from 'tsyringe';
 import './navigation-header.scss';
 
@@ -36,7 +37,7 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
 
     return (
         <div className='navigation-header'>
-            <a href='#' onClick={togglePopup}>{chapter.phonetic} ({chapter.translation})</a>
+            <a href='#' onClick={togglePopup}>{formatChapterTitle(chapter)}</a>
             <ul className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
                 {
                     chapterService.chapters.map(chapter => {
