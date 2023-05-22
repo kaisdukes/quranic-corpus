@@ -1,7 +1,24 @@
 import 'reflect-metadata'
 import { createRoot } from 'react-dom/client';
-import { Home } from './pages/home';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { WordByWord } from './wbw/word-by-word';
 import './theme/styles.scss';
 
+const chapterRoutes = Array.from({ length: 114 }, (_, i) => {
+    const chapterNumber = i + 1;
+    return {
+        path: `/${chapterNumber}`,
+        element: <WordByWord chapterNumber={chapterNumber} />,
+    };
+});
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <div>*** HOME ***</div>,
+    },
+    ...chapterRoutes
+]);
+
 const root = createRoot(document.getElementById('root') as HTMLElement);
-root.render(<Home />);
+root.render(<RouterProvider router={router} />)
