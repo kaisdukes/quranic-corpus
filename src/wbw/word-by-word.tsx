@@ -22,12 +22,17 @@ export const WordByWord = ({ chapterNumber }: Props) => {
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
+    const isLoadingRef = useRef<boolean>(false); // New Ref to track loading state
     const morphologyService = container.resolve(MorphologyService);
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
 
     const loadVerses = async (startVerseNumber: number) => {
+        if (isLoadingRef.current) return;
+
+        isLoadingRef.current = true;
         setLoading(true);
+
         console.log('LOADING VERSE ' + startVerseNumber);
         const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], 5);
         if (newVerses.length > 0) {
@@ -35,6 +40,8 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         } else {
             setChapterEnd(true);
         }
+
+        isLoadingRef.current = false;
         setLoading(false);
     };
 
@@ -46,7 +53,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !loading && !chapterEnd) {
+            if (entry.isIntersecting && !isLoadingRef.current && !chapterEnd) {
                 loadVerses(verses.length + 1);
             }
         }, {

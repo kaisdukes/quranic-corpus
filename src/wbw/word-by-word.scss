@@ -16,8 +16,14 @@
             }
         }
 
-        .verse-element:nth-child(odd) {
-            background: #f6f6f6;
+        .verse-element {
+            &:not(:nth-child(2)) {
+                margin-top: 30px;
+            }
+
+            &:nth-child(odd) {
+                background: #f6f6f6;
+            }
         }
 
         @media (min-width: 1000px) {
