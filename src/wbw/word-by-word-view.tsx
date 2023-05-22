@@ -5,19 +5,22 @@ import { Verse } from '../corpus/orthography/verse';
 import { container } from 'tsyringe';
 import './word-by-word-view.scss';
 
-export const WordByWordView = () => {
+type Props = {
+    chapterNumber: number
+}
+
+export const WordByWordView = ({ chapterNumber }: Props) => {
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
     const morphologyService = container.resolve(MorphologyService);
-    const location = [65, 1];
-    const [startChapterNumber, startVerseNumber] = location;
+    const startVerseNumber = 1;
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
 
     const loadVerses = async () => {
         setLoading(true);
-        const newVerses = await morphologyService.getMorphology([startChapterNumber, startVerseNumber + verses.length], 5);
+        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber + verses.length], 5);
         if (newVerses.length > 0) {
             setVerses(prevVerses => [...prevVerses, ...newVerses]);
         } else {
