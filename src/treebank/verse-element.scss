@@ -14,7 +14,7 @@
         display: flex;
         flex-wrap: wrap;
         column-gap: 15px;
-        row-gap: 20px;
+        row-gap: 35px;
         padding: 20px;
         border-radius: 20px;
     }
@@ -23,10 +23,21 @@
         direction: ltr;
     }
 
-    .end-of-verse {
+    .segment-container {
         font-family: var(--default-arabic-font-family);
-        font-size: 50px;
-        font-family: Uthmani Hafs;
-        padding-top: 16px;
+        font-size: var(--arabic-font-size-large);
+    }
+
+    .end-of-verse {
+        font-family: var(--verse-end-font-family);
+        font-size: var(--arabic-font-size-large);
+    }
+
+    @media only screen and (max-width: 600px) {
+
+        .segment-container,
+        .end-of-verse {
+            font-size: var(--arabic-font-size-medium);
+        }
     }
 }
