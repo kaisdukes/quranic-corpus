@@ -1,7 +1,15 @@
 .word-by-word {
 
-    .chapter-title {
-        padding: 0 15;
+    .chapter-header {
+        display: flex;
+        align-items: flex-start;
+        padding: 0 15px;
+
+        img {
+            height: 35px;
+            margin-right: 10px;
+            margin-top: 25px;
+        }
     }
 
     .word-by-word-view {

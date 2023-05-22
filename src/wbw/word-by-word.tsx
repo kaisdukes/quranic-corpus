@@ -8,6 +8,8 @@ import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
 import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
+import makkah from '../images/makkah.svg';
+import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
 
 type Props = {
@@ -66,7 +68,11 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <h1 className='chapter-title'>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
+                <div className='chapter-header'>
+                    <img src={makkah} />
+                    <img src={madinah} />
+                    <h1>{chapterNumber}. {formatChapterTitle(chapter)}</h1>
+                </div>
                 <div className='word-by-word-view'>
                     {
                         verses.map((verse, i) => (
