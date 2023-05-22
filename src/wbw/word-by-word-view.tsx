@@ -10,14 +10,19 @@ export const WordByWordView = () => {
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
     const morphologyService = container.resolve(MorphologyService);
-    const location = [78, 1];
+    const location = [65, 1];
     const [startChapterNumber, startVerseNumber] = location;
     const [loading, setLoading] = useState(false);
+    const [chapterEnd, setChapterEnd] = useState(false);
 
     const loadVerses = async () => {
         setLoading(true);
         const newVerses = await morphologyService.getMorphology([startChapterNumber, startVerseNumber + verses.length], 5);
-        setVerses(prevVerses => [...prevVerses, ...newVerses]);
+        if (newVerses.length > 0) {
+            setVerses(prevVerses => [...prevVerses, ...newVerses]);
+        } else {
+            setChapterEnd(true);
+        }
         setLoading(false);
     };
 
@@ -57,8 +62,8 @@ export const WordByWordView = () => {
                 ))
             }
             <div ref={loadingRef}>
-                {loading && 'Loading...'}
+                {!chapterEnd && loading && 'Loading...'}
             </div>
         </div>
-    );
-};
+    )
+}
