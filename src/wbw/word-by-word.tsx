@@ -199,7 +199,9 @@ export const WordByWord = () => {
                             );
                         })
                     }
-                    <div style={{height: window.innerHeight - 600}}></div>
+
+                    {/* Required since minimum card is 200px and if the screen is larger than 600px it'll auto load next */}
+                    <div className='end-of-page-break'></div>
                     {
                         chapterEnd ?
                             <div>

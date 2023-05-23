@@ -1,5 +1,9 @@
 .word-by-word {
 
+    .end-of-page-break {
+        height: calc(100vh - 600px);
+    }
+
     .chapter-header {
         display: flex;
         align-items: flex-start;
