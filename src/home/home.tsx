@@ -15,7 +15,7 @@ export const Home = () => {
             <h1>The Quranic Arabic Corpus</h1>
             <p className='intro'>
                 The world's most popular site for learning Quranic Arabic.
-                An AI analyzed the entire quran, and the resulting data was reivewed by experts, to provide insights into the Quran's structure (syntax), word
+                An AI analyzed the entire quran, and the resulting data was reviewed by experts, to provide insights into the Quran's structure (syntax), word
                 formation (morpology), and meaning (semantics).
             </p>
             <p style={{marginTop: 0}}>
