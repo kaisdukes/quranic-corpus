@@ -12,7 +12,6 @@ import { container } from 'tsyringe';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
-import {start} from "repl";
 
 export const WordByWord = () => {
     const { chapterNumber, verseNumber } = useParams();
@@ -24,8 +23,6 @@ export const WordByWord = () => {
     const [endVerse, setEndVerse] = useState(parsedVerseNumber + 5);
     const [stickyVerse, setStickyVerse] = useState(parsedVerseNumber); // this is the verse to scroll to whenver verses have been updates
 
-    // Used to make sure the previous verses don't automatically cause a rerender
-    const [loadingPrevious, setLoadingPrevious] = useState(false);
 
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(parsedChapterNumber);
@@ -63,6 +60,7 @@ export const WordByWord = () => {
 
     const loadNextVerses = async () => {
         setLoading(true);
+        const _oldEndVerse = endVerse;
         console.log("Loading next five verses: ", endVerse)
         const newVerses = await morphologyService.getMorphology([parsedChapterNumber, endVerse + 1], 5);
         setLoading(false);
@@ -72,6 +70,8 @@ export const WordByWord = () => {
                 verseDict[endVerse + i + 1] = newVerses[i];
             }
             setVerses(verseDict);
+            setStickyVerse(_oldEndVerse);
+
             setEndVerse(endVerse + 5);
         } else {
             setChapterEnd(true);
@@ -81,7 +81,6 @@ export const WordByWord = () => {
 
     const loadPreviousVerses = async () => {
         const _oldStartVerse = startVerse;
-        setLoadingPrevious(true);
         setLoading(true);
         console.log("Loading previous five verses: ", startVerse)
         const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(0, startVerse - 5)], 5);
@@ -94,20 +93,15 @@ export const WordByWord = () => {
             setVerses(verseDict);
             setStickyVerse(_oldStartVerse);
             setStartVerse(Math.max(0, startVerse - 5));
-            // we need to navigate to the previous start vers
         }
     };
 
-    const [hasScrolledToVerse, setHasScrolledToVerse] = useState(false);
-
+    // Handle scroll to correct verse.
     useEffect(() => {
-        // Only perform the scroll if we haven't done it before
-        if (!hasScrolledToVerse && verses[parsedVerseNumber]) {
-            verseRefs.current[parsedVerseNumber].current?.scrollIntoView();
-            // Update the state to indicate we have scrolled to the verse
-            setHasScrolledToVerse(true);
+        if (verses[stickyVerse]) {
+            verseRefs.current[stickyVerse].current?.scrollIntoView();
         }
-    }, [verses, parsedVerseNumber, hasScrolledToVerse]);
+    }, [verses, parsedVerseNumber]);
 
     useEffect(() => {
         setVerses([]);
@@ -119,7 +113,7 @@ export const WordByWord = () => {
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !loading && !loadingPrevious) {
+            if (entry.isIntersecting && !loading) {
                 loadPreviousVerses();
             }
         }, {
