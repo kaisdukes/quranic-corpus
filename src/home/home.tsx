@@ -27,8 +27,9 @@ export const Home = () => {
                 <Link to={`/${randomChapter()}`}>Quran Word by Word</Link>
             </p>
             <p>
-                The corpus provides a supportive community for learning Quranic Arabic. It is a free, open-source,
-                Wikipedia-style project, and we encourage collobration, discusson and continuous improvement.
+                The corpus provides a <strong>supportive community</strong> for learning Quranic Arabic.
+                It is a free, open-source, Wikipedia-style project, and we encourage collobration, discusson and
+                continuous improvement.
             </p>
             <div className='slack'>
                 <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1vrmewq5c-TfFf~I7W5e6v3VYDeJsyvw'>
