@@ -1,0 +1,11 @@
+.verse-token {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background: rgb(240, 236, 233);
+    }
+}

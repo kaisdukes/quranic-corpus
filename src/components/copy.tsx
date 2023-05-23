@@ -1,8 +1,8 @@
 import './copy.scss';
 
 type Props = {
-  className?: string;
-  onClick: () => void;
+  className?: string,
+  onClick: () => void
 }
 
 export const Copy = ({ className, onClick }: Props) => (

@@ -25,17 +25,6 @@
         flex: 1;
         margin-top: 5px;
 
-        .token-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px;
-
-            &:hover {
-                background: rgb(240, 236, 233);
-            }
-        }
-
         .end-of-verse {
             font-family: var(--verse-end-font-family);
             font-size: var(--arabic-font-size-large);
