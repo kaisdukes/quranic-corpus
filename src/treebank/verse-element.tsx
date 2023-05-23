@@ -4,7 +4,7 @@ import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
 import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
-import { VerseService } from '../corpus/orthography/verse-service';
+import { ChapterService } from '../corpus/orthography/chapter-service';
 import { container } from 'tsyringe';
 import './verse-element.scss';
 
@@ -16,9 +16,9 @@ export const VerseElement = ({ verse }: Props) => {
     const { location, tokens, translation } = verse;
 
     const handleCopy = async () => {
-        const verseService = container.resolve(VerseService);
-        const arabic = verseService.getArabic(verse);
-        await navigator.clipboard.writeText(arabic);
+        const chapterService = container.resolve(ChapterService);
+        const content = chapterService.copyVerse(verse);
+        await navigator.clipboard.writeText(content);
     }
 
     const handleTokenClick = (token: Token) => {
