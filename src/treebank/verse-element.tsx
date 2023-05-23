@@ -1,7 +1,8 @@
 import { arabicNumber } from '../arabic/arabic-number';
-import { formatLocation } from '../corpus/location';
+import { Copy } from '../components/copy';
 import { Verse } from '../corpus/orthography/verse';
 import { TokenElement } from './token-element';
+import { TokenFooter } from './token-footer';
 import './verse-element.scss';
 
 type Props = {
@@ -13,18 +14,22 @@ export const VerseElement = ({ verse }: Props) => {
 
     return (
         <div className='verse-element'>
-            <div className='verse-arabic'>
-                <div className='verse-number'>{location[1]}</div>
-                <div className='tokens'>
-                    {
-                        tokens.map((token, i) => (
+            <div className='verse-header'>
+                <span className='verse-number'>{location[1]}</span>
+                <Copy className='copy'/>
+            </div>
+            <div className='verse-tokens'>
+                {
+                    tokens.map((token, i) => (
+                        <div className='token-container'>
                             <TokenElement
                                 key={`token-${i}`}
                                 token={token} />
-                        ))
-                    }
-                    <div className='end-of-verse brown'>{arabicNumber(location[1])}</div>
-                </div>
+                            <TokenFooter token={token} />
+                        </div>
+                    ))
+                }
+                <div className='end-of-verse brown'>{arabicNumber(location[1])}</div>
             </div>
             <div className='verse-translation'>
                 {translation}

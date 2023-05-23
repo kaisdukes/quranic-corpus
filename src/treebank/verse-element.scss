@@ -1,51 +1,47 @@
 .verse-element {
+    padding: 20px;
+    padding-top: 15px;
 
-    .verse-arabic {
+    .verse-header {
         display: flex;
-        padding: 15px;
 
         .verse-number {
             color: gray;
         }
 
-        .tokens {
-            direction: rtl;
+        .copy {
+            width: 15px;
+            margin-left: 10px;
+        }
+    }
+
+    .verse-tokens {
+        direction: rtl;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 15px;
+        row-gap: 35px;
+        flex: 1;
+        margin-top: 10px;
+
+        .token-container {
             display: flex;
-            flex-wrap: wrap;
-            column-gap: 15px;
-            row-gap: 35px;
-            padding: 20px;
-            border-radius: 20px;
-            flex: 1;
-        }
-
-        .token-element {
-            direction: ltr;
-        }
-
-        .segment-container {
-            font-family: var(--default-arabic-font-family);
-            font-size: var(--arabic-font-size-large);
+            flex-direction: column;
+            align-items: center;
         }
 
         .end-of-verse {
             font-family: var(--verse-end-font-family);
             font-size: var(--arabic-font-size-large);
-        }
 
-        @media only screen and (max-width: 600px) {
-
-            .segment-container,
-            .end-of-verse {
+            @media only screen and (max-width: 600px) {
                 font-size: var(--arabic-font-size-medium);
             }
         }
     }
 
     .verse-translation {
-        padding-left: 15px;
-        padding-right: 35px;
-        padding-bottom: 20px;
+        margin-top: 35px;
         font-style: italic;
         font-size: 90%;
     }

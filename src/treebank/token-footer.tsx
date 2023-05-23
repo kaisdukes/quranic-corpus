@@ -1,4 +1,3 @@
-import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
 import './token-footer.scss';
 
@@ -7,17 +6,10 @@ type Props = {
 }
 
 export const TokenFooter = ({ token }: Props) => {
-    const { location, translation, phonetic, root } = token;
-    const locationText = formatLocationWithBrackets(location);
+    const { translation, phonetic } = token;
     return (
         <div className='token-footer'>
-            <div className='phonetic'>
-                {
-                    root
-                        ? <a href={`https://corpus.quran.com//qurandictionary.jsp?q=${root}#${locationText}`}>{phonetic}</a>
-                        : phonetic
-                }
-            </div>
+            <div className='phonetic'>{phonetic}</div>
             <div>{translation}</div>
         </div>
     )

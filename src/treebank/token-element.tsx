@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { Token } from '../corpus/orthography/token';
-import { TokenFooter } from './token-footer';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
@@ -24,24 +23,19 @@ export const TokenElement = ({ token }: Props) => {
 
     return (
         <div className='token-element'>
-            <div className='token-content'>
-                <div className='segment-container'>
-                    {
-                        segments.map((segment, i) => {
-                            const joinedSegment = joinedSegments[i];
-                            return joinedSegment
-                                ? (
-                                    <span
-                                        key={`segment-${i}`}
-                                        className={`segment ${colorService.getSegmentColor(segment)}`}
-                                        dangerouslySetInnerHTML={{ __html: joinedSegment }} />
-                                )
-                                : null;
-                        })
-                    }
-                </div>
-                <TokenFooter token={token} />
-            </div>
+            {
+                segments.map((segment, i) => {
+                    const joinedSegment = joinedSegments[i];
+                    return joinedSegment
+                        ? (
+                            <span
+                                key={`segment-${i}`}
+                                className={`segment ${colorService.getSegmentColor(segment)}`}
+                                dangerouslySetInnerHTML={{ __html: joinedSegment }} />
+                        )
+                        : null;
+                })
+            }
         </div>
     )
 }

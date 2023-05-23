@@ -1,9 +1,8 @@
 .token-element {
-    display: inline-block;
+    font-family: var(--default-arabic-font-family);
+    font-size: var(--arabic-font-size-large);
 
-    .token-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    @media only screen and (max-width: 600px) {
+        font-size: var(--arabic-font-size-medium);
     }
 }
