@@ -6,6 +6,7 @@ import './home.scss';
 
 export const Home = () => {
     const randomChapter = Math.floor(Math.random() * 114) + 1;
+    const randomVerse = Math.floor(Math.random() * 20) + 1; // just any random number, can result in error.
 
     return (
         <div className='home'>
@@ -17,7 +18,7 @@ export const Home = () => {
                 (the structure of words), syntax (the grammar of sentences), and semantics (meaning).
             </p>
             <p className='wbw'>
-                <Link to={`/${randomChapter}`}>Quran Word by Word</Link>
+                <Link to={`/${randomChapter}/${randomVerse}`}>Quran Word by Word</Link>
             </p>
             <div className='slack'>
                 <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1vrmewq5c-TfFf~I7W5e6v3VYDeJsyvw'>

@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: '/chapter/:chapterNumber/:verseNumber', // Include verseNumber as a URL parameter
+        path: '/:chapterNumber/:verseNumber', // Include verseNumber as a URL parameter
         element: <WordByWord />,
     },
 ]);
