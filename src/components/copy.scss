@@ -1,0 +1,13 @@
+.copy-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}

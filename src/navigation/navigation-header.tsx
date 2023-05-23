@@ -49,6 +49,7 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
                         const { chapterNumber, phonetic } = chapter;
                         return (
                             <Link
+                                key={chapterNumber}
                                 to={`/${chapterNumber}`}
                                 className='chapter-link'
                                 onClick={() => setShowPopup(false)}>

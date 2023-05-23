@@ -15,12 +15,12 @@ export const Home = () => {
             <h1>The Quranic Arabic Corpus</h1>
             <p className='intro'>
                 The world's most popular site for learning Quranic Arabic.
-                An Artifical Intelligence (AI) analyzed the entire quran, <strong>reviewed and corrected by scholars</strong>, to provide
-                deep insights into the Quran's <strong>morpology</strong>, <strong>syntax</strong>,
+                An Artificial Intelligence (AI) analyzed the entire quran, <strong>reviewed and corrected by scholars</strong>, to provide
+                deep insights into the Quran's <strong>morphology</strong>, <strong>syntax</strong>,
                 and <strong>semantics</strong>.
             </p>
             <p style={{marginTop: 0}}>
-                To help leaners, the corpus features unique color-coded grammar diagrams
+                To help learners, the corpus features unique color-coded grammar diagrams
                 based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>
             <p className='wbw'>
@@ -28,7 +28,7 @@ export const Home = () => {
             </p>
             <p>
                 The corpus provides a <strong>supportive community</strong> for learning Quranic Arabic.
-                It is a free, open-source, Wikipedia-style project, and we encourage collobration, discusson and
+                It is a free, open-source, Wikipedia-style project, and we encourage collaboration, discussion and
                 continuous improvement.
             </p>
             <div className='slack'>
