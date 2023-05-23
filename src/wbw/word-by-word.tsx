@@ -31,20 +31,19 @@ export const WordByWord = () => {
     const [verses, setVerses] = useState<{[key: number]: Verse}>({});
     const verseRefs = useRef<{[key: number]: React.RefObject<HTMLDivElement>}>({});
 
-
-
+    // Handle the position of the top and bottom references.
     const topLoadingRef = useRef<HTMLDivElement>(null);
     const bottomLoadingRef = useRef<HTMLDivElement>(null);
 
     const morphologyService = container.resolve(MorphologyService);
-    const [loading, setLoading] = useState(false);
+    const loading = useRef(false);
     const [chapterEnd, setChapterEnd] = useState(false);
 
     const loadInitialVerses = async () => {
-        setLoading(true);
+        loading.current = true;
 
-        const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(0, parsedVerseNumber - 2)], 5);
-        setLoading(false);
+        const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(1, parsedVerseNumber - 2)], 5);
+        loading.current = false
         if (newVerses.length > 0) {
             let verseDict = { ...verses };
             for (let i = 0; i < newVerses.length; i++) {
@@ -59,11 +58,12 @@ export const WordByWord = () => {
     }
 
     const loadNextVerses = async () => {
-        setLoading(true);
+        if (loading.current) return;
+        loading.current = true;
         const _oldEndVerse = endVerse;
         console.log("Loading next five verses: ", endVerse)
         const newVerses = await morphologyService.getMorphology([parsedChapterNumber, endVerse + 1], 5);
-        setLoading(false);
+        loading.current = false;
         if (newVerses.length > 0) {
             let verseDict = { ...verses };
             for (let i = 0; i < newVerses.length; i++) {
@@ -74,17 +74,19 @@ export const WordByWord = () => {
 
             setEndVerse(endVerse + 5);
         } else {
+            console.log("Reached end of Chapter")
             setChapterEnd(true);
         }
     };
 
 
     const loadPreviousVerses = async () => {
+        if (startVerse===0 || loading.current) return;
         const _oldStartVerse = startVerse;
-        setLoading(true);
+        loading.current = true;
         console.log("Loading previous five verses: ", startVerse)
-        const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(0, startVerse - 5)], 5);
-        setLoading(false);
+        const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(1, startVerse - 5)], 5);
+        loading.current = false;
         if (newVerses.length > 0) {
             let verseDict = { ...verses };
             for (let i = 0; i < newVerses.length; i++) {
@@ -113,7 +115,7 @@ export const WordByWord = () => {
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !loading) {
+            if (entry.isIntersecting && !loading.current && startVerse !=0 ) {
                 loadPreviousVerses();
             }
         }, {
@@ -122,7 +124,7 @@ export const WordByWord = () => {
         });
 
         const observerBottom = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !loading && !chapterEnd) {
+            if (entry.isIntersecting && !loading.current && !chapterEnd) {
                 loadNextVerses();
             }
         }, {
@@ -146,7 +148,7 @@ export const WordByWord = () => {
                 observerBottom.unobserve(bottomLoadingRef.current);
             }
         };
-    }, [verses, loading, chapterEnd]);
+    }, [verses, loading.current, chapterEnd]);
 
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={parsedChapterNumber} />}>
@@ -156,26 +158,26 @@ export const WordByWord = () => {
                     <h1>{parsedChapterNumber}. {formatChapterTitle(chapter)}</h1>
                 </div>
                 <div className='word-by-word-view'>
-                    <div ref={topLoadingRef}>Loading...</div>
+                    {startVerse === 0 ? <></> : <div ref={topLoadingRef}>Loading...</div>}
                     {
-                        Object.keys(verses).sort().map((verseNumber) => {
+                        Object.keys(verses).map(Number).sort((a, b) => a - b).map((verseNumber) => {
                             // If there's not already a ref for this verse, create one
-                            const parsedVerseNumber = parseInt(verseNumber);
-                            if (!verseRefs.current[parsedVerseNumber]) {
-                                verseRefs.current[parsedVerseNumber] = React.createRef();
+                            if (!verseRefs.current[verseNumber]) {
+                                verseRefs.current[verseNumber] = React.createRef();
                             }
 
                             return (
                                 <Fragment key={`verse-${verseNumber}`}>
-                                    <VerseElement verse={verses[parsedVerseNumber]} ref={verseRefs.current[parsedVerseNumber]} />
+                                    <VerseElement verse={verses[verseNumber]} ref={verseRefs.current[verseNumber]} />
                                 </Fragment>
                             );
                         })
                     }
-                    <div ref={bottomLoadingRef}>Loading...</div>
-                </div>
-                <div>
-                    {loading && 'Loading...'}
+                    {
+                        chapterEnd ?
+                            <></> :
+                            <div ref={loading.current ? null : bottomLoadingRef}>{loading.current ? "loading..." : ""}</div>
+                    }
                 </div>
                 <Footer />
             </div>
