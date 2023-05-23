@@ -1,3 +1,4 @@
+import React, {forwardRef} from 'react'
 import { arabicNumber } from '../arabic/arabic-number';
 import { formatLocation } from '../corpus/location';
 import { Verse } from '../corpus/orthography/verse';
@@ -5,14 +6,16 @@ import { TokenElement } from './token-element';
 import './verse-element.scss';
 
 type Props = {
-    verse: Verse
-}
+    verse: Verse;
+};
 
-export const VerseElement = ({ verse }: Props) => {
+const VerseElement: React.ForwardRefRenderFunction<HTMLDivElement, Props> = (
+    { verse },
+    ref
+) => {
     const { location, tokens } = verse;
-
     return (
-        <div className='verse-element'>
+        <div className='verse-element' ref={ref}>
             <div className='verse-number'>{location[1]}</div>
             <div className='tokens'>
                 {
@@ -27,3 +30,5 @@ export const VerseElement = ({ verse }: Props) => {
         </div>
     )
 }
+
+export default forwardRef<HTMLDivElement, Props>(VerseElement);
