@@ -41,7 +41,6 @@ export const WordByWord = () => {
 
     const loadInitialVerses = async () => {
         loading.current = true;
-
         const newVerses = await morphologyService.getMorphology([parsedChapterNumber, Math.max(1, parsedVerseNumber - 2)], 5);
         loading.current = false
         if (newVerses.length > 0) {
@@ -95,6 +94,8 @@ export const WordByWord = () => {
             setVerses(verseDict);
             setStickyVerse(_oldStartVerse);
             setStartVerse(Math.max(0, startVerse - 5));
+        } else {
+            setStartVerse(0);
         }
     };
 
@@ -178,6 +179,15 @@ export const WordByWord = () => {
                             <></> :
                             <div ref={loading.current ? null : bottomLoadingRef}>{loading.current ? "loading..." : ""}</div>
                     }
+
+                    {
+                        // This is where we return the Error URL
+                        chapterEnd && startVerse == 0 && Object.keys(verses).length == 0 ?
+                             <div>Chapter {parsedChapterNumber} Verse {parsedVerseNumber} not found</div> :
+                            <></>
+                    }
+
+
                 </div>
                 <Footer />
             </div>
