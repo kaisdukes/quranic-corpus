@@ -22,6 +22,7 @@ export const VerseElement = ({ verse }: Props) => {
 
     const handleTokenClick = (token: Token) => {
         const root = token.root;
+        if (!root) return;
         const location = formatLocationWithBrackets(token.location);
         const url = `https://corpus.quran.com/qurandictionary.jsp?q=${root}#${location}`;
         window.open(url, '_blank');
