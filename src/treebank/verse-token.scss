@@ -5,7 +5,10 @@
     padding: 8px;
     cursor: pointer;
 
-    &:hover {
-        background: rgb(240, 236, 233);
+    @media only screen and (min-width: 600px) {
+
+        &:hover {
+            background: rgb(240, 236, 233);
+        }
     }
 }
