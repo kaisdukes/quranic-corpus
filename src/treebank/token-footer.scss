@@ -10,5 +10,9 @@
         &.phonetic {
             color: #4886d0;
         }
+
+        @media only screen and (max-width: 600px) {
+            font-size: 90%;
+        }
     }
 }
