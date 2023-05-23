@@ -38,8 +38,6 @@ export class ClipboardService {
         const plainTextContent = lines.join('\n');
         const htmlContent = htmlLines.join('');
 
-        console.log('HIT!!!..');
-
         await navigator.clipboard.write([
             new ClipboardItem({
                 'text/plain': new Blob([plainTextContent], { type: 'text/plain' }),
