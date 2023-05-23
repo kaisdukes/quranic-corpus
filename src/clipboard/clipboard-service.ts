@@ -18,25 +18,26 @@ export class ClipboardService {
         const chapter = this.chapterService.getChapter(chapterNumber);
         const arabic: string = this.verseService.getArabic(verse);
 
-        const lines: string[] = [];
-        const htmlLines: string[] = [];
+        let plainTextContent = '';
+        let htmlContent = '';
 
-        const addLine = (text: string, isLink: boolean = false) => {
-            lines.push(text);
-            htmlLines.push(isLink ? `<a href='${text}'>${text}</a><br>` : `${text}<br>`);
-        };
+        const addContent = (text: string, isLink: boolean = false, newLine: boolean = true) => {
+            plainTextContent += text + '\n';
+            htmlContent += isLink ? `<a href='${text}'>${text}</a>` : `${text}`;
+            if (newLine) {
+                htmlContent += '<br>';
+            }
+        }
 
-        addLine(`${chapter.phonetic} ${formatLocationWithBrackets(location)}`);
-        addLine('');
-        addLine(`${arabic}`);
-        addLine('');
-        addLine(`${verse.translation} -`);
-        addLine('');
-        addLine('---');
-        addLine(`From the Quranic Arabic Corpus: https://qurancorpus.app/${chapterNumber}`, true);
-
-        const plainTextContent = lines.join('\n');
-        const htmlContent = htmlLines.join('');
+        addContent(`${chapter.phonetic} ${formatLocationWithBrackets(location)}`);
+        addContent('');
+        addContent(`${arabic}`);
+        addContent('');
+        addContent(`${verse.translation} -`);
+        addContent('');
+        addContent('---');
+        addContent('From the Quranic Arabic Corpus: ', false, false);
+        addContent(`https://qurancorpus.app/${chapterNumber}`, true);
 
         await navigator.clipboard.write([
             new ClipboardItem({
