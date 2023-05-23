@@ -15,7 +15,7 @@ export class ClipboardService {
 
     async copyVerse(verse: Verse) {
         const { location, translation } = verse;
-        const chapterNumber = location[1];
+        const [chapterNumber] = location;
         const chapter = this.chapterService.getChapter(chapterNumber);
 
         const content = new ClipboardBuilder();
