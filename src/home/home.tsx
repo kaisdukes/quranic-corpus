@@ -15,12 +15,13 @@ export const Home = () => {
             <h1>The Quranic Arabic Corpus</h1>
             <p className='intro'>
                 The world's most popular site for learning Quranic Arabic.
-                An AI analyzed the entire quran, and the resulting data was reviewed by experts, to provide insights into the Quran's structure (syntax), word
-                formation (morpology), and meaning (semantics).
+                An Artifical Intelligence (AI) analyzed the entire quran, <strong>reviewed and corrected by scholars</strong>, to provide
+                deep insights into the Quran's <strong>morpology</strong>, <strong>syntax</strong>,
+                and <strong>semantics</strong>.
             </p>
             <p style={{marginTop: 0}}>
                 To help leaners, the corpus features unique color-coded grammar diagrams
-                based on <em>i’rāb</em> (إعراب), the traditional science of Arabic linguistics, and graph theory.
+                based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>
             <p className='wbw'>
                 <Link to={`/${randomChapter()}`}>Quran Word by Word</Link>
