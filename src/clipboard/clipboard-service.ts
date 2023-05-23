@@ -3,6 +3,7 @@ import { formatLocationWithBrackets } from '../corpus/location';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { VerseService } from '../corpus/orthography/verse-service';
 import { Verse } from '../corpus/orthography/verse';
+import { ClipboardBuilder } from './clipboard-builder';
 
 @singleton()
 export class ClipboardService {
@@ -13,37 +14,21 @@ export class ClipboardService {
     }
 
     async copyVerse(verse: Verse) {
-        const { location } = verse;
+        const { location, translation } = verse;
         const chapterNumber = location[1];
         const chapter = this.chapterService.getChapter(chapterNumber);
-        const arabic: string = this.verseService.getArabic(verse);
 
-        let plainTextContent = '';
-        let htmlContent = '';
+        const content = new ClipboardBuilder();
+        content
+            .add(`${chapter.phonetic} ${formatLocationWithBrackets(location)}`).newLine()
+            .newLine()
+            .add(this.verseService.getArabic(verse)).newLine()
+            .newLine()
+            .add(translation).newLine()
+            .newLine()
+            .add('---').newLine()
+            .add('From the Quranic Arabic Corpus: ').link(`https://qurancorpus.app/${chapterNumber}`);
 
-        const addContent = (text: string, isLink: boolean = false, newLine: boolean = true) => {
-            plainTextContent += text + '\n';
-            htmlContent += isLink ? `<a href='${text}'>${text}</a>` : `${text}`;
-            if (newLine) {
-                htmlContent += '<br>';
-            }
-        }
-
-        addContent(`${chapter.phonetic} ${formatLocationWithBrackets(location)}`);
-        addContent('');
-        addContent(`${arabic}`);
-        addContent('');
-        addContent(`${verse.translation} -`);
-        addContent('');
-        addContent('---');
-        addContent('From the Quranic Arabic Corpus: ', false, false);
-        addContent(`https://qurancorpus.app/${chapterNumber}`, true);
-
-        await navigator.clipboard.write([
-            new ClipboardItem({
-                'text/plain': new Blob([plainTextContent], { type: 'text/plain' }),
-                'text/html': new Blob([htmlContent], { type: 'text/html' })
-            })
-        ]);
+        await navigator.clipboard.write(content.build());
     }
 }
