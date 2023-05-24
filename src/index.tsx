@@ -40,7 +40,7 @@ const Root = () => {
                 console.error('Failed to boot up!', error);
             } finally {
                 setOverlay(false);
-                setBooting(false); // Set booting to false when done
+                setBooting(false);
             }
         };
 
