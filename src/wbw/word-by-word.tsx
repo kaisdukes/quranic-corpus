@@ -96,6 +96,7 @@ export const WordByWord = () => {
         } else {
             console.log("Reached end of Chapter")
             setChapterEnd(true);
+            loading.current = false;
         }
     };
 
@@ -202,6 +203,7 @@ export const WordByWord = () => {
 
                     {/* Required since minimum card is 200px and if the screen is larger than 600px it'll auto load next */}
                     <div className='end-of-page-break'></div>
+                    {/* TODO:// Tweak chapter navigation here.*/}
                     {
                         chapterEnd ?
                             <div>
@@ -217,7 +219,7 @@ export const WordByWord = () => {
                     }
 
                     {
-                        // This is where we return the Error URL
+                        // TODO:// Add incorrect URL Handling here.
                         chapterEnd && verseState.startVerse == 0 && Object.keys(verseState.verses).length == 0 ?
                              <div>Chapter {parsedChapterNumber} Verse {parsedVerseNumber} not found</div> :
                             <></>
