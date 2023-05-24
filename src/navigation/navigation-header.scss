@@ -2,9 +2,10 @@
     position: relative;
     background: #343540;
 
-    .chapter-name {
+    .navigation-bar {
         display: flex;
         justify-content: center;
+        position: relative;
 
         >a,
         >a:visited {
@@ -19,6 +20,12 @@
                 width: 15px;
                 margin-left: 5px;
             }
+        }
+
+        .toolbar {
+            position: absolute;
+            right: 15;
+            height: 100%;
         }
     }
 

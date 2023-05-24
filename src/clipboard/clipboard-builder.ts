@@ -21,7 +21,6 @@ export class ClipboardBuilder {
     }
 
     build() {
-        console.log(this.htmlContent);
         return [
             new ClipboardItem({
                 'text/plain': new Blob([this.plainTextContent], { type: 'text/plain' }),

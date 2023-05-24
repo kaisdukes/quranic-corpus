@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
+import { Toolbar } from './toolbar';
 import { container } from 'tsyringe';
 import './navigation-header.scss';
 
@@ -37,11 +38,12 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
 
     return (
         <div className='navigation-header'>
-            <div className='chapter-name'>
+            <div className='navigation-bar'>
                 <a href='#' onClick={togglePopup}>
                     {chapterNumber}. {chapter.phonetic}
                     <ChevronDown className='down' />
                 </a>
+                <Toolbar />
             </div>
             <div className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
                 {

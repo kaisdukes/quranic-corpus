@@ -1,11 +1,12 @@
 import { arabicNumber } from '../arabic/arabic-number';
-import { Copy } from '../components/copy';
+import { IconButton } from '../components/icon-button';
 import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
 import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
 import { ClipboardService } from '../clipboard/clipboard-service';
 import { container } from 'tsyringe';
+import copy from '../images/icons/copy.svg';
 import './verse-element.scss';
 
 type Props = {
@@ -32,7 +33,7 @@ export const VerseElement = ({ verse }: Props) => {
         <div className='verse-element'>
             <div className='verse-header'>
                 <span className='verse-number'>{location[1]}</span>
-                <Copy className='copy' onClick={handleCopy} />
+                <IconButton className='copy-button' icon={copy} onClick={handleCopy} />
             </div>
             <div className='verse-tokens'>
                 {
