@@ -49,7 +49,7 @@ const Root = () => {
 
     return (
         <>
-            {booting ? null : <RouterProvider router={router} />}
+            {!booting && <RouterProvider router={router} />}
             <LoadingOverlay visible={overlay} />
         </>
     )
