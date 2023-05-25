@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { NavigationContainer } from '../navigation/navigation-container';
 import { NavigationHeader } from '../navigation/navigation-header';
 import { ChapterService } from '../corpus/orthography/chapter-service';
@@ -15,11 +16,10 @@ import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
 import './word-by-word.scss';
 
-type Props = {
-    chapterNumber: number
-}
+export const WordByWord = () => {
+    const { chapterNumber: chapterParam } = useParams();
+    const chapterNumber = Number(chapterParam);
 
-export const WordByWord = ({ chapterNumber }: Props) => {
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
 
@@ -89,7 +89,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
                 <div className='word-by-word-view'>
-                    <ChapterHeader chapter={chapter}/>
+                    <ChapterHeader chapter={chapter} />
                     <Bismillah className='bismillah' />
                     {
                         readerMode

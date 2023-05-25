@@ -5,26 +5,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
 import { ChapterService } from './corpus/orthography/chapter-service';
 import { OverlayProvider, useOverlay } from './context/overlay-context';
+import { ReaderSettingsProvider } from './context/reader-settings-context';
 import { Home } from './home/home';
 import { WordByWord } from './wbw/word-by-word';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
-import { ReaderSettingsProvider } from './context/reader-settings-context';
-
-const chapterRoutes = Array.from({ length: 114 }, (_, i) => {
-    const chapterNumber = i + 1;
-    return {
-        path: `/${chapterNumber}`,
-        element: <WordByWord chapterNumber={chapterNumber} />,
-    };
-});
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Home />,
     },
-    ...chapterRoutes
+    {
+        path: '/:chapterNumber',
+        element: <WordByWord />,
+    }
 ]);
 
 const Root = () => {
