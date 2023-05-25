@@ -67,18 +67,17 @@ export const WordByWord = () => {
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {
         if (isLoadingRef.current) return;
-
         isLoadingRef.current = true;
+
+        console.log(`Loading verses: direction = ${up ? 'up' : 'down'}`);
         if (up) {
             setLoadingTop(true);
         } else {
             setLoadingBottom(true);
         }
 
-        console.log(`Loading verses: direction = ${up ? 'up' : 'down'}`);
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
-
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
