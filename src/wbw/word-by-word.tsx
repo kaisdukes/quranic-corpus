@@ -2,7 +2,6 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '../navigation/navigation-container';
 import { NavigationHeader } from '../navigation/navigation-header';
 import { ChapterService } from '../corpus/orthography/chapter-service';
-import { formatChapterTitle } from '../corpus/orthography/chapter';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
@@ -11,10 +10,9 @@ import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
 import { useReaderSettings } from '../context/reader-settings-context';
+import { ChapterHeader } from './chapter-header';
 import { formatLocationWithBrackets } from '../corpus/location';
 import { Token } from '../corpus/orthography/token';
-import makkah from '../images/makkah.svg';
-import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
 
 type Props = {
@@ -91,10 +89,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
                 <div className='word-by-word-view'>
-                    <div className='chapter-header'>
-                        <img src={chapter.city === 'Makkah' ? makkah : madinah} />
-                        <div>Sūrat {formatChapterTitle(chapter)}</div>
-                    </div>
+                    <ChapterHeader chapter={chapter}/>
                     <Bismillah className='bismillah' />
                     {
                         readerMode
