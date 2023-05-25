@@ -30,7 +30,7 @@ export const WordByWord = () => {
     const [chapterNumber, verseNumber] = location;
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
-    console.log(`*** RENDERING AT ${chapterNumber}:${verseNumber} ***`);
+    console.log(`*** RENDERING FROM URL ${chapterNumber}:${verseNumber} ***`);
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
