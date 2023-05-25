@@ -4,4 +4,20 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 10px;
+
+    // Prevent elements on the last line from stretching.
+    &:after {
+        content: '';
+        flex-grow: 999999;
+    }
+
+    .reader-token,
+    .end-of-verse {
+        flex-grow: 1;
+        flex-basis: content;
+    }
+
+    @media only screen and (max-width: 600px) {
+        gap: 6px;
+    }
 }
