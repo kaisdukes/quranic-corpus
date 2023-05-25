@@ -1,4 +1,4 @@
-import { forwardRef, Ref } from 'react';
+import { forwardRef } from 'react';
 import './footer.scss';
 
 export const Footer = forwardRef<HTMLDivElement, {}>((_, ref) => {
