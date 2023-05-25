@@ -30,63 +30,109 @@ export const WordByWord = () => {
     const [chapterNumber, verseNumber] = location;
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
-    console.log(`*** RENDERING FROM URL ${chapterNumber}:${verseNumber} ***`);
 
     const [verses, setVerses] = useState<Verse[]>([]);
-    const loadingRef = useRef<HTMLDivElement>(null);
+    const loadingRefTop = useRef<HTMLDivElement>(null);
+    const loadingRefBottom = useRef<HTMLDivElement>(null);
     const isLoadingRef = useRef<boolean>(false);
     const morphologyService = container.resolve(MorphologyService);
-    const [loading, setLoading] = useState(false);
-    const [chapterEnd, setChapterEnd] = useState(false);
+    const [loadingTop, setLoadingTop] = useState(false);
+    const [loadingBottom, setLoadingBottom] = useState(false);
+    const [startComplete, setStartComplete] = useState(false);
+    const [endComplete, setEndComplete] = useState(false);
     const { readerSettings } = useReaderSettings();
     const { readerMode } = readerSettings;
 
-    const loadVerses = async (startVerseNumber: number) => {
+    const loadVerses = async (direction: 'up' | 'down') => {
         if (isLoadingRef.current) return;
 
         isLoadingRef.current = true;
-        setLoading(true);
-
-        console.log('LOADING VERSE ' + startVerseNumber);
-        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], readerMode ? 10 : 5);
-        if (newVerses.length > 0) {
-            setVerses(prevVerses => [...prevVerses, ...newVerses]);
+        if (direction === 'up') {
+            setLoadingTop(true);
         } else {
-            setChapterEnd(true);
+            setLoadingBottom(true);
+        }
+
+        console.log(`Loading verses: direction = ${direction}`);
+        const verseCount = readerMode ? 10 : 5;
+        let start: number;
+        if (verses.length === 0) {
+            start = verseNumber;
+        }
+        else if (direction === 'up') {
+            start = Math.max(1, verses[0].location[1] - verseCount);
+        } else {
+            start = verses[verses.length - 1].location[1] + 1;
+        }
+        console.log('    loading verse ' + start);
+
+        const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
+        const newVerses = direction === 'up' ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
+        setVerses(newVerses);
+
+        if (newVerses[0].location[1] === 1) {
+            setStartComplete(true);
+            console.log('    start complete');
+        }
+
+        if (newVerses[newVerses.length - 1].location[1] === chapter.verseCount) {
+            setEndComplete(true);
+            console.log('    end complete');
         }
 
         isLoadingRef.current = false;
-        setLoading(false);
+        if (direction === 'up') {
+            setLoadingTop(false);
+        } else {
+            setLoadingBottom(false);
+        }
     };
 
     useEffect(() => {
-        console.log(`chapter number changed to ${chapterNumber}`);
         setVerses([]);
-        setChapterEnd(false);
-        loadVerses(1);
+        setStartComplete(false);
+        setEndComplete(false);
+        loadVerses('down');
     }, [chapterNumber]);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !isLoadingRef.current && !chapterEnd) {
-                console.log('hit intersection!');
-                loadVerses(verses.length + 1);
+        const observerTop = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
+                console.log('hit intersection top!');
+                loadVerses('up');
             }
         }, {
             rootMargin: '0px',
             threshold: 0.1
         });
 
-        if (loadingRef.current) {
-            observer.observe(loadingRef.current);
+        const observerBottom = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !isLoadingRef.current && !endComplete) {
+                console.log('hit intersection bottom!');
+                loadVerses('down');
+            }
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        if (loadingRefTop.current) {
+            observerTop.observe(loadingRefTop.current);
+        }
+
+        if (loadingRefBottom.current) {
+            observerBottom.observe(loadingRefBottom.current);
         }
 
         return () => {
-            if (loadingRef.current) {
-                observer.unobserve(loadingRef.current);
+            if (loadingRefTop.current) {
+                observerTop.unobserve(loadingRefTop.current);
+            }
+            if (loadingRefBottom.current) {
+                observerBottom.unobserve(loadingRefBottom.current);
             }
         };
-    }, [verses, loading, chapterEnd]);
+    }, [verses, loadingTop, loadingBottom, startComplete, endComplete]);
 
     const handleTokenClick = (token: Token) => {
         const root = token.root;
@@ -99,6 +145,10 @@ export const WordByWord = () => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
+                <div className='loading'>
+                    {loadingTop && 'Loading...'}
+                </div>
+                <div ref={loadingRefTop}></div>
                 <div className='word-by-word-view'>
                     <ChapterHeader chapter={chapter} />
                     <Bismillah className='bismillah' />
@@ -113,9 +163,10 @@ export const WordByWord = () => {
                     }
                 </div>
                 <div className='loading'>
-                    {loading && 'Loading...'}
+                    {loadingBottom && 'Loading...'}
                 </div>
-                <Footer ref={loadingRef} />
+                <div ref={loadingRefBottom}></div>
+                <Footer />
             </div>
         </NavigationContainer>
     )
