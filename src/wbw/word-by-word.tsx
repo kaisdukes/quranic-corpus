@@ -18,8 +18,11 @@ import { Token } from '../corpus/orthography/token';
 import './word-by-word.scss';
 
 export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
-    const { location } = params;
-    return parseLocation(location!);
+    const location = parseLocation(params.location!);
+    if (isNaN(location[0])) {
+        throw new Error('Page not found');
+    }
+    return location.length == 1 ? [location[0], 1] : location;
 }
 
 export const WordByWord = () => {
@@ -27,6 +30,7 @@ export const WordByWord = () => {
     const [chapterNumber, verseNumber] = location;
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
+    console.log(`*** RENDERING AT ${chapterNumber}:${verseNumber} ***`);
 
     const [verses, setVerses] = useState<Verse[]>([]);
     const loadingRef = useRef<HTMLDivElement>(null);
@@ -56,6 +60,7 @@ export const WordByWord = () => {
     };
 
     useEffect(() => {
+        console.log(`chapter number changed to ${chapterNumber}`);
         setVerses([]);
         setChapterEnd(false);
         loadVerses(1);
@@ -64,6 +69,7 @@ export const WordByWord = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !chapterEnd) {
+                console.log('hit intersection!');
                 loadVerses(verses.length + 1);
             }
         }, {
