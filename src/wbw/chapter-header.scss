@@ -21,6 +21,7 @@
     }
 
     @media only screen and (max-width: 600px) {
+        padding: 25px;
         grid-template-columns: 1fr auto minmax(0, 1fr);
 
         .city {
