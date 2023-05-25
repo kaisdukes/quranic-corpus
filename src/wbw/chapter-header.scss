@@ -1,13 +1,23 @@
 .chapter-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 35px 25px;
     font-size: 24px;
+    display: grid;
+    grid-template-columns: 1fr auto minmax(0, 1fr);
+    align-items: center;
 
-    img {
-        height: 35px;
-        margin-right: 15px;
+    .city {
+        grid-column: 1 / 2;
+        text-align: right;
+
+        img {
+            height: 35px;
+            margin-right: 15px;
+        }
+    }
+
+    .title {
+        text-align: center;
+        grid-column: 2 / 3;
     }
 
     @media only screen and (max-width: 600px) {
@@ -17,6 +27,18 @@
 
         .translation {
             display: block;
+        }
+    }
+
+    @media only screen and (min-width: 601px) {
+        grid-template-columns: 1fr auto auto 1fr;
+
+        .city {
+            grid-column: 2 / 3;
+        }
+
+        .title {
+            grid-column: 3 / 4;
         }
     }
 }
