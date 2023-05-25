@@ -99,6 +99,7 @@ export const WordByWord = () => {
         } else {
             setLoadingBottom(false);
         }
+        console.log('    done');
     };
 
     useEffect(() => {
