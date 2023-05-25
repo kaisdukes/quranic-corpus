@@ -5,15 +5,16 @@ import './verse-token.scss';
 
 type Props = {
     token: Token,
+    readerMode: boolean,
     onClick: () => void
 }
 
-export const VerseToken = ({ token, onClick }: Props) => {
+export const VerseToken = ({ token, readerMode, onClick }: Props) => {
 
     return (
         <div className='verse-token' onClick={onClick}>
             <TokenElement token={token} />
-            <TokenFooter token={token} />
+            {!readerMode && <TokenFooter token={token} />}
         </div>
     )
 }

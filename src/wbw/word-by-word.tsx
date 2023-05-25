@@ -29,6 +29,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
     const { readerSettings } = useReaderSettings();
+    const { readerMode } = readerSettings;
 
     const loadVerses = async (startVerseNumber: number) => {
         if (isLoadingRef.current) return;
@@ -78,7 +79,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <div className={`word-by-word-view ${readerSettings.readerMode ? 'reader-mode' : ''}`}>
+                <div className={`word-by-word-view ${readerMode ? 'reader-mode' : ''}`}>
                     <div className='chapter-header'>
                         <img src={chapter.city === 'Makkah' ? makkah : madinah} />
                         <div>Sūrat {formatChapterTitle(chapter)}</div>
@@ -87,7 +88,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
                     {
                         verses.map((verse, i) => (
                             <Fragment key={`verse-${i}`}>
-                                <VerseElement verse={verse} />
+                                <VerseElement verse={verse} readerMode={readerMode} />
                             </Fragment>
                         ))
                     }

@@ -10,10 +10,11 @@ import copy from '../images/icons/copy.svg';
 import './verse-element.scss';
 
 type Props = {
-    verse: Verse
+    verse: Verse,
+    readerMode: boolean
 }
 
-export const VerseElement = ({ verse }: Props) => {
+export const VerseElement = ({ verse, readerMode }: Props) => {
     const { location, tokens, translation } = verse;
 
     const handleCopy = async () => {
@@ -31,24 +32,31 @@ export const VerseElement = ({ verse }: Props) => {
 
     return (
         <div className='verse-element'>
-            <div className='verse-header'>
-                <span className='verse-number'>{location[1]}</span>
-                <IconButton className='copy-button' icon={copy} onClick={handleCopy} />
-            </div>
+            {
+                !readerMode &&
+                <div className='verse-header'>
+                    <span className='verse-number'>{location[1]}</span>
+                    <IconButton className='copy-button' icon={copy} onClick={handleCopy} />
+                </div>
+            }
             <div className='verse-tokens'>
                 {
                     tokens.map((token, i) => (
                         <VerseToken
                             key={`token-${i}`}
                             token={token}
-                            onClick={() => handleTokenClick(token)} />
+                            onClick={() => handleTokenClick(token)}
+                            readerMode={readerMode} />
                     ))
                 }
                 <div className='end-of-verse brown'>{arabicNumber(location[1])}</div>
             </div>
-            <div className='verse-translation'>
-                {translation}
-            </div>
+            {
+                !readerMode &&
+                <div className='verse-translation'>
+                    {translation}
+                </div>
+            }
         </div>
     )
 }
