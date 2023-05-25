@@ -43,23 +43,23 @@ export const WordByWord = () => {
     const { readerSettings } = useReaderSettings();
     const { readerMode } = readerSettings;
 
-    const loadVerses = async (direction: 'up' | 'down', verses: Verse[]) => {
+    const loadVerses = async (up: boolean, verses: Verse[]) => {
         if (isLoadingRef.current) return;
 
         isLoadingRef.current = true;
-        if (direction === 'up') {
+        if (up) {
             setLoadingTop(true);
         } else {
             setLoadingBottom(true);
         }
 
-        console.log(`Loading verses: direction = ${direction}`);
+        console.log(`Loading verses: direction = ${up ? 'up' : 'down'}`);
         let verseCount = readerMode ? 10 : 5;
         let start: number;
         if (verses.length === 0) {
             start = verseNumber;
         }
-        else if (direction === 'up') {
+        else if (up) {
             const first = verses[0].location[1];
             start = Math.max(1, first - verseCount);
             if (start < first) {
@@ -71,7 +71,7 @@ export const WordByWord = () => {
         console.log(`    loading verse ${chapterNumber}:${start}`);
 
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
-        const newVerses = direction === 'up' ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
+        const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
 
         if (newVerses[0].location[1] === 1) {
@@ -85,7 +85,7 @@ export const WordByWord = () => {
         }
 
         isLoadingRef.current = false;
-        if (direction === 'up') {
+        if (up) {
             setLoadingTop(false);
         } else {
             setLoadingBottom(false);
@@ -96,13 +96,13 @@ export const WordByWord = () => {
         setVerses([]);
         setStartComplete(false);
         setEndComplete(false);
-        loadVerses('down', []); // avoid stale state
+        loadVerses(false, []); // avoid stale state
     }, [chapterNumber]);
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
-                loadVerses('up', verses);
+                loadVerses(true, verses);
             }
         }, {
             rootMargin: '0px',
@@ -111,7 +111,7 @@ export const WordByWord = () => {
 
         const observerBottom = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !endComplete) {
-                loadVerses('down', verses);
+                loadVerses(false, verses);
             }
         }, {
             rootMargin: '0px',
