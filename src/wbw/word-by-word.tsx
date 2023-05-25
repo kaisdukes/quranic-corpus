@@ -54,13 +54,17 @@ export const WordByWord = () => {
         }
 
         console.log(`Loading verses: direction = ${direction}`);
-        const verseCount = readerMode ? 10 : 5;
+        let verseCount = readerMode ? 10 : 5;
         let start: number;
         if (verses.length === 0) {
             start = verseNumber;
         }
         else if (direction === 'up') {
-            start = Math.max(1, verses[0].location[1] - verseCount);
+            const first = verses[0].location[1];
+            start = Math.max(1, first - verseCount);
+            if (start < first) {
+                verseCount = first - start;
+            }
         } else {
             start = verses[verses.length - 1].location[1] + 1;
         }
@@ -154,7 +158,7 @@ export const WordByWord = () => {
                         readerMode
                             ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
                             : verses.map((verse, i) => (
-                                <Fragment key={`verse-${verse.location[0]}:${verse.location[1]}}`}>
+                                <Fragment key={`verse-${verse.location[0]}:${verse.location[1]}`}>
                                     <VerseElement verse={verse} onClickToken={handleTokenClick} />
                                 </Fragment>
                             ))
