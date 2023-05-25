@@ -13,12 +13,12 @@ type Props = {
 export const ReaderView = ({ verses, onClickToken }: Props) => (
     <div className='reader-view'>
         {
-            verses.map((verse, verseIndex) => (
-                <Fragment key={`verse-${verseIndex}`}>
+            verses.map(verse => (
+                <Fragment key={`verse-${verse.location[0]}:${verse.location[1]}}`}>
                     {
-                        verse.tokens.map((token, tokenIndex) => (
+                        verse.tokens.map((token) => (
                             <ReaderToken
-                                key={`verse-${verseIndex}-token-${tokenIndex}`}
+                                key={`token-${token.location[0]}:${token.location[1]}:${token.location[2]}}}`}
                                 token={token}
                                 onClick={() => onClickToken(token)} />
                         ))}

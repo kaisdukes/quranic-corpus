@@ -64,7 +64,7 @@ export const WordByWord = () => {
         } else {
             start = verses[verses.length - 1].location[1] + 1;
         }
-        console.log('    loading verse ' + start);
+        console.log(`    loading verse ${chapterNumber}:${start}`);
 
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = direction === 'up' ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
@@ -95,6 +95,8 @@ export const WordByWord = () => {
         loadVerses('down');
     }, [chapterNumber]);
 
+    const versesRef = useRef(verses);
+    versesRef.current = verses;
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
@@ -142,6 +144,10 @@ export const WordByWord = () => {
         window.open(url, '_blank');
     }
 
+    if (verses.length > 0) {
+        console.log(`    creating JSX from verse ${chapterNumber}:${verses[0].location[1]}`);
+    }
+
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
@@ -156,7 +162,7 @@ export const WordByWord = () => {
                         readerMode
                             ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
                             : verses.map((verse, i) => (
-                                <Fragment key={`verse-${i}`}>
+                                <Fragment key={`verse-${verse.location[0]}:${verse.location[1]}}`}>
                                     <VerseElement verse={verse} onClickToken={handleTokenClick} />
                                 </Fragment>
                             ))
