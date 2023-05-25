@@ -25,6 +25,11 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
     return location.length == 1 ? [location[0], 1] : location;
 }
 
+const intersectionOptions = {
+    rootMargin: '0px',
+    threshold: 0.1
+}
+
 export const WordByWord = () => {
     const location = useLoaderData() as Location;
     const [chapterNumber, verseNumber] = location;
@@ -104,19 +109,13 @@ export const WordByWord = () => {
             if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
                 loadVerses(true, verses);
             }
-        }, {
-            rootMargin: '0px',
-            threshold: 0.1
-        });
+        }, intersectionOptions);
 
         const observerBottom = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !endComplete) {
                 loadVerses(false, verses);
             }
-        }, {
-            rootMargin: '0px',
-            threshold: 0.1
-        });
+        }, intersectionOptions);
 
         if (loadingRefTop.current) {
             observerTop.observe(loadingRefTop.current);
