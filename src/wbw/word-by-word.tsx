@@ -43,7 +43,7 @@ export const WordByWord = () => {
     const { readerSettings } = useReaderSettings();
     const { readerMode } = readerSettings;
 
-    const loadVerses = async (direction: 'up' | 'down') => {
+    const loadVerses = async (direction: 'up' | 'down', verses: Verse[]) => {
         if (isLoadingRef.current) return;
 
         isLoadingRef.current = true;
@@ -71,13 +71,13 @@ export const WordByWord = () => {
         setVerses(newVerses);
 
         if (newVerses[0].location[1] === 1) {
+            if (!startComplete) console.log('    start complete');
             setStartComplete(true);
-            console.log('    start complete');
         }
 
         if (newVerses[newVerses.length - 1].location[1] === chapter.verseCount) {
+            if (!endComplete) console.log('    end complete');
             setEndComplete(true);
-            console.log('    end complete');
         }
 
         isLoadingRef.current = false;
@@ -92,16 +92,13 @@ export const WordByWord = () => {
         setVerses([]);
         setStartComplete(false);
         setEndComplete(false);
-        loadVerses('down');
+        loadVerses('down', []); // avoid stale state
     }, [chapterNumber]);
 
-    const versesRef = useRef(verses);
-    versesRef.current = verses;
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
-                console.log('hit intersection top!');
-                loadVerses('up');
+                loadVerses('up', verses);
             }
         }, {
             rootMargin: '0px',
@@ -110,8 +107,7 @@ export const WordByWord = () => {
 
         const observerBottom = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting && !isLoadingRef.current && !endComplete) {
-                console.log('hit intersection bottom!');
-                loadVerses('down');
+                loadVerses('down', verses);
             }
         }, {
             rootMargin: '0px',
@@ -142,10 +138,6 @@ export const WordByWord = () => {
         const location = formatLocationWithBrackets(token.location);
         const url = `https://corpus.quran.com/qurandictionary.jsp?q=${root}#${location}`;
         window.open(url, '_blank');
-    }
-
-    if (verses.length > 0) {
-        console.log(`    creating JSX from verse ${chapterNumber}:${verses[0].location[1]}`);
     }
 
     return (
