@@ -9,6 +9,7 @@ import { Verse } from '../corpus/orthography/verse';
 import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
+import { useReaderSettings } from '../context/reader-settings-context';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
@@ -27,6 +28,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     const morphologyService = container.resolve(MorphologyService);
     const [loading, setLoading] = useState(false);
     const [chapterEnd, setChapterEnd] = useState(false);
+    const { readerSettings } = useReaderSettings();
 
     const loadVerses = async (startVerseNumber: number) => {
         if (isLoadingRef.current) return;
@@ -76,7 +78,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <div className='word-by-word-view'>
+                <div className={`word-by-word-view ${readerSettings.readerMode ? 'reader-mode' : ''}`}>
                     <div className='chapter-header'>
                         <img src={chapter.city === 'Makkah' ? makkah : madinah} />
                         <div>Sūrat {formatChapterTitle(chapter)}</div>

@@ -9,6 +9,7 @@ import { Home } from './home/home';
 import { WordByWord } from './wbw/word-by-word';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
+import { ReaderSettingsProvider } from './context/reader-settings-context';
 
 const chapterRoutes = Array.from({ length: 114 }, (_, i) => {
     const chapterNumber = i + 1;
@@ -58,6 +59,8 @@ const Root = () => {
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <OverlayProvider>
-        <Root />
+        <ReaderSettingsProvider>
+            <Root />
+        </ReaderSettingsProvider>
     </OverlayProvider>
 );

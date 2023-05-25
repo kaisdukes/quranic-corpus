@@ -4,6 +4,10 @@
         display: flex;
         flex-direction: column;
 
+        &.reader-mode {
+            border: 5px solid orange;
+        }
+
         .chapter-header {
             display: flex;
             justify-content: center;
