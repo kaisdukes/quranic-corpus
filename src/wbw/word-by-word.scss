@@ -43,10 +43,10 @@
             }
         }
 
-        &.reader-mode {
-            .verse-element {
-                border: 5px solid orange;
-            }
+        .reader-view {
+            margin-top: 50px;
+            margin-left: 25px;
+            margin-right: 25px;
         }
 
         @media only screen and (max-width: 600px) {

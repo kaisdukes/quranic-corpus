@@ -26,13 +26,7 @@
         margin-top: 5px;
 
         .end-of-verse {
-            font-family: var(--verse-end-font-family);
-            font-size: var(--arabic-font-size-large);
             padding: 7px;
-
-            @media only screen and (max-width: 600px) {
-                font-size: var(--arabic-font-size-medium);
-            }
         }
     }
 

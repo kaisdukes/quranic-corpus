@@ -9,6 +9,7 @@ import { Verse } from '../corpus/orthography/verse';
 import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
+import { ReaderView } from './reader-view';
 import { useReaderSettings } from '../context/reader-settings-context';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
@@ -79,18 +80,20 @@ export const WordByWord = ({ chapterNumber }: Props) => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <div className={`word-by-word-view ${readerMode ? 'reader-mode' : ''}`}>
+                <div className='word-by-word-view'>
                     <div className='chapter-header'>
                         <img src={chapter.city === 'Makkah' ? makkah : madinah} />
                         <div>Sūrat {formatChapterTitle(chapter)}</div>
                     </div>
                     <Bismillah className='bismillah' />
                     {
-                        verses.map((verse, i) => (
-                            <Fragment key={`verse-${i}`}>
-                                <VerseElement verse={verse} readerMode={readerMode} />
-                            </Fragment>
-                        ))
+                        readerMode
+                            ? <ReaderView verses={verses} />
+                            : verses.map((verse, i) => (
+                                <Fragment key={`verse-${i}`}>
+                                    <VerseElement verse={verse} />
+                                </Fragment>
+                            ))
                     }
                 </div>
                 <div>
