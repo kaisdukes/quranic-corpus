@@ -25,6 +25,23 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
     return location.length == 1 ? [location[0], 1] : location;
 }
 
+const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
+    let verseCount = 10;
+    let start: number;
+    if (verses.length === 0) {
+        start = urlVerseNumber;
+    } else if (up) {
+        const first = verses[0].location[1];
+        start = Math.max(1, first - verseCount);
+        if (start < first) {
+            verseCount = first - start;
+        }
+    } else {
+        start = verses[verses.length - 1].location[1] + 1;
+    }
+    return { start, verseCount };
+}
+
 const intersectionOptions = {
     rootMargin: '0px',
     threshold: 0.1
@@ -59,21 +76,8 @@ export const WordByWord = () => {
         }
 
         console.log(`Loading verses: direction = ${up ? 'up' : 'down'}`);
-        let verseCount = readerMode ? 10 : 5;
-        let start: number;
-        if (verses.length === 0) {
-            start = verseNumber;
-        }
-        else if (up) {
-            const first = verses[0].location[1];
-            start = Math.max(1, first - verseCount);
-            if (start < first) {
-                verseCount = first - start;
-            }
-        } else {
-            start = verses[verses.length - 1].location[1] + 1;
-        }
-        console.log(`    loading verse ${chapterNumber}:${start}`);
+        const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
+        console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
 
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
