@@ -11,6 +11,8 @@ import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
 import { useReaderSettings } from '../context/reader-settings-context';
+import { formatLocationWithBrackets } from '../corpus/location';
+import { Token } from '../corpus/orthography/token';
 import makkah from '../images/makkah.svg';
 import madinah from '../images/madinah.svg';
 import './word-by-word.scss';
@@ -77,6 +79,14 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         };
     }, [verses, loading, chapterEnd]);
 
+    const handleTokenClick = (token: Token) => {
+        const root = token.root;
+        if (!root) return;
+        const location = formatLocationWithBrackets(token.location);
+        const url = `https://corpus.quran.com/qurandictionary.jsp?q=${root}#${location}`;
+        window.open(url, '_blank');
+    }
+
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
@@ -88,10 +98,10 @@ export const WordByWord = ({ chapterNumber }: Props) => {
                     <Bismillah className='bismillah' />
                     {
                         readerMode
-                            ? <ReaderView verses={verses} />
+                            ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
                             : verses.map((verse, i) => (
                                 <Fragment key={`verse-${i}`}>
-                                    <VerseElement verse={verse} />
+                                    <VerseElement verse={verse} onClickToken={handleTokenClick} />
                                 </Fragment>
                             ))
                     }

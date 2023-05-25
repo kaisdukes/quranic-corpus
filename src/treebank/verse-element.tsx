@@ -1,9 +1,7 @@
-import { arabicNumber } from '../arabic/arabic-number';
 import { IconButton } from '../components/icon-button';
+import { Token } from '../corpus/orthography/token';
 import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
-import { formatLocationWithBrackets } from '../corpus/location';
-import { Token } from '../corpus/orthography/token';
 import { EndOfVerse } from './end-of-verse';
 import { ClipboardService } from '../clipboard/clipboard-service';
 import { container } from 'tsyringe';
@@ -11,23 +9,16 @@ import copy from '../images/icons/copy.svg';
 import './verse-element.scss';
 
 type Props = {
-    verse: Verse
+    verse: Verse,
+    onClickToken: (token: Token) => void
 }
 
-export const VerseElement = ({ verse }: Props) => {
+export const VerseElement = ({ verse, onClickToken }: Props) => {
     const { location, tokens, translation } = verse;
 
     const handleCopy = async () => {
         const clipboardService = container.resolve(ClipboardService);
         await clipboardService.copyVerse(verse);
-    }
-
-    const handleTokenClick = (token: Token) => {
-        const root = token.root;
-        if (!root) return;
-        const location = formatLocationWithBrackets(token.location);
-        const url = `https://corpus.quran.com/qurandictionary.jsp?q=${root}#${location}`;
-        window.open(url, '_blank');
     }
 
     return (
@@ -42,7 +33,7 @@ export const VerseElement = ({ verse }: Props) => {
                         <VerseToken
                             key={`token-${i}`}
                             token={token}
-                            onClick={() => handleTokenClick(token)} />
+                            onClick={() => onClickToken(token)} />
                     ))
                 }
                 <EndOfVerse verseNumber={location[1]} />

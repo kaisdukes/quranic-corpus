@@ -3,13 +3,14 @@ import { TokenElement } from '../treebank/token-element';
 import './reader-token.scss';
 
 type Props = {
-    token: Token
+    token: Token,
+    onClick: () => void
 }
 
-export const ReaderToken = ({ token }: Props) => {
+export const ReaderToken = ({ token, onClick }: Props) => {
     return (
-        <div className='reader-token'>
-            <TokenElement token={token}/>
+        <div className='reader-token' onClick={onClick}>
+            <TokenElement token={token} />
         </div>
     )
 }
