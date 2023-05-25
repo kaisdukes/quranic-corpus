@@ -1,16 +1,16 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import { NavigationContainer } from '../navigation/navigation-container';
 import { NavigationHeader } from '../navigation/navigation-header';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
-import { VerseElement } from '../treebank/verse-element';
 import { Verse } from '../corpus/orthography/verse';
 import { Location } from '../corpus/location';
 import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
+import { DetailView } from './detail-view';
 import { useReaderSettings } from '../context/reader-settings-context';
 import { ChapterHeader } from './chapter-header';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
@@ -160,11 +160,7 @@ export const WordByWord = () => {
                     {
                         readerMode
                             ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
-                            : verses.map((verse, i) => (
-                                <Fragment key={`verse-${verse.location[0]}:${verse.location[1]}`}>
-                                    <VerseElement verse={verse} onClickToken={handleTokenClick} />
-                                </Fragment>
-                            ))
+                            : <DetailView verses={verses} onClickToken={handleTokenClick} />
                     }
                 </div>
                 <div className='loading'>
