@@ -7,18 +7,19 @@ import { ChapterService } from './corpus/orthography/chapter-service';
 import { OverlayProvider, useOverlay } from './context/overlay-context';
 import { ReaderSettingsProvider } from './context/reader-settings-context';
 import { Home } from './home/home';
-import { WordByWord } from './wbw/word-by-word';
+import { WordByWord, resolveLocation } from './wbw/word-by-word';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />,
+        element: <Home />
     },
     {
-        path: '/:chapterNumber',
-        element: <WordByWord />,
+        path: '/:location',
+        loader: resolveLocation,
+        element: <WordByWord />
     }
 ]);
 
