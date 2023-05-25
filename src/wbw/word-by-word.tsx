@@ -150,7 +150,7 @@ export const WordByWord = () => {
                 <div className='loading'>
                     {loadingTop && 'Loading...'}
                 </div>
-                <div ref={loadingRefTop}></div>
+                <div ref={loadingRefTop} />
                 <div className='word-by-word-view'>
                     <ChapterHeader chapter={chapter} />
                     <Bismillah className='bismillah' />
@@ -167,7 +167,7 @@ export const WordByWord = () => {
                 <div className='loading'>
                     {loadingBottom && 'Loading...'}
                 </div>
-                <div ref={loadingRefBottom}></div>
+                <div ref={loadingRefBottom} />
                 <Footer />
             </div>
         </NavigationContainer>
