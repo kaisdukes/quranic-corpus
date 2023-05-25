@@ -8,7 +8,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 35px 10px;
+            padding: 35px 25px;
             font-size: 24px;
 
             img {
@@ -44,7 +44,7 @@
         }
 
         .reader-view {
-            margin-top: 50px;
+            margin-top: 40px;
             margin-left: 25px;
             margin-right: 25px;
         }
@@ -59,6 +59,10 @@
             margin: auto;
             max-width: 1100px;
         }
+    }
+
+    .loading {
+        text-align: center;
     }
 
     .footer {

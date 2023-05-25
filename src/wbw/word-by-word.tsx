@@ -39,7 +39,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
         setLoading(true);
 
         console.log('LOADING VERSE ' + startVerseNumber);
-        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], 5);
+        const newVerses = await morphologyService.getMorphology([chapterNumber, startVerseNumber], readerMode ? 10 : 5);
         if (newVerses.length > 0) {
             setVerses(prevVerses => [...prevVerses, ...newVerses]);
         } else {
@@ -96,7 +96,7 @@ export const WordByWord = ({ chapterNumber }: Props) => {
                             ))
                     }
                 </div>
-                <div>
+                <div className='loading'>
                     {loading && 'Loading...'}
                 </div>
                 <Footer ref={loadingRef} />
