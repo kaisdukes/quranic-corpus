@@ -83,9 +83,8 @@ export const WordByWord = () => {
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
-        const foo = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
-        console.log(`    current verse = ${foo}`);
-        setCurrentVerse(foo);
+        const scrollToVerse = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
+        setCurrentVerse(scrollToVerse);
 
         if (newVerses[0].location[1] === 1) {
             if (!startComplete) console.log('    start complete');
