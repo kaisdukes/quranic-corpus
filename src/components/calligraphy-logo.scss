@@ -1,0 +1,13 @@
+.calligraphy-logo {
+    width: 200px;
+    height: auto;
+    margin-top: 10px;
+
+    path {
+        fill: rgb(63, 132, 161);
+    }
+
+    @media only screen and (max-width: 600px) {
+        height: 150px;
+    }
+}

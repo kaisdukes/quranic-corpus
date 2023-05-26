@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ReactComponent as Logo } from '../images/logo.svg';
+import { CalligraphyLogo } from '../components/calligraphy-logo';
 import { Footer } from '../components/footer';
 import slack from '../images/slack.svg';
 import './home.scss';
@@ -10,7 +10,7 @@ export const Home = () => {
     return (
         <div className='home'>
             <Link to={`/${randomChapter()}`}>
-                <Logo className='logo' />
+                <CalligraphyLogo />
             </Link>
             <h1>The Quranic Arabic Corpus</h1>
             <p className='intro'>
@@ -19,7 +19,7 @@ export const Home = () => {
                 deep insights into the Quran's <strong>morphology</strong>, <strong>syntax</strong>,
                 and <strong>semantics</strong>.
             </p>
-            <p style={{marginTop: 0}}>
+            <p style={{ marginTop: 0 }}>
                 To help learners, the corpus features unique color-coded grammar diagrams
                 based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>

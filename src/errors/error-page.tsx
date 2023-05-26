@@ -1,5 +1,7 @@
 import { useRouteError } from 'react-router-dom';
+import { CalligraphyLogo } from '../components/calligraphy-logo';
 import { CorpusError, ErrorCode } from './corpus-error';
+import { Footer } from '../components/footer';
 import './error-page.scss';
 
 const errorCodeDescriptionMap = new Map<ErrorCode, string>([
@@ -19,8 +21,13 @@ export const ErrorPage = () => {
 
     return (
         <div className='error-page'>
-            <h2>{message}</h2>
-            {description && <p>{description}</p>}
+            <CalligraphyLogo />
+            <h1>{message}</h1>
+            {
+                description &&
+                <p className='description'>{description}</p>
+            }
+            <Footer />
         </div>
     )
 }

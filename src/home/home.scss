@@ -7,16 +7,6 @@
     text-align: center;
     padding: 25px;
 
-    .logo {
-        width: 200px;
-        height: auto;
-        margin-top: 10px;
-
-        path {
-            fill: rgb(63, 132, 161);
-        }
-    }
-
     .intro {
         margin-top: 0;
     }
@@ -42,11 +32,5 @@
     .footer {
         margin-top: 20px;
         margin-bottom: 50px;
-    }
-
-    @media only screen and (max-width: 600px) {
-        .logo {
-            height: 150px;
-        }
     }
 }
