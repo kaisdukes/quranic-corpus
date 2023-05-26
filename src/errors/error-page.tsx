@@ -1,4 +1,4 @@
-import { useRouteError } from 'react-router-dom';
+import { Link, useRouteError } from 'react-router-dom';
 import { CalligraphyLogo } from '../components/calligraphy-logo';
 import { CorpusError, ErrorCode } from './corpus-error';
 import { Footer } from '../components/footer';
@@ -27,6 +27,9 @@ export const ErrorPage = () => {
                 description &&
                 <p className='description'>{description}</p>
             }
+            <p>
+                <Link to='/'>The Quranic Arabic Corpus</Link>
+            </p>
             <Footer />
         </div>
     )
