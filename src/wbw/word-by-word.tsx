@@ -28,7 +28,7 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
 }
 
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
-    let verseCount = 2;
+    let verseCount = 10;
     let start: number;
     if (verses.length === 0) {
         start = urlVerseNumber;
@@ -86,7 +86,6 @@ export const WordByWord = () => {
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
-        await new Promise<void>(resolve => setTimeout(() => resolve(), 1000));
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
@@ -119,7 +118,7 @@ export const WordByWord = () => {
         setStartComplete(false);
         setEndComplete(false);
         loadVerses(false, []); // avoid stale state
-    }, [chapterNumber]);
+    }, [chapterNumber, verseNumber]);
 
     useEffect(() => {
         if (!scrollTarget) return;
