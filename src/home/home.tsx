@@ -23,9 +23,10 @@ export const Home = () => {
                 To help learners, the corpus features unique color-coded grammar diagrams
                 based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>
-            <p className='wbw'>
+            <div className='links'>
                 <Link to={`/${randomChapter()}`}>Quran Word by Word</Link>
-            </p>
+                <Link to='/treebank'>Quranic Treebank</Link>
+            </div>
             <p>
                 The corpus provides a <strong>supportive community</strong> for learning Quranic Arabic.
                 It is a free, open-source, Wikipedia-style project, and we encourage collaboration, discussion and

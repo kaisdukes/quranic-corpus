@@ -11,14 +11,17 @@
         margin-top: 0;
     }
 
-    .wbw {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 0;
-    }
+    .links {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 20px;
+        margin-bottom: 20px;
 
-    hr {
-        margin-top: 40px;
+        >a {
+            font-size: 22px;
+            font-weight: bold;
+        }
     }
 
     .slack {

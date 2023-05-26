@@ -1,5 +1,6 @@
 import { Segment } from '../corpus/morphology/segment';
 import { singleton } from 'tsyringe';
+import { DependencyTag } from '../corpus/syntax/dependency-tag';
 
 @singleton()
 export class ColorService {
@@ -31,6 +32,14 @@ export class ColorService {
         ['VOC', 'green']
     ]);
 
+    private dependencyTagColors: Map<string, string> = new Map([
+        ['circ', 'seagreen'],
+        ['gen', 'rust'],
+        ['link', 'orange'],
+        ['obj', 'metal'],
+        ['subj', 'sky']
+    ]);
+
     getSegmentColor(segment: Segment): string {
         const { posTag } = segment;
         const color = this.posTagColors.get(posTag);
@@ -48,5 +57,10 @@ export class ColorService {
             }
         }
         return 'pink';
+    }
+
+    getDependencyColor(dependencyTag: DependencyTag): string {
+        const color = this.dependencyTagColors.get(dependencyTag);
+        return color || 'black'; // TODO: default!
     }
 }
