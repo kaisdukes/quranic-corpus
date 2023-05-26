@@ -1,4 +1,4 @@
-.token-element {
+.graph-token {
     display: inline-block;
 
     .token-content {
@@ -6,13 +6,9 @@
         flex-direction: column;
         align-items: center;
 
-        .segment-container {
+        .arabic-token {
             margin-top: 15px;
-
-            .segment {
-                font-family: var(--default-arabic-font-family);
-                font-size: 32px;
-            }
+            font-size: 32px;
         }
 
         .pos-tag-container {

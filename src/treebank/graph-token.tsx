@@ -4,9 +4,10 @@ import { TokenHeader } from './token-header';
 import { Position } from '../layout/geometry';
 import { NodeCircle } from './node-circle';
 import { ArabicTextService } from '../arabic/arabic-text-service';
+import { ArabicToken } from '../arabic/arabic-token';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
-import './token-element.scss';
+import './graph-token.scss';
 
 type Props = {
     token: Token,
@@ -14,7 +15,7 @@ type Props = {
     position?: Position
 }
 
-export const TokenElement = forwardRef((
+export const GraphToken = forwardRef((
     { token, segmentCircleRefs, position }: Props,
     ref: Ref<HTMLDivElement>) => {
 
@@ -32,7 +33,7 @@ export const TokenElement = forwardRef((
     return (
         <div
             ref={ref}
-            className='token-element'
+            className='graph-token'
             style={
                 position
                     ? {
@@ -44,21 +45,7 @@ export const TokenElement = forwardRef((
             }>
             <div className='token-content'>
                 <TokenHeader token={token} />
-                <div className='segment-container'>
-                    {
-                        segments.map((segment, i) => {
-                            const joinedSegment = joinedSegments[i];
-                            return joinedSegment
-                                ? (
-                                    <span
-                                        key={`segment-${i}`}
-                                        className={`segment ${colorService.getSegmentColor(segment)}`}
-                                        dangerouslySetInnerHTML={{ __html: joinedSegment }} />
-                                )
-                                : null;
-                        })
-                    }
-                </div>
+                <ArabicToken token={token}/>
                 <div className='pos-tag-container'>
                     {
                         (() => {

@@ -1,6 +1,6 @@
 import { createRef, useEffect, useRef, useState } from 'react';
 import { Position, Size } from '../layout/geometry';
-import { TokenElement } from './token-element';
+import { GraphToken } from './graph-token';
 import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
 import { Arc, DependencyGraphVisualizer, TokenDomElement } from '../layout/dependency-graph-visualizer';
 import { ColorService } from '../theme/color-service';
@@ -53,7 +53,7 @@ export const DependencyGraphView = () => {
                 words.map((word, i) => {
                     const tokenDomElement = tokensRef.current[i];
                     return (
-                        <TokenElement
+                        <GraphToken
                             key={`token-${i}`}
                             token={word.token}
                             ref={tokenDomElement.ref}
