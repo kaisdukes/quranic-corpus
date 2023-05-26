@@ -28,7 +28,7 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
 }
 
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
-    let verseCount = 5; // TODO: 10!
+    let verseCount = 10;
     let start: number;
     if (verses.length === 0) {
         start = urlVerseNumber;
@@ -81,7 +81,6 @@ export const WordByWord = () => {
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
-        await new Promise<void>(resolve => setTimeout(() => resolve(), 2000)); // TODO: REMOVE!
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         const foo = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
@@ -115,10 +114,19 @@ export const WordByWord = () => {
     }, [chapterNumber]);
 
     useEffect(() => {
-        const verseElement = document.querySelector(`#${getVerseId([chapterNumber, currentVerse])}`);
-        if (verseElement) {
+        let targetElement = currentVerse === 1
+            ? loadingRefTop.current
+            : document.querySelector(`#${getVerseId([chapterNumber, currentVerse])}`);
+        if (targetElement) {
             console.log(`Scrolling to verse ${currentVerse}`)
-            verseElement.scrollIntoView();
+            targetElement.scrollIntoView();
+
+            const bodyTop = document.body.getBoundingClientRect().top;
+            const elementTop = targetElement.getBoundingClientRect().top;
+            window.scrollTo({
+                top: elementTop - bodyTop - 25,
+                behavior: 'smooth'
+            });
         }
     }, [verses, currentVerse]);
 
