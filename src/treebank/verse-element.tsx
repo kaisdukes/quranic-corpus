@@ -4,6 +4,7 @@ import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
 import { EndOfVerse } from './end-of-verse';
 import { ClipboardService } from '../clipboard/clipboard-service';
+import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import copy from '../images/icons/copy.svg';
 import './verse-element.scss';
@@ -22,7 +23,7 @@ export const VerseElement = ({ verse, onClickToken }: Props) => {
     }
 
     return (
-        <div className='verse-element'>
+        <div id={getVerseId(location)}  className='verse-element'>
             <div className='verse-header'>
                 <span className='verse-number'>{location[1]}</span>
                 <IconButton className='copy-button' icon={copy} onClick={handleCopy} />

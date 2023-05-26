@@ -14,6 +14,7 @@ import { DetailView } from './detail-view';
 import { useReaderSettings } from '../context/reader-settings-context';
 import { ChapterHeader } from './chapter-header';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
+import { getVerseId } from '../treebank/verse-id';
 import { Token } from '../corpus/orthography/token';
 import './word-by-word.scss';
 
@@ -52,16 +53,16 @@ export const WordByWord = () => {
     const [chapterNumber, verseNumber] = location;
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
-
     const [verses, setVerses] = useState<Verse[]>([]);
+    const [currentVerse, setCurrentVerse] = useState(verseNumber);
     const loadingRefTop = useRef<HTMLDivElement>(null);
     const loadingRefBottom = useRef<HTMLDivElement>(null);
     const isLoadingRef = useRef<boolean>(false);
-    const morphologyService = container.resolve(MorphologyService);
     const [loadingTop, setLoadingTop] = useState(false);
     const [loadingBottom, setLoadingBottom] = useState(false);
     const [startComplete, setStartComplete] = useState(false);
     const [endComplete, setEndComplete] = useState(false);
+    const morphologyService = container.resolve(MorphologyService);
     const { readerSettings } = useReaderSettings();
     const { readerMode } = readerSettings;
 
@@ -81,6 +82,9 @@ export const WordByWord = () => {
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
+        const foo = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
+        console.log(`    current verse = ${foo}`);
+        setCurrentVerse(foo);
 
         if (newVerses[0].location[1] === 1) {
             if (!startComplete) console.log('    start complete');
@@ -107,6 +111,14 @@ export const WordByWord = () => {
         setEndComplete(false);
         loadVerses(false, []); // avoid stale state
     }, [chapterNumber]);
+
+    useEffect(() => {
+        const verseElement = document.querySelector(`#${getVerseId([chapterNumber, currentVerse])}`);
+        if (verseElement) {
+            console.log(`Scrolling to verse ${currentVerse}`)
+            verseElement.scrollIntoView();
+        }
+    }, [verses, currentVerse]);
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {

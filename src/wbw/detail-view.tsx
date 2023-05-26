@@ -12,7 +12,7 @@ export const DetailView = ({ verses, onClickToken }: Props) => (
         {
             verses.map((verse, i) => (
                 <VerseElement
-                    key={`verse-${verse.location[0]}:${verse.location[1]}`}
+                    key={`verse-${i}`}
                     verse={verse}
                     onClickToken={onClickToken} />
             ))
