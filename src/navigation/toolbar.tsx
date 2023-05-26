@@ -17,7 +17,7 @@ export const Toolbar = () => {
 
     return (
         <div className='toolbar'>
-            <IconButton icon={readerMode ? detail : read} onClick={toggleReaderMode} />
+            <IconButton icon={readerMode ? read : detail} onClick={toggleReaderMode} />
         </div>
     )
 }
