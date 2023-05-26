@@ -45,7 +45,11 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
                 </a>
                 <Toolbar />
             </div>
-            <VerseSelector ref={popupRef} showPopup={showPopup} onClickLink={() => setShowPopup(false)} />
+            <VerseSelector
+                ref={popupRef}
+                chapterNumber={chapterNumber}
+                showPopup={showPopup}
+                onClickLink={() => setShowPopup(false)} />
         </div>
     )
 }
