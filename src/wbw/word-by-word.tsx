@@ -15,7 +15,7 @@ import { useReaderSettings } from '../context/reader-settings-context';
 import { ChapterHeader } from './chapter-header';
 import { CorpusError } from '../errors/corpus-error';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
-import { LoadingBanner } from './loading-banner';
+import { LoadingBanner } from '../components/loading-banner';
 import { Token } from '../corpus/orthography/token';
 import { getVerseId } from './verse-id';
 import './word-by-word.scss';
