@@ -80,6 +80,7 @@ export const WordByWord = () => {
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 2000));
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         const foo = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
@@ -167,8 +168,13 @@ export const WordByWord = () => {
                 </div>
                 <div ref={loadingRefTop} />
                 <div className='word-by-word-view'>
-                    <ChapterHeader chapter={chapter} />
-                    <Bismillah className='bismillah' />
+                    {
+                        verses.length > 0 && verses[0].location[1] === 1 &&
+                        <>
+                            <ChapterHeader chapter={chapter} />
+                            <Bismillah className='bismillah' />
+                        </>
+                    }
                     {
                         readerMode
                             ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
