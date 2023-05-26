@@ -14,8 +14,9 @@ import { DetailView } from './detail-view';
 import { useReaderSettings } from '../context/reader-settings-context';
 import { ChapterHeader } from './chapter-header';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
-import { getVerseId } from '../treebank/verse-id';
+import { LoadingBanner } from './loading-banner';
 import { Token } from '../corpus/orthography/token';
+import { getVerseId } from '../treebank/verse-id';
 import './word-by-word.scss';
 
 export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
@@ -27,7 +28,7 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
 }
 
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
-    let verseCount = 10;
+    let verseCount = 5; // TODO: 10!
     let start: number;
     if (verses.length === 0) {
         start = urlVerseNumber;
@@ -80,7 +81,7 @@ export const WordByWord = () => {
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
-        await new Promise<void>(resolve => setTimeout(() => resolve(), 2000));
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 2000)); // TODO: REMOVE!
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         const foo = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
@@ -163,9 +164,7 @@ export const WordByWord = () => {
     return (
         <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
             <div className='word-by-word'>
-                <div className='loading'>
-                    {loadingTop && 'Loading...'}
-                </div>
+                {loadingTop && <LoadingBanner />}
                 <div ref={loadingRefTop} />
                 <div className='word-by-word-view'>
                     {
@@ -181,9 +180,7 @@ export const WordByWord = () => {
                             : <DetailView verses={verses} onClickToken={handleTokenClick} />
                     }
                 </div>
-                <div className='loading'>
-                    {loadingBottom && 'Loading...'}
-                </div>
+                {loadingBottom && <LoadingBanner />}
                 <div ref={loadingRefBottom} />
                 <Footer />
             </div>
