@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Token } from '../corpus/orthography/token';
 import { Verse } from '../corpus/orthography/verse'
 import { ReaderToken } from './reader-token';
-import { EndOfVerse } from '../treebank/end-of-verse';
+import { EndOfVerse } from '../components/end-of-verse';
 import './reader-view.scss';
 
 type Props = {

@@ -1,5 +1,5 @@
 import { Token } from '../corpus/orthography/token';
-import { ArabicToken } from './arabic-token';
+import { ArabicToken } from '../arabic/arabic-token';
 import { TokenFooter } from './token-footer';
 import './verse-token.scss';
 

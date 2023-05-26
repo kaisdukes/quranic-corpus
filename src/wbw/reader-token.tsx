@@ -1,6 +1,6 @@
 import { Token } from '../corpus/orthography/token';
-import { ArabicToken } from '../treebank/arabic-token';
-import { getVerseId } from '../treebank/verse-id';
+import { ArabicToken } from '../arabic/arabic-token';
+import { getVerseId } from './verse-id';
 import './reader-token.scss';
 
 type Props = {

@@ -17,7 +17,7 @@ import { CorpusError } from '../errors/corpus-error';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
 import { LoadingBanner } from './loading-banner';
 import { Token } from '../corpus/orthography/token';
-import { getVerseId } from '../treebank/verse-id';
+import { getVerseId } from './verse-id';
 import './word-by-word.scss';
 
 export const resolveLocation = ({ params }: LoaderFunctionArgs) => {

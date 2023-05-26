@@ -1,6 +1,6 @@
 import { Token } from '../corpus/orthography/token';
 import { Verse } from '../corpus/orthography/verse'
-import { VerseElement } from '../treebank/verse-element';
+import { VerseElement } from './verse-element';
 
 type Props = {
     verses: Verse[],

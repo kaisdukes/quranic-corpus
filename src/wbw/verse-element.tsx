@@ -2,7 +2,7 @@ import { IconButton } from '../components/icon-button';
 import { Token } from '../corpus/orthography/token';
 import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
-import { EndOfVerse } from './end-of-verse';
+import { EndOfVerse } from '../components/end-of-verse';
 import { ClipboardService } from '../clipboard/clipboard-service';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
