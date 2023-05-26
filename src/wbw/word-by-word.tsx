@@ -13,6 +13,7 @@ import { ReaderView } from './reader-view';
 import { DetailView } from './detail-view';
 import { useReaderSettings } from '../context/reader-settings-context';
 import { ChapterHeader } from './chapter-header';
+import { CorpusError } from '../errors/corpus-error';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
 import { LoadingBanner } from './loading-banner';
 import { Token } from '../corpus/orthography/token';
@@ -22,7 +23,7 @@ import './word-by-word.scss';
 export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
     const location = parseLocation(params.location!);
     if (isNaN(location[0])) {
-        throw new Error('Page not found');
+        throw new CorpusError('404', 'Page not found');
     }
     return location.length == 1 ? [location[0], 1] : location;
 }

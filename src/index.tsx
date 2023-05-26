@@ -8,6 +8,7 @@ import { OverlayProvider, useOverlay } from './context/overlay-context';
 import { ReaderSettingsProvider } from './context/reader-settings-context';
 import { Home } from './home/home';
 import { WordByWord, resolveLocation } from './wbw/word-by-word';
+import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
 
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
     {
         path: '/:location',
         loader: resolveLocation,
-        element: <WordByWord />
+        element: <WordByWord />,
+        errorElement: <ErrorPage />
     }
 ]);
 

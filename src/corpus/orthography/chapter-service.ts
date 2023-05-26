@@ -1,6 +1,7 @@
 import { ApiBase } from '../../api-base';
 import { singleton } from 'tsyringe';
 import { Chapter } from './chapter';
+import { CorpusError } from '../../errors/corpus-error';
 import axios from 'axios';
 
 @singleton()
@@ -13,7 +14,7 @@ export class ChapterService extends ApiBase {
 
     get chapters(): Chapter[] {
         if (!this._chapters) {
-            throw new Error('Chapters not loaded.');
+            throw new CorpusError('SERVICE_ERROR', 'Chapters not loaded.');
         }
         return this._chapters;
     }
