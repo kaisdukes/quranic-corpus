@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { CalligraphyLogo } from '../components/calligraphy-logo';
 import { Footer } from '../components/footer';
 import slack from '../images/slack.svg';
+import github from '../images/github.svg';
 import './home.scss';
 
 const randomChapter = () => Math.floor(Math.random() * 114) + 1;
@@ -32,9 +33,12 @@ export const Home = () => {
                 It is a free, open-source, Wikipedia-style project, and we encourage collaboration, discussion and
                 continuous improvement.
             </p>
-            <div className='slack'>
+            <div className='projects'>
                 <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1vrmewq5c-TfFf~I7W5e6v3VYDeJsyvw'>
                     <img src={slack} />
+                </a>
+                <a href='https://github.com/kaisdukes/quranic-corpus'>
+                    <img src={github} />
                 </a>
             </div>
             <Footer />

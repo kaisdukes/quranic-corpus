@@ -11,7 +11,7 @@ This introduction is designed for a general non-technical audience. For more a m
 We currently have two domains:
 
 1. [corpus.quran.com](https://corpus.quran.com) - Our main site. It has all you need but isn't very easy to use on mobile.
-2. [qurancorpus.app](https://qurancorpus.app) - Our new site in the making. It looks better on mobile, but doesn't have everything yet. We're working on it! Once ready, we're planning to update the main domain.
+2. [qurancorpus.app](https://qurancorpus.app) - Our new site in the making. It looks better on mobile, but doesn't have everything yet. We're working on it! Once ready, we're planning to upgrade the main domain.
 
 ## Background
 

@@ -24,8 +24,11 @@
         }
     }
 
-    .slack {
+    .projects {
         margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
 
         img {
             height: 35px;
