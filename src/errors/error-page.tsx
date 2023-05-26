@@ -10,7 +10,7 @@ const errorCodeDescriptionMap = new Map<ErrorCode, string>([
 
 export const ErrorPage = () => {
     const e = useRouteError();
-    console.log(e);
+    console.error(e);
 
     const message = e instanceof Error ? (e as Error).message : 'Something went wrong!';
 
