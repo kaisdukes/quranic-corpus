@@ -70,6 +70,7 @@ export const WordByWord = () => {
     const morphologyService = container.resolve(MorphologyService);
     const { readerSettings } = useReaderSettings();
     const { readerMode } = readerSettings;
+    const [isScrollingUp, setIsScrollingUp] = useState(false);
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {
         if (isLoadingRef.current) return;
@@ -133,8 +134,7 @@ export const WordByWord = () => {
             const bodyTop = document.body.getBoundingClientRect().top;
             const elementTop = targetElement.getBoundingClientRect().top;
             window.scrollTo({
-
-                top: elementTop - bodyTop - 25,
+                top: elementTop - bodyTop - 50,
                 behavior: 'smooth'
             });
         }
@@ -142,7 +142,7 @@ export const WordByWord = () => {
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !isLoadingRef.current && !startComplete) {
+            if (entry.isIntersecting && !isLoadingRef.current && !startComplete && isScrollingUp) {
                 loadVerses(true, verses);
             }
         }, intersectionOptions);
@@ -169,7 +169,25 @@ export const WordByWord = () => {
                 observerBottom.unobserve(loadingRefBottom.current);
             }
         };
-    }, [verses, loadingTop, loadingBottom, startComplete, endComplete]);
+    }, [verses, loadingTop, loadingBottom, startComplete, endComplete, isScrollingUp]);
+
+    useEffect(() => {
+        const handleWheelScroll = (event: WheelEvent) => {
+            setIsScrollingUp(event.deltaY < 0);
+        };
+
+        const handleTouchScroll = (event: TouchEvent) => {
+            setIsScrollingUp(event.touches[0].clientY > event.touches[event.touches.length - 1].clientY);
+        };
+
+        window.addEventListener('wheel', handleWheelScroll);
+        window.addEventListener('touchmove', handleTouchScroll);
+
+        return () => {
+            window.removeEventListener('wheel', handleWheelScroll);
+            window.removeEventListener('touchmove', handleTouchScroll);
+        };
+    }, []);
 
     const handleTokenClick = (token: Token) => {
         const root = token.root;
