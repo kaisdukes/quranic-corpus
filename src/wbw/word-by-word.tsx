@@ -88,7 +88,7 @@ export const WordByWord = () => {
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
-            up
+            up && verses.length > 0
                 ? { verseNumber: verses[0].location[1] }
                 : undefined
         );
