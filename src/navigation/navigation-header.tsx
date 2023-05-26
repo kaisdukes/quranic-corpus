@@ -1,9 +1,9 @@
 import { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
 import { Toolbar } from './toolbar';
+import { VerseSelector } from './verse-selector';
 import { container } from 'tsyringe';
 import './navigation-header.scss';
 
@@ -45,22 +45,7 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
                 </a>
                 <Toolbar />
             </div>
-            <div className={`chapter-popup ${showPopup ? 'show-popup' : ''}`} ref={popupRef}>
-                {
-                    chapterService.chapters.map(chapter => {
-                        const { chapterNumber, phonetic } = chapter;
-                        return (
-                            <Link
-                                key={chapterNumber}
-                                to={`/${chapterNumber}`}
-                                className='chapter-link'
-                                onClick={() => setShowPopup(false)}>
-                                {chapterNumber}. {phonetic}
-                            </Link>
-                        )
-                    })
-                }
-            </div>
+            <VerseSelector ref={popupRef} showPopup={showPopup} onClickLink={() => setShowPopup(false)} />
         </div>
     )
 }

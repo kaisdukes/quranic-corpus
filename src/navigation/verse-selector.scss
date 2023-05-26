@@ -1,0 +1,25 @@
+.verse-selector {
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-width: 200px;
+    height: 250px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    border-top: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    &.show-popup {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chapter-link {
+        padding: 10px;
+    }
+}
