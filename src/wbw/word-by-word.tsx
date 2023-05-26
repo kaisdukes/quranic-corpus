@@ -50,8 +50,7 @@ const intersectionOptions = {
 }
 
 type ScrollTarget = {
-    verseNumber: number,
-    forceScroll: boolean
+    verseNumber: number
 }
 
 export const WordByWord = () => {
@@ -90,14 +89,8 @@ export const WordByWord = () => {
         setVerses(newVerses);
         setScrollTarget(
             up
-                ? {
-                    verseNumber: loadedVerses[loadedVerses.length - 1].location[1],
-                    forceScroll: true
-                }
-                : {
-                    verseNumber: verses.length > 0 ? verses[verses.length - 1].location[1] : verseNumber,
-                    forceScroll: false
-                }
+                ? { verseNumber: verses[0].location[1] }
+                : undefined
         );
 
         if (newVerses[0].location[1] === 1) {
@@ -128,8 +121,7 @@ export const WordByWord = () => {
 
     useEffect(() => {
         if (!scrollTarget) return;
-        const { verseNumber, forceScroll } = scrollTarget;
-        if (!forceScroll) return;
+        const { verseNumber } = scrollTarget;
         let targetElement = verseNumber === 1
             ? loadingRefTop.current
             : document.querySelector(`#${getVerseId([chapterNumber, verseNumber])}`);
