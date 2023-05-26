@@ -3,13 +3,13 @@ import { Token } from '../corpus/orthography/token';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
-import './token-element.scss';
+import './arabic-token.scss';
 
 type Props = {
     token: Token
 }
 
-export const TokenElement = ({ token }: Props) => {
+export const ArabicToken = ({ token }: Props) => {
     const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
 
@@ -22,7 +22,7 @@ export const TokenElement = ({ token }: Props) => {
     }, [segments]);
 
     return (
-        <div className='token-element'>
+        <div className='arabic-token'>
             {
                 segments.map((segment, i) => {
                     const joinedSegment = joinedSegments[i];

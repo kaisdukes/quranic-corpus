@@ -38,11 +38,11 @@ export class DependencyGraphVisualizer {
         let x = containerWidth;
         for (let i = 0; i < this.tokens.length; i++) {
             const token = this.tokens[i];
-            const tokenElement = token.ref.current;
-            if (!tokenElement) {
+            const arabicToken = token.ref.current;
+            if (!arabicToken) {
                 continue;
             }
-            const tokenBounds = tokenElement.getBoundingClientRect();
+            const tokenBounds = arabicToken.getBoundingClientRect();
             x -= tokenBounds.width;
             tokenPositions[i] = { x, y: 0 };
 

@@ -1,5 +1,5 @@
 import { Token } from '../corpus/orthography/token';
-import { TokenElement } from './token-element';
+import { ArabicToken } from './arabic-token';
 import { TokenFooter } from './token-footer';
 import './verse-token.scss';
 
@@ -12,7 +12,7 @@ export const VerseToken = ({ token, onClick }: Props) => {
 
     return (
         <div className='verse-token' onClick={onClick}>
-            <TokenElement token={token} />
+            <ArabicToken token={token} />
             <TokenFooter token={token} />
         </div>
     )

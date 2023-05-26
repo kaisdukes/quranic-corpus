@@ -1,5 +1,5 @@
 import { Token } from '../corpus/orthography/token';
-import { TokenElement } from '../treebank/token-element';
+import { ArabicToken } from '../treebank/arabic-token';
 import { getVerseId } from '../treebank/verse-id';
 import './reader-token.scss';
 
@@ -15,7 +15,7 @@ export const ReaderToken = ({ token, onClick }: Props) => {
             id={location[2] === 1 ? getVerseId(location) : undefined}
             className='reader-token'
             onClick={onClick}>
-            <TokenElement token={token} />
+            <ArabicToken token={token} />
         </div>
     )
 }
