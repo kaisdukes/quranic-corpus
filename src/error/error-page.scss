@@ -1,0 +1,38 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  .wrapper {
+    padding: 20px;
+
+    .logo {
+      width: 200px;
+      height: auto;
+      margin-top: 10px;
+      margin-bottom: 20px;
+
+      path {
+        fill: rgb(63, 132, 161);
+      }
+    }
+
+    .title {
+      margin: 0;
+    }
+
+    .home-link {
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .logo {
+        height: 150px;
+      }
+    }
+  }
+}

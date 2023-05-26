@@ -90,6 +90,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },
   "jest": {
