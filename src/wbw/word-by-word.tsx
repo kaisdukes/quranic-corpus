@@ -85,11 +85,12 @@ export const WordByWord = () => {
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 1000));
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
-            up && verses.length > 0
-                ? { verseNumber: verses[0].location[1] }
+            up
+                ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
                 : undefined
         );
 
