@@ -28,7 +28,7 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
 }
 
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
-    let verseCount = 10;
+    let verseCount = 2;
     let start: number;
     if (verses.length === 0) {
         start = urlVerseNumber;
@@ -49,13 +49,18 @@ const intersectionOptions = {
     threshold: 0.1
 }
 
+type ScrollTarget = {
+    verseNumber: number,
+    forceScroll: boolean
+}
+
 export const WordByWord = () => {
     const location = useLoaderData() as Location;
     const [chapterNumber, verseNumber] = location;
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
     const [verses, setVerses] = useState<Verse[]>([]);
-    const [currentVerse, setCurrentVerse] = useState(verseNumber);
+    const [scrollTarget, setScrollTarget] = useState<ScrollTarget>();
     const loadingRefTop = useRef<HTMLDivElement>(null);
     const loadingRefBottom = useRef<HTMLDivElement>(null);
     const isLoadingRef = useRef<boolean>(false);
@@ -83,8 +88,17 @@ export const WordByWord = () => {
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
-        const scrollToVerse = up ? loadedVerses[loadedVerses.length - 1].location[1] : loadedVerses[0].location[1];
-        setCurrentVerse(scrollToVerse);
+        setScrollTarget(
+            up
+                ? {
+                    verseNumber: loadedVerses[loadedVerses.length - 1].location[1],
+                    forceScroll: true
+                }
+                : {
+                    verseNumber: verses.length > 0 ? verses[verses.length - 1].location[1] : verseNumber,
+                    forceScroll: false
+                }
+        );
 
         if (newVerses[0].location[1] === 1) {
             if (!startComplete) console.log('    start complete');
@@ -113,21 +127,25 @@ export const WordByWord = () => {
     }, [chapterNumber]);
 
     useEffect(() => {
-        let targetElement = currentVerse === 1
+        if (!scrollTarget) return;
+        const { verseNumber, forceScroll } = scrollTarget;
+        if (!forceScroll) return;
+        let targetElement = verseNumber === 1
             ? loadingRefTop.current
-            : document.querySelector(`#${getVerseId([chapterNumber, currentVerse])}`);
+            : document.querySelector(`#${getVerseId([chapterNumber, verseNumber])}`);
         if (targetElement) {
-            console.log(`Scrolling to verse ${currentVerse}`)
+            console.log(`Scrolling to verse ${verseNumber}`)
             targetElement.scrollIntoView();
 
             const bodyTop = document.body.getBoundingClientRect().top;
             const elementTop = targetElement.getBoundingClientRect().top;
             window.scrollTo({
+
                 top: elementTop - bodyTop - 25,
                 behavior: 'smooth'
             });
         }
-    }, [verses, currentVerse]);
+    }, [verses, scrollTarget]);
 
     useEffect(() => {
         const observerTop = new IntersectionObserver(([entry]) => {
