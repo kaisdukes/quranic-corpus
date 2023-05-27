@@ -66,7 +66,7 @@ export class DependencyGraphVisualizer {
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
         // create arcs from edges
-        const STYLESHEET_ARC_HEIGHT = 45;
+        const arcHeightStep = 40;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
             const { startNode, endNode, dependencyTag } = edge;
@@ -77,7 +77,7 @@ export class DependencyGraphVisualizer {
             // compute bounding box for arc between two nodes
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
-            const maxY = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
+            const maxY = this.heightMap.getHeight(x1, x2) + arcHeightStep;
             const deltaY = Math.abs(y2 - y1);
             const boxWidth = Math.abs(x2 - x1);
             const boxHeight = Math.abs(maxY - y2);

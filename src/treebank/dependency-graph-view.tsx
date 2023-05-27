@@ -84,18 +84,12 @@ export const DependencyGraphView = () => {
                         const { x: x1, y: y1 } = nodePositions[arc.startNode];
                         const { x: x2, y: y2 } = nodePositions[arc.endNode];
                         return (
-                            <Fragment key={`arc-${i}`}>
-                                <path
-                                    d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
-                                    fill='none'
-                                    className={`${colorService.getDependencyColor(arc.dependencyTag)}-light`}
-                                />
-                                <path
-                                    d={`M ${x1} ${y1} L ${x1} ${arc.maxY} L ${x2} ${arc.maxY} L ${x2} ${y1}`}
-                                    fill='none'
-                                    className={`${colorService.getDependencyColor(arc.dependencyTag)}-light`}
-                                />
-                            </Fragment>
+                            <path
+                                key={`arc-${i}`}
+                                d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
+                                fill='none'
+                                className={`${colorService.getDependencyColor(arc.dependencyTag)}-light`}
+                            />
                         )
                     })
                 }
