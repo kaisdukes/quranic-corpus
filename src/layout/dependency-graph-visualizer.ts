@@ -74,23 +74,23 @@ export class DependencyGraphVisualizer {
             }
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
-            const height = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
-            const arcHeight = Math.abs(y2 - y1); // TODO: WRONG!
-            const ellipseHeight = height; // TODO: WRONG!
+            const maxY = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
+            const arcHeight = maxY - y2;
+            const ellipseHeight = arcHeight * 2;
             const theta = Math.asin(arcHeight / ellipseHeight);
-            const ellipseWidth = 2 * Math.abs(x2 - x1) / (1 + Math.cos(theta));
+            const arcWidth = Math.abs(x2 - x1) / (1 + Math.cos(theta));
             const arc: Arc = {
                 startNode,
                 endNode,
                 dependencyTag,
-                rx: ellipseWidth / 2,
-                ry: ellipseHeight / 2,
+                rx: arcWidth,
+                ry: arcHeight,
                 xAxisRotation: 0,
                 largeArcFlag: 0,
                 sweepFlag: 0
             };
             arcs.push(arc);
-            this.heightMap.addSpan(x1, x2, height);
+            this.heightMap.addSpan(x1, x2, maxY);
         }
 
         return {
