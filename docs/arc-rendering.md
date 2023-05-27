@@ -6,7 +6,7 @@
 
 This document derives the equation `rx = boxWidth / (1 + cos(theta))` found in the arc rendering code of the Quranic Arabic Corpus.
 
-As we are dealing with graphics code, the choose coordinates so that the Y-axis points downwards.
+As we are dealing with graphics code, we choose coordinates so that the Y-axis points downwards.
 
 ## Proof that rx = boxWidth / (1 + cos(theta)) where sin(theta) = deltaY / ry
 
