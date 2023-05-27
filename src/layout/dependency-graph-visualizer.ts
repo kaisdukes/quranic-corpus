@@ -83,8 +83,9 @@ export class DependencyGraphVisualizer {
             console.log('    arcHeight = ' + arcHeight);
             // TODO: REVIEW THESE LINES ---------
             const ellipseHeight = arcHeight * 2; 
-            const theta = Math.asin(arcHeight / ellipseHeight);
-            const ellipseWidth = 2 * Math.abs(x2 - x1) / (1 + Math.cos(theta));
+            const ellipseWidth = Math.abs(x2 - x1); // THIS IS CORRECT WHEN y1 = y2
+            //const theta = Math.asin(arcHeight / ellipseHeight);
+            //const ellipseWidth = 2 * Math.abs(x2 - x1) / (1 + Math.cos(theta));
             // ----------------------------------
             const arc: Arc = {
                 startNode,
