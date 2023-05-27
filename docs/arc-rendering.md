@@ -56,4 +56,4 @@ QED
 
 ## Geometric interpretation of theta
 
-The choice of phi helps visualizing the arcs in the treebank. When the two nodes are horizontal, then theta = 0. In general theta measures the anticlockwise angle from the negative x-axis to the line formed from the start node to the center of the ellipse.
+The choice of `phi` helps visualizing the arcs in the treebank. When the two nodes are horizontal, `theta = 0`. In general `theta` measures the anticlockwise angle from the negative x-axis to the line from the start node to the center of the ellipse.
