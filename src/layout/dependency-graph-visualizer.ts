@@ -17,8 +17,7 @@ export type Arc = {
     ry: number,
     xAxisRotation: number,
     largeArcFlag: number,
-    sweepFlag: number,
-    maxY: number
+    sweepFlag: number
 }
 
 export class DependencyGraphVisualizer {
@@ -95,8 +94,7 @@ export class DependencyGraphVisualizer {
                 ry,
                 xAxisRotation: 0,
                 largeArcFlag: 0,
-                sweepFlag: 0,
-                maxY
+                sweepFlag: 0
             };
             arcs.push(arc);
             this.heightMap.addSpan(x1, x2, maxY);
