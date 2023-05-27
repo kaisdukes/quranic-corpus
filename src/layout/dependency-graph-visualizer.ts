@@ -87,7 +87,7 @@ export class DependencyGraphVisualizer {
             const rx = boxWidth / (1 + Math.cos(theta));
 
             if (y1 != y2) {
-                const rx2 = (x1 - x2) / (-Math.sqrt(1 - Math.pow(deltaY / ry, 2)) - 1);
+                const rx2 = -boxWidth / (-Math.sqrt(1 - Math.pow(deltaY / ry, 2)) - 1);
                 console.log('rx = ' + rx);
                 console.log('rx2 = ' + rx2);
             }
