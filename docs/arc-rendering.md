@@ -40,7 +40,7 @@ In these choice of coordinates, the polar ellipse equation becomes:
 
 We know that `k = y2` and `h = x2 - rx`
 
-Substituting, gives us the equation for our ellipse:
+Substituting gives us the equation for our ellipse:
 
 `x = x2 - rx * (1 + cos(phi))` and `y = y2 + ry * sin(phi)`
 
