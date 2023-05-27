@@ -64,7 +64,8 @@ export class DependencyGraphVisualizer {
         }
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
-        // create arcs from edges
+        // for an explanation of the geometry of arc construbtion in the corpus, see
+        // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arc-rendering.md
         const arcHeightStep = 40;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
