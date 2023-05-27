@@ -17,7 +17,8 @@ export type Arc = {
     ry: number,
     xAxisRotation: number,
     largeArcFlag: number,
-    sweepFlag: number
+    sweepFlag: number,
+    maxY: number
 }
 
 export class DependencyGraphVisualizer {
@@ -65,7 +66,7 @@ export class DependencyGraphVisualizer {
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
         // create arcs from edges
-        const STYLESHEET_ARC_HEIGHT = 50;
+        const STYLESHEET_ARC_HEIGHT = 45;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
             console.log('LAYOUT ARC = ' + edge.dependencyTag);
@@ -81,7 +82,7 @@ export class DependencyGraphVisualizer {
             console.log('    maxY = ' + maxY);
             console.log('    arcHeight = ' + arcHeight);
             // TODO: REVIEW THESE LINES ---------
-            const ellipseHeight = arcHeight * 2;
+            const ellipseHeight = arcHeight * 2; 
             const theta = Math.asin(arcHeight / ellipseHeight);
             const ellipseWidth = 2 * Math.abs(x2 - x1) / (1 + Math.cos(theta));
             // ----------------------------------
@@ -93,7 +94,8 @@ export class DependencyGraphVisualizer {
                 ry: ellipseHeight/ 2,
                 xAxisRotation: 0,
                 largeArcFlag: 0,
-                sweepFlag: 0
+                sweepFlag: 0,
+                maxY
             };
             arcs.push(arc);
             this.heightMap.addSpan(x1, x2, maxY);
