@@ -34,23 +34,13 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 Given the coordinate system and the quadrants of interest, let `phi` sweep an anti-clockwise angle from the negative x-axis.
 
-In these choice of coordinates, the polar ellipse equation becomes:
+In these choice of coordinates, the polar ellipse equation becomes: `x = h - rx * cos(phi)` and `y = k + ry * sin(phi)`
 
-`x = h - rx * cos(phi)` and `y = k + ry * sin(phi)`
+We know that `k = y2` and `h = x2 - rx`. Substituting gives us the equation for our ellipse: `x = x2 - rx * (1 + cos(phi))` and `y = y2 + ry * sin(phi)`
 
-We know that `k = y2` and `h = x2 - rx`
+Let theta be the angle for the start node. Then: `x1 = x2 - rx * (1 + cos(theta))` and `y1 = y2 + ry * sin(theta)`
 
-Substituting gives us the equation for our ellipse:
-
-`x = x2 - rx * (1 + cos(phi))` and `y = y2 + ry * sin(phi)`
-
-Let theta be the angle for the start node. Then:
-
-`x1 = x2 - rx * (1 + cos(theta))` and `y1 = y2 + ry * sin(theta)`
-
-Rearranging:
-
-`rx = boxWidth / (1 + cos(theta))` and `ry = deltaY / sin(theta)`
+Rearranging: `rx = boxWidth / (1 + cos(theta))` and `ry = deltaY / sin(theta)`
 
 QED
 
