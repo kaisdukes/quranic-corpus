@@ -18,7 +18,7 @@ We have a standard non-rotated ellipse with x-radius `rx` and y-radius `ry` cent
 
 ## Constraints
 
-* (C1) Arc start node: a known point `(x1, y1)` lies somewhere on the ellipse
+* (C1) Arc start node: a known point `(x1, y1)` lies somewhere on the ellipse.
 * (C2) Arc end node: a known point `(x2, y2)` lies exactly on the ellipse at it's rightmost point. This implies `k = y2` and `h = x2 - rx`.
 * (C3) The y-radius `ry` is known.
 
@@ -28,7 +28,7 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 * Let `boxWidth` be the width of the bounding box `abs(x2 - x1)`
 * Let `deltaY` be the difference in height between the two nodes `abs(y2 - y1)`
-* Note that the bounding box has `boxHeight = ry` by definition.
+* Note that the bounding box has `boxHeight = ry` by definition
 
 ## Proof
 
