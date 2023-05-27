@@ -86,6 +86,12 @@ export class DependencyGraphVisualizer {
             const rx = boxWidth / (1 + Math.cos(theta));
             const ry = boxHeight;
 
+            if (y1 != y2) {
+                const rx2 = (x1 - x2) / (-Math.sqrt(1 - Math.pow((y1 - y2) / ry, 2)) - 1);
+                console.log('rx = ' + rx);
+                console.log('rx2 = ' + rx2);
+            }
+
             const arc: Arc = {
                 startNode,
                 endNode,
