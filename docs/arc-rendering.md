@@ -28,7 +28,7 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 * Let `boxWidth` be the width of the bounding box `abs(x2 - x1)`
 * Let `deltaY` be the difference in height between the two nodes `abs(y2 - y1)`
-* Note that the bounding box has `boxHeight = ry` by definition
+* Note that the bounding box has `boxHeight = ry` by design
 
 ## Proof
 
