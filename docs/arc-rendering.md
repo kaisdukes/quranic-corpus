@@ -1,3 +1,5 @@
+# The Geometry of Arc Rendering in the Quranic Corpus
+
 ## Background
 
 This document derives the equation rx = boxWidth / (1 + cos(theta)) found in the arc rendering code of the Quranic Arabic Corpus.
