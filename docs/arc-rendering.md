@@ -18,8 +18,8 @@ We have a standard non-rotated ellipse with x-radius `rx` and y-radius `ry` cent
 
 ## Constraints
 
-* (C1) Start node of arc: A known point `(x1, y1)` lies somewhere on the ellipse
-* (C2) End node of arc: A known point `(x2, y2)` lies exactly on the ellipse at it's rightmost point. Therefore `k = y2` and `h = x2 - rx`.
+* (C1) Arc start node: a known point `(x1, y1)` lies somewhere on the ellipse
+* (C2) Arc end node: a known point `(x2, y2)` lies exactly on the ellipse at it's rightmost point. This implies `k = y2` and `h = x2 - rx`.
 * (C3) The y-radius `ry` is known.
 
 Note that an ellipse has 5 degrees of freedom: two for the position of the center, two for the radii, and one for the orientation. Given these constraints and the non-rotated orientation, the ellipse is uniquely defined and solvable.
