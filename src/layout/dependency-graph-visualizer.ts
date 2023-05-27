@@ -65,9 +65,10 @@ export class DependencyGraphVisualizer {
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
         // create arcs from edges
-        const STYLESHEET_ARC_HEIGHT = 40;
+        const STYLESHEET_ARC_HEIGHT = 50;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
+            console.log('LAYOUT ARC = ' + edge.dependencyTag);
             const { startNode, endNode, dependencyTag } = edge;
             if (this.dependencyGraph.isPhraseNode(startNode)) {
                 this.layoutPhraseNode(startNode);
@@ -76,6 +77,9 @@ export class DependencyGraphVisualizer {
             const { x: x2, y: y2 } = this.nodePositions[endNode];
             const maxY = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
             const arcHeight = maxY - y2;
+            console.log('    height map = ' + this.heightMap.getHeight(x1, x2));
+            console.log('    maxY = ' + maxY);
+            console.log('    arcHeight = ' + arcHeight);
             const ellipseHeight = arcHeight * 2;
             const theta = Math.asin(arcHeight / ellipseHeight);
             const arcWidth = Math.abs(x2 - x1) / (1 + Math.cos(theta));
