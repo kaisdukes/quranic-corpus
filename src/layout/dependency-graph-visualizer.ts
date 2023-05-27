@@ -65,7 +65,7 @@ export class DependencyGraphVisualizer {
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
         // create arcs from edges
-        const arcHeight = 40;
+        const ARC_STEP_HEIGHT = 40;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
             const { startNode, endNode, dependencyTag } = edge;
@@ -74,7 +74,7 @@ export class DependencyGraphVisualizer {
             }
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
-            const height = this.heightMap.getHeight(x1, x2) + arcHeight;
+            const height = this.heightMap.getHeight(x1, x2) + ARC_STEP_HEIGHT;
             const arc: Arc = {
                 startNode,
                 endNode,
