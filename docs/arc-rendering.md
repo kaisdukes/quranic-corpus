@@ -12,7 +12,7 @@ As we are dealing with graphics code, the choose coordinates so that the Y-axis 
 
 ## Problem
 
-Compute the ellipse radius rx given an arc that touches a bounding box and connects two nodes on the box with constraints.
+Compute the ellipse radius `rx` given an arc that touches a bounding box and connects two nodes on the box with constraints.
 
 We have a standard non-rotated ellipse with x-radius `rx` and y-radius `ry` centerd at `(h, k)`
 
