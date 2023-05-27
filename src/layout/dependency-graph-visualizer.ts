@@ -77,22 +77,27 @@ export class DependencyGraphVisualizer {
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
             const maxY = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
-            const arcHeight = maxY - y2;
+            const deltaY = Math.abs(y2 - y1);
+            const boundsWidth = Math.abs(x2 - x1);
+            const boundsHeight = Math.abs(maxY - y2);
             console.log('    height map = ' + this.heightMap.getHeight(x1, x2));
             console.log('    maxY = ' + maxY);
-            console.log('    arcHeight = ' + arcHeight);
-            // TODO: REVIEW THESE LINES ---------
-            const ellipseHeight = arcHeight * 2; 
-            const ellipseWidth = Math.abs(x2 - x1); // THIS IS CORRECT WHEN y1 = y2
-            //const theta = Math.asin(arcHeight / ellipseHeight);
-            //const ellipseWidth = 2 * Math.abs(x2 - x1) / (1 + Math.cos(theta));
+            console.log('    boundsHeight = ' + boundsHeight);
+            // TODO: REVIEW THESE LINES: why would this be on the right track? What is this code trying to do?
+            //const ellipseHeight = boundsHeight;
+            //const theta = Math.asin(deltaY / boundsHeight);
+            //const ellipseWidth = 2 * boundsWidth / (1 + Math.cos(theta));
+
+            // this works except when deltaY != 0
+            const rx = boundsWidth / 2;
+            const ry = boundsHeight;
             // ----------------------------------
             const arc: Arc = {
                 startNode,
                 endNode,
                 dependencyTag,
-                rx: ellipseWidth / 2,
-                ry: ellipseHeight/ 2,
+                rx,
+                ry,
                 xAxisRotation: 0,
                 largeArcFlag: 0,
                 sweepFlag: 0,
