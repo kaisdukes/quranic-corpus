@@ -69,29 +69,24 @@ export class DependencyGraphVisualizer {
         const STYLESHEET_ARC_HEIGHT = 45;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
-            console.log('LAYOUT ARC = ' + edge.dependencyTag);
             const { startNode, endNode, dependencyTag } = edge;
             if (this.dependencyGraph.isPhraseNode(startNode)) {
                 this.layoutPhraseNode(startNode);
             }
+
+            // compute bounding box for arc between two nodes
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
             const maxY = this.heightMap.getHeight(x1, x2) + STYLESHEET_ARC_HEIGHT;
             const deltaY = Math.abs(y2 - y1);
-            const boundsWidth = Math.abs(x2 - x1);
-            const boundsHeight = Math.abs(maxY - y2);
-            console.log('    height map = ' + this.heightMap.getHeight(x1, x2));
-            console.log('    maxY = ' + maxY);
-            console.log('    boundsHeight = ' + boundsHeight);
-            // TODO: REVIEW THESE LINES: why would this be on the right track? What is this code trying to do?
-            //const ellipseHeight = boundsHeight;
-            //const theta = Math.asin(deltaY / boundsHeight);
-            //const ellipseWidth = 2 * boundsWidth / (1 + Math.cos(theta));
+            const boxWidth = Math.abs(x2 - x1);
+            const boxHeight = Math.abs(maxY - y2);
 
-            // this works except when deltaY != 0
-            const rx = boundsWidth / 2;
-            const ry = boundsHeight;
-            // ----------------------------------
+            // compute ellipse radii so that arc touches the bounding max
+            const theta = Math.asin(deltaY / boxHeight);
+            const rx = boxWidth / (1 + Math.cos(theta));
+            const ry = boxHeight;
+
             const arc: Arc = {
                 startNode,
                 endNode,
