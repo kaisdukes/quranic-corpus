@@ -12,8 +12,12 @@ export type TokenDomElement = {
 export type Arc = {
     startNode: number,
     endNode: number,
-    height: number,
-    dependencyTag: DependencyTag
+    dependencyTag: DependencyTag,
+    rx: number,
+    ry: number,
+    xAxisRotation: number,
+    largeArcFlag: number,
+    sweepFlag: number
 }
 
 export class DependencyGraphVisualizer {
@@ -68,15 +72,20 @@ export class DependencyGraphVisualizer {
             if (this.dependencyGraph.isPhraseNode(startNode)) {
                 this.layoutPhraseNode(startNode);
             }
-            const { x: x1, y } = this.nodePositions[startNode];
-            const { x: x2 } = this.nodePositions[endNode];
+            const { x: x1, y: y1 } = this.nodePositions[startNode];
+            const { x: x2, y: y2 } = this.nodePositions[endNode];
             const height = this.heightMap.getHeight(x1, x2) + arcHeight;
-            arcs.push({
+            const arc: Arc = {
                 startNode,
                 endNode,
-                height: height - y,
-                dependencyTag
-            });
+                dependencyTag,
+                rx: Math.abs(x2 - x1) / 2,
+                ry: height - y1,
+                xAxisRotation: 0,
+                largeArcFlag: 0,
+                sweepFlag: 0
+            };
+            arcs.push(arc);
             this.heightMap.addSpan(x1, x2, height);
         }
 

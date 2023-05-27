@@ -86,10 +86,7 @@ export const DependencyGraphView = () => {
                         return (
                             <path
                                 key={`arc-${i}`}
-                                d={
-                                    `M ${x1} ${y1}`
-                                    + `A ${(Math.abs(x2 - x1)) / 2} ${arc.height} 0 0 0 ${x2} ${y2}`
-                                }
+                                d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
                                 fill='none'
                                 className={`${colorService.getDependencyColor(arc.dependencyTag)}-light`}
                             />
