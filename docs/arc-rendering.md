@@ -32,7 +32,7 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 ## Proof
 
-Given the coordinate system and the quadrants of interest, let phi sweep an anti-clockwise angle from the negative X-axis.
+Given the coordinate system and the quadrants of interest, let `phi` sweep an anti-clockwise angle from the negative x-axis.
 
 In these choice of coordinates, the polar ellipse equation becomes:
 
