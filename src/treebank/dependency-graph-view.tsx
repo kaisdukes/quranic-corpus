@@ -1,8 +1,9 @@
-import { Fragment, createRef, useEffect, useRef, useState } from 'react';
-import { Position, Size } from '../layout/geometry';
+import { createRef, useEffect, useRef, useState } from 'react';
 import { GraphToken } from './graph-token';
 import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
-import { Arc, DependencyGraphVisualizer, TokenDomElement } from '../layout/dependency-graph-visualizer';
+import { DependencyGraphVisualizer, TokenDomElement } from '../layout/dependency-graph-visualizer';
+import { EdgeLabel } from './edge-label';
+import { GraphLayout } from '../layout/graph-layout';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
 import './dependency-graph-view.scss';
@@ -21,27 +22,28 @@ export const DependencyGraphView = () => {
         }
     }));
 
-    const [tokenPositions, setTokenPositions] = useState<Position[]>([]);
-    const [nodePositions, setNodePositions] = useState<Position[]>();
-    const [arcs, setArcs] = useState<Arc[]>();
-    const [containerSize, setContainerSize] = useState<Size>({ width: 0, height: 0 });
+    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
+        tokenPositions: [],
+        labelPositions: [],
+        containerSize: {
+            width: 0,
+            height: 0
+        }
+    });
+
+    const {
+        tokenPositions,
+        nodePositions,
+        arcs,
+        labelPositions,
+        containerSize
+    } = graphLayout;
 
     useEffect(() => {
         (async () => {
             await document.fonts.load('1em Hafs');
             const dependencyGraphVisualizer = new DependencyGraphVisualizer(dependencyGraph, tokensRef.current);
-
-            const {
-                tokenPositions,
-                nodePositions,
-                arcs,
-                containerSize
-            } = dependencyGraphVisualizer.layoutDependencyGraph();
-
-            setTokenPositions(tokenPositions);
-            setNodePositions(nodePositions);
-            setArcs(arcs);
-            setContainerSize(containerSize);
+            setGraphLayout(dependencyGraphVisualizer.layoutDependencyGraph());
         })();
     }, [])
 
@@ -59,6 +61,16 @@ export const DependencyGraphView = () => {
                             ref={tokenDomElement.ref}
                             segmentCircleRefs={tokenDomElement.segmentCircleRefs}
                             position={tokenPositions[i]} />
+                    )
+                })
+            }
+            {
+                dependencyGraph.edges.map((edge, i) => {
+                    return (
+                        <EdgeLabel
+                            key={`label-${i}`}
+                            edge={edge}
+                            position={labelPositions[i]} />
                     )
                 })
             }

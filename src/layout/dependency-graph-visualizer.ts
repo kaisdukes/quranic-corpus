@@ -1,23 +1,12 @@
 import { RefObject } from 'react';
 import { DependencyGraph } from '../corpus/syntax/dependency-graph';
-import { DependencyTag } from '../corpus/syntax/dependency-tag';
 import { Position, Rect } from './geometry';
 import { HeightMap } from './height-map';
+import { Arc, GraphLayout } from './graph-layout';
 
 export type TokenDomElement = {
     ref: RefObject<HTMLDivElement>,
     segmentCircleRefs: RefObject<HTMLDivElement>[]
-}
-
-export type Arc = {
-    startNode: number,
-    endNode: number,
-    dependencyTag: DependencyTag,
-    rx: number,
-    ry: number,
-    xAxisRotation: number,
-    largeArcFlag: number,
-    sweepFlag: number
 }
 
 export class DependencyGraphVisualizer {
@@ -29,7 +18,7 @@ export class DependencyGraphVisualizer {
         private readonly tokens: TokenDomElement[]) {
     }
 
-    layoutDependencyGraph() {
+    layoutDependencyGraph(): GraphLayout {
 
         // measure tokens
         const tokenBoundsList = this.measureTokens();
@@ -101,10 +90,16 @@ export class DependencyGraphVisualizer {
             this.heightMap.addSpan(x1, x2, maxY);
         }
 
+        const labelPositions: Position[] = this.dependencyGraph.edges.map((_, i) => ({
+            x: i * 50,
+            y: i * 50,
+        }))
+
         return {
             tokenPositions,
             nodePositions: this.nodePositions,
             arcs,
+            labelPositions,
             containerSize: {
                 width: containerWidth,
                 height: this.heightMap.height

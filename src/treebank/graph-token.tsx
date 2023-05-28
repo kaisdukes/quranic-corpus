@@ -3,9 +3,9 @@ import { Token } from '../corpus/orthography/token';
 import { TokenHeader } from './token-header';
 import { Position } from '../layout/geometry';
 import { NodeCircle } from './node-circle';
-import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ArabicToken } from '../arabic/arabic-token';
 import { ColorService } from '../theme/color-service';
+import { renderOffScreen } from '../theme/styles';
 import { container } from 'tsyringe';
 import './graph-token.scss';
 
@@ -19,16 +19,8 @@ export const GraphToken = forwardRef((
     { token, segmentCircleRefs, position }: Props,
     ref: Ref<HTMLDivElement>) => {
 
-    const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
-
     const { segments } = token;
-
-    const joinedSegments = useMemo(() => {
-        const joinedSegments = segments.map(segment => segment.arabic);
-        arabicTextService.insertZeroWidthJoinersForSafari(joinedSegments);
-        return joinedSegments;
-    }, [segments]);
 
     return (
         <div
@@ -41,7 +33,7 @@ export const GraphToken = forwardRef((
                         left: position.x,
                         top: position.y
                     }
-                    : { marginLeft: '-9999px' } // Render off-screen initially
+                    : renderOffScreen
             }>
             <div className='token-content'>
                 <TokenHeader token={token} />
