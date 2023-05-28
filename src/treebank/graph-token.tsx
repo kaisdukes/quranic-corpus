@@ -1,11 +1,10 @@
 import { Ref, RefObject, forwardRef, useMemo } from 'react';
 import { Token } from '../corpus/orthography/token';
 import { TokenHeader } from './token-header';
-import { Position } from '../layout/geometry';
+import { Position, positionElement } from '../layout/geometry';
 import { NodeCircle } from './node-circle';
 import { ArabicToken } from '../arabic/arabic-token';
 import { ColorService } from '../theme/color-service';
-import { renderOffScreen } from '../theme/styles';
 import { container } from 'tsyringe';
 import './graph-token.scss';
 
@@ -26,18 +25,10 @@ export const GraphToken = forwardRef((
         <div
             ref={ref}
             className='graph-token'
-            style={
-                position
-                    ? {
-                        position: 'absolute',
-                        left: position.x,
-                        top: position.y
-                    }
-                    : renderOffScreen
-            }>
+            style={positionElement(position)}>
             <div className='token-content'>
                 <TokenHeader token={token} />
-                <ArabicToken token={token}/>
+                <ArabicToken token={token} />
                 <div className='pos-tag-container'>
                     {
                         (() => {

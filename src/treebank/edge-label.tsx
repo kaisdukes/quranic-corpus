@@ -1,7 +1,6 @@
 import { Ref, forwardRef } from 'react';
 import { Edge } from '../corpus/syntax/edge';
-import { Position } from '../layout/geometry';
-import { renderOffScreen } from '../theme/styles';
+import { Position, positionElement } from '../layout/geometry';
 import './edge-label.scss';
 
 type Props = {
@@ -16,15 +15,7 @@ export const EdgeLabel = forwardRef((
         <div
             ref={ref}
             className='edge-label'
-            style={
-                position
-                    ? {
-                        position: 'absolute',
-                        left: position.x,
-                        top: position.y
-                    }
-                    : renderOffScreen
-            }>
+            style={positionElement(position)}>
             {edge.dependencyTag}
         </div>
     )
