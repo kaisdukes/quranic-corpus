@@ -14,7 +14,7 @@ As we are dealing with graphics code, we choose coordinates so that the y-axis p
 
 Compute the ellipse radius `rx` given an arc that touches a bounding box and connects two nodes on the box with constraints.
 
-We assume a standard non-rotated ellipse with x-radius `rx` and y-radius `ry`, centerd at `(h, k)`
+We assume a standard non-rotated ellipse with x-radius `rx` and y-radius `ry`, centered at `(h, k)`
 
 The diagram below shows the elliptical arc and it's bounding box.
 
@@ -25,7 +25,7 @@ The diagram below shows the elliptical arc and it's bounding box.
 ### Constraints
 
 * (C1) Arc start node: a known point `(x1, y1)` that lies somewhere on the ellipse.
-* (C2) Arc end node: a known point `(x2, y2)` that lies on the ellipse at it's rightmost extent. This implies `k = y2` and `h = x2 - rx`.
+* (C2) Arc end node: a known point `(x2, y2)` that lies on the ellipse at its rightmost extent. This implies `k = y2` and `h = x2 - rx`.
 * (C3) The y-radius `ry` is known.
 
 An ellipse has 5 degrees of freedom: two for the position of the center, two for the radii, and one for the orientation. Given these constraints and the non-rotated orientation, the ellipse is uniquely defined and solvable.
