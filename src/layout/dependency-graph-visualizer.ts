@@ -57,6 +57,7 @@ export class DependencyGraphVisualizer {
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcHeightStep = 40;
         const arcs: Arc[] = [];
+        const labelPositions: Position[] = [];
         for (const edge of this.dependencyGraph.edges) {
             const { startNode, endNode, dependencyTag } = edge;
             if (this.dependencyGraph.isPhraseNode(startNode)) {
@@ -88,12 +89,13 @@ export class DependencyGraphVisualizer {
             };
             arcs.push(arc);
             this.heightMap.addSpan(x1, x2, maxY);
-        }
 
-        const labelPositions: Position[] = this.dependencyGraph.edges.map((_, i) => ({
-            x: i * 50,
-            y: i * 50,
-        }))
+            // edge label
+            labelPositions.push({
+                x: labelPositions.length * 25,
+                y: labelPositions.length * 25
+            })
+        }
 
         return {
             tokenPositions,
