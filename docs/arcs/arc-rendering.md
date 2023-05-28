@@ -6,7 +6,7 @@
 
 This document derives the equation `rx = boxWidth / (1 + cos(theta))` found in the arc rendering code of the Quranic Arabic Corpus.
 
-As we are dealing with graphics code, we choose coordinates so that the Y-axis points downwards.
+As we are dealing with graphics code, we choose coordinates so that the y-axis points downwards.
 
 ## Proof that rx = boxWidth / (1 + cos(theta)) where sin(theta) = deltaY / ry
 
@@ -16,10 +16,14 @@ Compute the ellipse radius `rx` given an arc that touches a bounding box and con
 
 We assume a standard non-rotated ellipse with x-radius `rx` and y-radius `ry`, centerd at `(h, k)`
 
+This diagram shows the elliptical arc and it's bounding box.
+
+![](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-diagram.svg)
+
 ## Constraints
 
 * (C1) Arc start node: a known point `(x1, y1)` that lies somewhere on the ellipse.
-* (C2) Arc end node: a known point `(x2, y2)` that lies exactly on the ellipse at it's rightmost point. This implies `k = y2` and `h = x2 - rx`.
+* (C2) Arc end node: a known point `(x2, y2)` that lies on the ellipse at it's rightmost extent. This implies `k = y2` and `h = x2 - rx`.
 * (C3) The y-radius `ry` is known.
 
 Note that an ellipse has 5 degrees of freedom: two for the position of the center, two for the radii, and one for the orientation. Given these constraints and the non-rotated orientation, the ellipse is uniquely defined and solvable.
@@ -34,7 +38,7 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 Given the coordinate system and the quadrants of interest, let `phi` sweep an anti-clockwise angle from the negative x-axis.
 
-In these choice of coordinates, the polar ellipse equation becomes: `x = h - rx * cos(phi)` and `y = k + ry * sin(phi)`
+In this choice of coordinates, the polar ellipse equation becomes: `x = h - rx * cos(phi)` and `y = k + ry * sin(phi)`
 
 We know that `k = y2` and `h = x2 - rx`. Substituting gives us the equation for our ellipse: `x = x2 - rx * (1 + cos(phi))` and `y = y2 + ry * sin(phi)`
 

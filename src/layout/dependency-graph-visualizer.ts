@@ -65,7 +65,7 @@ export class DependencyGraphVisualizer {
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
-        // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arc-rendering.md
+        // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcHeightStep = 40;
         const arcs: Arc[] = [];
         for (const edge of this.dependencyGraph.edges) {
