@@ -28,13 +28,13 @@ The diagram below shows the elliptical arc and it's bounding box.
 * (C2) Arc end node: a known point `(x2, y2)` that lies on the ellipse at it's rightmost extent. This implies `k = y2` and `h = x2 - rx`.
 * (C3) The y-radius `ry` is known.
 
-Note that an ellipse has 5 degrees of freedom: two for the position of the center, two for the radii, and one for the orientation. Given these constraints and the non-rotated orientation, the ellipse is uniquely defined and solvable.
+An ellipse has 5 degrees of freedom: two for the position of the center, two for the radii, and one for the orientation. Given these constraints and the non-rotated orientation, the ellipse is uniquely defined and solvable.
 
 ### Auxiliary variables
 
 * Let `boxWidth` be the width of the bounding box `abs(x2 - x1)`
 * Let `deltaY` be the difference in height between the two nodes `abs(y2 - y1)`
-* Note that the bounding box has `boxHeight = ry` by design
+* The bounding box has `boxHeight = ry` by design
 
 ### Proof
 
