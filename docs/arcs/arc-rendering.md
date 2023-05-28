@@ -20,7 +20,7 @@ The diagram below shows the elliptical arc and it's bounding box.
 
 ![](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-diagram.svg)
 
-*Nota bene: `theta` here isn't strictly an angle; it's an angular parameter for the ellipse. But if our ellipse becomes a circle, `theta` can be seen as a standard angle.*
+*Nota bene: `theta` here isn't strictly an angle; it's an angular parameter. But if our ellipse becomes a circle, `theta` can be seen as a standard angle.*
 
 ### Constraints
 
@@ -44,7 +44,7 @@ In this choice of coordinates, the polar ellipse equation becomes: `x = h - rx *
 
 We know that `k = y2` and `h = x2 - rx`. Substituting gives us the equation for our ellipse: `x = x2 - rx * (1 + cos(phi))` and `y = y2 + ry * sin(phi)`
 
-Let theta be the angle for the start node. Then: `x1 = x2 - rx * (1 + cos(theta))` and `y1 = y2 + ry * sin(theta)`
+Let `theta` be the angular parameter for the start node. Then: `x1 = x2 - rx * (1 + cos(theta))` and `y1 = y2 + ry * sin(theta)`
 
 Rearranging: `rx = boxWidth / (1 + cos(theta))` and `ry = deltaY / sin(theta)`
 
