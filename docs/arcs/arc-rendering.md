@@ -20,6 +20,8 @@ The diagram below shows the elliptical arc and it's bounding box.
 
 ![](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-diagram.svg)
 
+Nota bene: `theta` here isn't strictly an angle; it's an angular parameter for the ellipse. But if our ellipse becomes a circle, `theta` can be seen as a standard angle.
+
 ### Constraints
 
 * (C1) Arc start node: a known point `(x1, y1)` that lies somewhere on the ellipse.
@@ -36,7 +38,7 @@ Note that an ellipse has 5 degrees of freedom: two for the position of the cente
 
 ### Proof
 
-Given the coordinate system and the quadrants of interest, let `phi` sweep an anti-clockwise angle from the negative x-axis.
+Given the coordinate system and that the lower left quadrant is of interest, we introduce an angular parameter `phi` which sweeps anti-clockwise from the negative x-axis.
 
 In this choice of coordinates, the polar ellipse equation becomes: `x = h - rx * cos(phi)` and `y = k + ry * sin(phi)`
 
@@ -50,4 +52,4 @@ QED
 
 ### Geometric interpretation of theta
 
-The choice of `phi` helps visualizing the arcs in the treebank. When the two nodes are horizontal, `theta = 0`. In general `theta` measures the anticlockwise angle from the negative x-axis to the line from the start node to the center of the ellipse.
+The choice of `phi` helps visualizing the arcs in the treebank. Think of `theta` as an angular parameter that rotates anti-clockwise from the negative x-axis to the line joining the start node and the ellipse's center. When nodes align horizontally, `theta = 0`.
