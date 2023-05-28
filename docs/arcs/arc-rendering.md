@@ -16,7 +16,7 @@ Compute the ellipse radius `rx` given an arc that touches a bounding box and con
 
 We assume a standard non-rotated ellipse with x-radius `rx` and y-radius `ry`, centerd at `(h, k)`
 
-This diagram shows the elliptical arc and it's bounding box.
+The diagram below the elliptical arc and it's bounding box.
 
 ![](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-diagram.svg)
 
