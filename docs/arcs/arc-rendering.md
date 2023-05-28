@@ -20,7 +20,7 @@ The diagram below shows the elliptical arc and it's bounding box.
 
 ![](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-diagram.svg)
 
-Nota bene: `theta` here isn't strictly an angle; it's an angular parameter for the ellipse. But if our ellipse becomes a circle, `theta` can be seen as a standard angle.
+*Nota bene: `theta` here isn't strictly an angle; it's an angular parameter for the ellipse. But if our ellipse becomes a circle, `theta` can be seen as a standard angle.*
 
 ### Constraints
 
