@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { DependencyGraph } from '../corpus/syntax/dependency-graph';
-import { Position, Rect } from './geometry';
+import { Position, Rect, Size } from './geometry';
 import { HeightMap } from './height-map';
 import { Arc, GraphLayout } from './graph-layout';
 
@@ -15,7 +15,8 @@ export class DependencyGraphVisualizer {
 
     constructor(
         private readonly dependencyGraph: DependencyGraph,
-        private readonly tokens: TokenDomElement[]) {
+        private readonly tokens: TokenDomElement[],
+        private readonly labelRefs: RefObject<HTMLDivElement>[]) {
     }
 
     layoutDependencyGraph(): GraphLayout {
@@ -52,6 +53,13 @@ export class DependencyGraphVisualizer {
             x -= tokenGap;
         }
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
+
+        // measure edge labels
+        const labelBounds: Size[] = this.labelRefs.map(labelRef => {
+            const labelElement = labelRef.current;
+            return labelElement ? labelElement.getBoundingClientRect() : { width: 0, height: 0 };
+        });
+        let __temp = 0;
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
@@ -91,10 +99,12 @@ export class DependencyGraphVisualizer {
             this.heightMap.addSpan(x1, x2, maxY);
 
             // edge label
+            const labelWidth = labelBounds[labelPositions.length].width;
             labelPositions.push({
-                x: labelPositions.length * 25,
-                y: labelPositions.length * 25
+                x: __temp,
+                y: 0
             })
+            __temp += labelWidth;
         }
 
         return {

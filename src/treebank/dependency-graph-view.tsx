@@ -1,4 +1,4 @@
-import { createRef, useEffect, useRef, useState } from 'react';
+import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import { GraphToken } from './graph-token';
 import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
 import { DependencyGraphVisualizer, TokenDomElement } from '../layout/dependency-graph-visualizer';
@@ -22,6 +22,10 @@ export const DependencyGraphView = () => {
         }
     }));
 
+    const labelsRef = useRef<RefObject<HTMLDivElement>[]>(
+        dependencyGraph.edges.map(() => createRef<HTMLDivElement>())
+    );
+
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         tokenPositions: [],
         labelPositions: [],
@@ -42,7 +46,10 @@ export const DependencyGraphView = () => {
     useEffect(() => {
         (async () => {
             await document.fonts.load('1em Hafs');
-            const dependencyGraphVisualizer = new DependencyGraphVisualizer(dependencyGraph, tokensRef.current);
+            const dependencyGraphVisualizer = new DependencyGraphVisualizer(
+                dependencyGraph,
+                tokensRef.current,
+                labelsRef.current);
             setGraphLayout(dependencyGraphVisualizer.layoutDependencyGraph());
         })();
     }, [])
@@ -69,6 +76,7 @@ export const DependencyGraphView = () => {
                     return (
                         <EdgeLabel
                             key={`label-${i}`}
+                            ref={labelsRef.current[i]}
                             edge={edge}
                             position={labelPositions[i]} />
                     )
