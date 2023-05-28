@@ -59,11 +59,10 @@ export class DependencyGraphVisualizer {
             const labelElement = labelRef.current;
             return labelElement ? labelElement.getBoundingClientRect() : { width: 0, height: 0 };
         });
-        let __temp = 0;
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
-        const arcHeightStep = 40;
+        const arcHeightStep = 30;
         const arcs: Arc[] = [];
         const labelPositions: Position[] = [];
         for (const edge of this.dependencyGraph.edges) {
@@ -98,13 +97,14 @@ export class DependencyGraphVisualizer {
             arcs.push(arc);
             this.heightMap.addSpan(x1, x2, maxY);
 
-            // edge label
-            const labelWidth = labelBounds[labelPositions.length].width;
-            labelPositions.push({
-                x: __temp,
-                y: 0
-            })
-            __temp += labelWidth;
+            // layout edge label
+            const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
+            const labelPosition = {
+                x: x2 - rx - labelWidth * 0.5,
+                y: maxY
+            };
+            labelPositions.push(labelPosition)
+            this.heightMap.addSpan(labelPosition.x, labelPosition.x + labelWidth, maxY + labelHeight);
         }
 
         return {
@@ -123,7 +123,7 @@ export class DependencyGraphVisualizer {
         const { startNode, endNode } = this.dependencyGraph.getPhraseNode(node);
         const x1 = this.nodePositions[endNode].x;
         const x2 = this.nodePositions[startNode].x;
-        const y = this.heightMap.getHeight(x1, x2) + 20;
+        const y = this.heightMap.getHeight(x1, x2) + 10;
         const x = (x1 + x2) / 2;
         this.nodePositions[node] = { x, y };
     }

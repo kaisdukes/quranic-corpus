@@ -1,8 +1,16 @@
 import { DependencyGraph } from './dependency-graph';
+import { DependencyTag } from './dependency-tag';
 import { singleton } from 'tsyringe';
 
 @singleton()
 export class DependencyGraphService {
+    private arabicTerms: Map<DependencyTag, string> = new Map([
+        ['circ', 'حال'],
+        ['gen', 'مجرور'],
+        ['link', 'متعلق'],
+        ['obj', 'مفعول به'],
+        ['subj', 'فاعل']
+    ]);
 
     getDependencyGraph() {
         return new DependencyGraph({
@@ -74,5 +82,9 @@ export class DependencyGraphService {
                 }
             ]
         });
+    }
+
+    getArabicTerm(dependencyTag: DependencyTag): string {
+        return this.arabicTerms.get(dependencyTag) || '?';
     }
 }

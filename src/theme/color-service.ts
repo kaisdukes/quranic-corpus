@@ -1,11 +1,12 @@
 import { Segment } from '../corpus/morphology/segment';
 import { singleton } from 'tsyringe';
+import { PosTag } from '../corpus/morphology/pos-tag';
 import { DependencyTag } from '../corpus/syntax/dependency-tag';
 
 @singleton()
 export class ColorService {
 
-    private posTagColors: Map<string, string> = new Map([
+    private posTagColors: Map<PosTag, string> = new Map([
         ['ADJ', 'purple'],
         ['CIRC', 'navy'],
         ['COM', 'navy'],
@@ -32,7 +33,7 @@ export class ColorService {
         ['VOC', 'green']
     ]);
 
-    private dependencyTagColors: Map<string, string> = new Map([
+    private dependencyTagColors: Map<DependencyTag, string> = new Map([
         ['circ', 'seagreen'],
         ['gen', 'rust'],
         ['link', 'orange'],
@@ -60,7 +61,6 @@ export class ColorService {
     }
 
     getDependencyColor(dependencyTag: DependencyTag): string {
-        const color = this.dependencyTagColors.get(dependencyTag);
-        return color || 'black'; // TODO: default!
+        return this.dependencyTagColors.get(dependencyTag) || 'black';
     }
 }

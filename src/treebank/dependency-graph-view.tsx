@@ -77,7 +77,7 @@ export const DependencyGraphView = () => {
                         <EdgeLabel
                             key={`label-${i}`}
                             ref={labelsRef.current[i]}
-                            edge={edge}
+                            dependencyTag={edge.dependencyTag}
                             position={labelPositions[i]} />
                     )
                 })

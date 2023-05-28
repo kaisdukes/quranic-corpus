@@ -30,11 +30,3 @@ npm start
 * Use single quotes instead of double quotes for consistency as this is a [slightly more popular choice](https://medium.com/@bunlong/single-quotes-vs-double-quotes-in-javascript-f224894d554f).
 * File and folder names should be lowercase and separated with hyphens.
 * Statements [end with semicolons](https://dev.to/adriennemiller/semicolons-in-javascript-to-use-or-not-to-use-2nli).
-
-## Deploying to GitHub pages
-
-```
-npm run deploy
-```
-
-The site should then be live at https://kaisdukes.github.io/quranic-corpus

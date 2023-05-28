@@ -1,22 +1,25 @@
 import { Ref, forwardRef } from 'react';
-import { Edge } from '../corpus/syntax/edge';
+import { DependencyTag } from '../corpus/syntax/dependency-tag';
 import { Position, positionElement } from '../layout/geometry';
+import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
+import { ColorService } from '../theme/color-service';
+import { container } from 'tsyringe';
 import './edge-label.scss';
 
 type Props = {
-    edge: Edge,
+    dependencyTag: DependencyTag,
     position?: Position
 }
 
-export const EdgeLabel = forwardRef((
-    { edge, position }: Props,
-    ref: Ref<HTMLDivElement>) => {
+export const EdgeLabel = forwardRef(({ dependencyTag, position }: Props, ref: Ref<HTMLDivElement>) => {
+    const dependencyGraphService = container.resolve(DependencyGraphService);
+    const colorService = container.resolve(ColorService);
     return (
         <div
             ref={ref}
-            className='edge-label'
+            className={`edge-label ${colorService.getDependencyColor(dependencyTag)}`}
             style={positionElement(position)}>
-            {edge.dependencyTag}
+            {dependencyGraphService.getArabicTerm(dependencyTag)}
         </div>
     )
 })
