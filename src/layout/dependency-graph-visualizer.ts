@@ -101,10 +101,10 @@ export class DependencyGraphVisualizer {
             const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
             const labelPosition = {
                 x: x2 - rx - labelWidth * 0.5,
-                y: maxY
+                y: maxY + 5
             };
             labelPositions.push(labelPosition)
-            this.heightMap.addSpan(labelPosition.x, labelPosition.x + labelWidth, maxY + labelHeight);
+            this.heightMap.addSpan(labelPosition.x, labelPosition.x + labelWidth, maxY + labelHeight + 5);
         }
 
         return {
