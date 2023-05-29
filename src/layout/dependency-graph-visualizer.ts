@@ -13,6 +13,7 @@ export class DependencyGraphVisualizer {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
     private readonly phrasePositions: Position[] = [];
+    private phraseBounds: Rect[] = [];
 
     constructor(
         private readonly dependencyGraph: DependencyGraph,
@@ -24,43 +25,34 @@ export class DependencyGraphVisualizer {
     layoutDependencyGraph(): GraphLayout {
 
         // measure tokens
-        const tokenBoundsList = this.measureTokens();
         const tokenGap = 40;
-        const containerWidth = tokenBoundsList.reduce((width, rect) => width + rect.width, 0) + tokenGap * (this.tokens.length - 1);
-        const tokenHeight = Math.max(...tokenBoundsList.map(rect => rect.height));
+        const tokenBounds = this.tokens.map(token => this.measureElement(token.ref));
+        const containerWidth = tokenBounds.reduce((width, rect) => width + rect.width, 0) + tokenGap * (this.tokens.length - 1);
+        const tokenHeight = Math.max(...tokenBounds.map(rect => rect.height));
 
         // layout tokens
         const tokenPositions: Position[] = [];
         let x = containerWidth;
         for (let i = 0; i < this.tokens.length; i++) {
-            const token = this.tokens[i];
-            const arabicToken = token.ref.current;
-            if (!arabicToken) {
-                continue;
-            }
-            const tokenBounds = arabicToken.getBoundingClientRect();
-            x -= tokenBounds.width;
+            const tokenRect = tokenBounds[i];
+            x -= tokenRect.width;
             tokenPositions[i] = { x, y: 0 };
 
             // POS tags
-            for (const posTagRefs of token.posTagRefs) {
-                const posTagElement = posTagRefs.current;
-                if (posTagElement) {
-                    const posTagBounds = posTagElement.getBoundingClientRect();
-                    const cx = posTagBounds.x + 0.5 * posTagBounds.width - tokenBounds.x + x;
-                    this.nodePositions.push({ x: cx, y: tokenHeight + 5 });
-                }
+            for (const posTag of this.tokens[i].posTagRefs) {
+                const posTagBounds = this.measureElement(posTag);
+                const cx = posTagBounds.x + 0.5 * posTagBounds.width - tokenRect.x + x;
+                this.nodePositions.push({ x: cx, y: tokenHeight + 5 });
             }
-
             x -= tokenGap;
         }
         this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
 
+        // measure phrase nodes
+        this.phraseBounds = this.phrasesRef.map(phrase => this.measureElement(phrase));
+
         // measure edge labels
-        const labelBounds: Size[] = this.labelRefs.map(labelRef => {
-            const labelElement = labelRef.current;
-            return labelElement ? labelElement.getBoundingClientRect() : { width: 0, height: 0 };
-        });
+        const labelBounds = this.labelRefs.map(label => this.measureElement(label));
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
@@ -123,19 +115,34 @@ export class DependencyGraphVisualizer {
     }
 
     private layoutPhraseNode(node: number) {
+
+        // position
         const { startNode, endNode } = this.dependencyGraph.getPhraseNode(node);
         const x1 = this.nodePositions[endNode].x;
         const x2 = this.nodePositions[startNode].x;
         const y = this.heightMap.getHeight(x1, x2) + 10;
         const x = (x1 + x2) / 2;
-        this.nodePositions[node] = { x, y };
-        this.phrasePositions[node - this.dependencyGraph.segmentNodeCount] = { x, y };
+
+        // phrase
+        const phraseIndex = node - this.dependencyGraph.segmentNodeCount;
+        const phraseRect = this.phraseBounds[phraseIndex];
+        const phraseX = x - phraseRect.width / 2;
+        this.phrasePositions[phraseIndex] = { x: phraseX, y };
+
+        // node
+        const nodeY = y + phraseRect.height + 5;
+        this.nodePositions[node] = { x, y: nodeY };
+        this.heightMap.addSpan(phraseX, phraseX + phraseRect.width, nodeY + phraseRect.height);
     }
 
-    private measureTokens(): Rect[] {
-        return this.tokens.map(token => token.ref.current
-            ? token.ref.current.getBoundingClientRect()
-            : { x: 0, y: 0, width: 0, height: 0 }
-        )
+    private measureElement(element: RefObject<HTMLElement>): Rect {
+        return element.current
+            ? element.current.getBoundingClientRect()
+            : {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+            };
     }
 }

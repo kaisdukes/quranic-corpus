@@ -1,6 +1,7 @@
 import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import { GraphToken } from './graph-token';
-import { NodeTag } from './node-tag';
+import { NodeElement } from './node-element';
+import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
 import { GraphLayout } from '../layout/graph-layout';
 import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
@@ -83,12 +84,11 @@ export const DependencyGraphView = () => {
                 phraseNodes.map((phraseNode, i) => {
                     const { phraseTag } = phraseNode;
                     return (
-                        <NodeTag
+                        <PhraseElement
                             key={`phrase-${i}`}
                             ref={phrasesRef.current[i]}
                             className={colorService.getPhraseColor(phraseTag)}
                             tag={phraseTag}
-                            usePosition={true}
                             position={phrasePositions[i]} />
                     )
                 })
