@@ -1,6 +1,5 @@
 import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import { GraphToken } from './graph-token';
-import { NodeElement } from './node-element';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
 import { GraphLayout } from '../layout/graph-layout';
@@ -34,7 +33,9 @@ export const DependencyGraphView = () => {
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         tokenPositions: [],
+        nodePositions: [],
         phrasePositions: [],
+        arcs: [],
         labelPositions: [],
         containerSize: {
             width: 0,
@@ -106,7 +107,6 @@ export const DependencyGraphView = () => {
             }
             <svg>
                 {
-                    arcs && nodePositions &&
                     arcs.map((arc, i) => {
                         const { x: x1, y: y1 } = nodePositions[arc.startNode];
                         const { x: x2, y: y2 } = nodePositions[arc.endNode];
