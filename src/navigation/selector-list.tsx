@@ -8,9 +8,8 @@ type Props = {
 }
 
 export const SelectorList = ({ header, length, renderItem }: Props) => {
-
     return (
-        <div className='selector-list'>
+        <div className={'selector-list'}>
             <div className='header'>{header}</div>
             <div className='items'>
                 {
