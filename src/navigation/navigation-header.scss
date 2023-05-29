@@ -7,8 +7,14 @@
         justify-content: center;
         position: relative;
 
-        >a,
-        >a:visited {
+        .qaf {
+            position: absolute;
+            left: 0;
+            height: 100%;
+        }
+
+        .chapter-name,
+        .chapter-name:visited {
             display: inline-flex;
             color: white;
             padding: 12px;
