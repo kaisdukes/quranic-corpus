@@ -18,34 +18,40 @@ export const VerseSelector = forwardRef((
 
     return (
         <div ref={ref} className={`verse-selector ${showPopup ? 'show-popup' : ''}`}>
-            <div className='chapters-list'>
-                {
-                    chapterService.chapters.map(chapter => {
-                        const { chapterNumber: _chapterNumber, phonetic } = chapter;
-                        return (
-                            <Link
-                                key={_chapterNumber}
-                                to={`/${_chapterNumber}`}
-                                className='chapter-link'
-                                onClick={onClickLink}>
-                                {_chapterNumber}. {phonetic}
-                            </Link>
-                        )
-                    })
-                }
+            <div className='list'>
+                <div className='header'>Chapter</div>
+                <div className='items'>
+                    {
+                        chapterService.chapters.map(chapter => {
+                            const { chapterNumber: _chapterNumber, phonetic } = chapter;
+                            return (
+                                <Link
+                                    key={_chapterNumber}
+                                    to={`/${_chapterNumber}`}
+                                    className='link'
+                                    onClick={onClickLink}>
+                                    {_chapterNumber}. {phonetic}
+                                </Link>
+                            )
+                        })
+                    }
+                </div>
             </div>
-            <div className='verses-list'>
-                {
-                    Array.from({ length: verseCount }, (_, i) => i + 1).map(verseNumber => (
-                        <Link
-                            key={verseNumber}
-                            to={`/${chapterNumber}:${verseNumber}`}
-                            className='verse-link'
-                            onClick={onClickLink}>
-                            {verseNumber}
-                        </Link>
-                    ))
-                }
+            <div className='list'>
+                <div className='header'>Verse</div>
+                <div className='items'>
+                    {
+                        Array.from({ length: verseCount }, (_, i) => i + 1).map(verseNumber => (
+                            <Link
+                                key={verseNumber}
+                                to={`/${chapterNumber}:${verseNumber}`}
+                                className='link'
+                                onClick={onClickLink}>
+                                {verseNumber}
+                            </Link>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )

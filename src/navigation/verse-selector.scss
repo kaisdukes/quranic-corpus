@@ -13,21 +13,20 @@
         flex-direction: row;
     }
 
-    .chapters-list {
-        overflow-y: auto;
+    .list {
+        display: flex;
+        flex-direction: column;
 
-        .chapter-link {
-            display: block;
+        .header {
             padding: 10px;
-            padding-right: 25px;
         }
-    }
 
-    .verses-list {
-        overflow-y: auto;
+        .items {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
 
-        .chapter-link,
-        .verse-link {
+        .link {
             display: block;
             padding: 10px;
             padding-right: 25px;
