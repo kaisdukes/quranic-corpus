@@ -40,7 +40,6 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
     }, []);
 
     const togglePopup = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        console.log('Toggle popup...');
         e.preventDefault();
         setShowPopup(!showPopup);
     }
