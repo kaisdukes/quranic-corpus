@@ -1,4 +1,4 @@
-import { Ref, RefObject, forwardRef, useMemo } from 'react';
+import { Ref, RefObject, forwardRef } from 'react';
 import { Token } from '../corpus/orthography/token';
 import { TokenHeader } from './token-header';
 import { Position, positionElement } from '../layout/geometry';

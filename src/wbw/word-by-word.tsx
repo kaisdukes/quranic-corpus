@@ -25,7 +25,7 @@ export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
     if (isNaN(location[0])) {
         throw new CorpusError('404', 'Page not found');
     }
-    return location.length == 1 ? [location[0], 1] : location;
+    return location.length === 1 ? [location[0], 1] : location;
 }
 
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
