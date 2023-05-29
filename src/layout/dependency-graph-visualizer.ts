@@ -1,8 +1,8 @@
 import { RefObject } from 'react';
 import { DependencyGraph } from '../corpus/syntax/dependency-graph';
-import { Position, Rect, Size } from './geometry';
+import { Position, Rect } from './geometry';
 import { HeightMap } from './height-map';
-import { Arc, GraphLayout } from './graph-layout';
+import { Arc, GraphLayout, Line } from './graph-layout';
 
 export type TokenDomElement = {
     ref: RefObject<HTMLDivElement>,
@@ -14,6 +14,7 @@ export class DependencyGraphVisualizer {
     private readonly nodePositions: Position[] = [];
     private readonly phrasePositions: Position[] = [];
     private phraseBounds: Rect[] = [];
+    private lines: Line[] = [];
 
     constructor(
         private readonly dependencyGraph: DependencyGraph,
@@ -105,6 +106,7 @@ export class DependencyGraphVisualizer {
             tokenPositions,
             nodePositions: this.nodePositions,
             phrasePositions: this.phrasePositions,
+            lines: this.lines,
             arcs,
             labelPositions,
             containerSize: {
@@ -120,8 +122,12 @@ export class DependencyGraphVisualizer {
         const { startNode, endNode } = this.dependencyGraph.getPhraseNode(node);
         const x1 = this.nodePositions[endNode].x;
         const x2 = this.nodePositions[startNode].x;
-        const y = this.heightMap.getHeight(x1, x2) + 10;
+        let y = this.heightMap.getHeight(x1, x2) + 25;
         const x = (x1 + x2) / 2;
+
+        // line
+        this.lines.push({ x1, y1: y, x2, y2: y });
+        y += 10;
 
         // phrase
         const phraseIndex = node - this.dependencyGraph.segmentNodeCount;
@@ -130,9 +136,9 @@ export class DependencyGraphVisualizer {
         this.phrasePositions[phraseIndex] = { x: phraseX, y };
 
         // node
-        const nodeY = y + phraseRect.height + 5;
-        this.nodePositions[node] = { x, y: nodeY };
-        this.heightMap.addSpan(phraseX, phraseX + phraseRect.width, nodeY + phraseRect.height);
+        y += phraseRect.height + 5;
+        this.nodePositions[node] = { x, y };
+        this.heightMap.addSpan(phraseX, phraseX + phraseRect.width, y + phraseRect.height);
     }
 
     private measureElement(element: RefObject<HTMLElement>): Rect {

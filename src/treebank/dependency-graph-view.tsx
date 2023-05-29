@@ -35,6 +35,7 @@ export const DependencyGraphView = () => {
         tokenPositions: [],
         nodePositions: [],
         phrasePositions: [],
+        lines: [],
         arcs: [],
         labelPositions: [],
         containerSize: {
@@ -47,6 +48,7 @@ export const DependencyGraphView = () => {
         tokenPositions,
         nodePositions,
         phrasePositions,
+        lines,
         arcs,
         labelPositions,
         containerSize
@@ -106,6 +108,9 @@ export const DependencyGraphView = () => {
                 })
             }
             <svg>
+                {
+                    lines.map((line, i) => <line key={`line-${i}`} {...line} className='sky-light' />)
+                }
                 {
                     arcs.map((arc, i) => {
                         const { x: x1, y: y1 } = nodePositions[arc.startNode];
