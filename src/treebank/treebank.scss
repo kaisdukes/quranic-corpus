@@ -6,8 +6,7 @@
         gap: 50px;
 
         .bitmap-container {
-            width: 500;
-            height: 440;
+            border: 1px solid #e5d2ea;
 
             .token-table {
                 font: 0.833em Arial;
@@ -36,6 +35,10 @@
                     }
                 }
             }
+        }
+
+        .dependency-graph-view {
+            border: 1px solid #e5d2ea;
         }
     }
 }

@@ -57,7 +57,6 @@ export class DependencyGraphVisualizer {
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
-        const arcHeightStep = 30;
         const arcs: Arc[] = [];
         const labelPositions: Position[] = [];
         for (const edge of this.dependencyGraph.edges) {
@@ -69,10 +68,16 @@ export class DependencyGraphVisualizer {
             // compute bounding box for arc between two nodes
             const { x: x1, y: y1 } = this.nodePositions[startNode];
             const { x: x2, y: y2 } = this.nodePositions[endNode];
-            const maxY = this.heightMap.getHeight(x1, x2) + arcHeightStep;
+            let y = y2;
             const deltaY = Math.abs(y2 - y1);
             const boxWidth = Math.abs(x2 - x1);
-            const boxHeight = Math.abs(maxY - y2);
+
+            // boost
+            const maxY = this.heightMap.getHeight(x1, x2);
+            let boxHeight = 30;
+            while (y + boxHeight < maxY) {
+                boxHeight += 50;
+            }
 
             // compute ellipse radii so that arc touches the bounding max
             const ry = boxHeight;
@@ -90,16 +95,16 @@ export class DependencyGraphVisualizer {
                 sweepFlag: 0
             };
             arcs.push(arc);
-            this.heightMap.addSpan(x1, x2, maxY);
+            y += boxHeight;
 
             // layout edge label
             const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
             const labelPosition = {
                 x: x2 - rx - labelWidth * 0.5,
-                y: maxY + 5
+                y: y + 5
             };
             labelPositions.push(labelPosition)
-            this.heightMap.addSpan(labelPosition.x, labelPosition.x + labelWidth, maxY + labelHeight + 5);
+            this.heightMap.addSpan(x1, x2, y + labelHeight + 5);
         }
 
         return {
@@ -138,7 +143,7 @@ export class DependencyGraphVisualizer {
         // node
         y += phraseRect.height + 5;
         this.nodePositions[node] = { x, y };
-        this.heightMap.addSpan(phraseX, phraseX + phraseRect.width, y + phraseRect.height);
+        this.heightMap.addSpan(x1, x2, y + phraseRect.height);
     }
 
     private measureElement(element: RefObject<HTMLElement>): Rect {
