@@ -2,7 +2,7 @@ import { Ref, RefObject, forwardRef } from 'react';
 import { Token } from '../corpus/orthography/token';
 import { TokenHeader } from './token-header';
 import { Position, positionElement } from '../layout/geometry';
-import { NodeCircle } from './node-circle';
+import { NodeTag } from './node-tag';
 import { ArabicToken } from '../arabic/arabic-token';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
@@ -36,18 +36,14 @@ export const GraphToken = forwardRef((
                             let circleIndex = segmentCircleRefs.length - 1;
                             for (let i = segments.length - 1; i >= 0; i--) {
                                 const segment = segments[i];
-                                const color = colorService.getSegmentColor(segment);
                                 if (segment.posTag !== 'DET') {
                                     posTags.push(
-                                        <div key={`circle-${i}`} className='pos-tag'>
-                                            <NodeCircle
-                                                ref={segmentCircleRefs[circleIndex--]}
-                                                className={color} />
-                                            <div className={color}>
-                                                {segment.posTag}
-                                            </div>
-                                        </div>
-                                    );
+                                        <NodeTag
+                                            key={`tag-${i}`}
+                                            ref={segmentCircleRefs[circleIndex--]}
+                                            className={colorService.getSegmentColor(segment)}
+                                            tag={segment.posTag} />
+                                    )
                                 }
                             }
                             return posTags;

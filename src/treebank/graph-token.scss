@@ -13,20 +13,8 @@
 
         .pos-tag-container {
             display: flex;
-            font-family: var(--default-pos-tag-font-family);
-            font-size: 18px;
             gap: 25px;
             margin-top: 4px;
-
-            .pos-tag {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-
-                .node-circle {
-                    margin-bottom: 8px;
-                }
-            }
         }
     }
 }
