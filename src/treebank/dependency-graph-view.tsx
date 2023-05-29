@@ -1,4 +1,4 @@
-import { RefObject, createRef, useEffect, useRef, useState } from 'react';
+import { Fragment, RefObject, createRef, useEffect, useRef, useState } from 'react';
 import { GraphToken } from './graph-token';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
@@ -37,6 +37,7 @@ export const DependencyGraphView = () => {
         phrasePositions: [],
         lines: [],
         arcs: [],
+        arrowPositions: [],
         labelPositions: [],
         containerSize: {
             width: 0,
@@ -50,6 +51,7 @@ export const DependencyGraphView = () => {
         phrasePositions,
         lines,
         arcs,
+        arrowPositions,
         labelPositions,
         containerSize
     } = graphLayout;
@@ -115,13 +117,18 @@ export const DependencyGraphView = () => {
                     arcs.map((arc, i) => {
                         const { x: x1, y: y1 } = nodePositions[arc.startNode];
                         const { x: x2, y: y2 } = nodePositions[arc.endNode];
+                        const { x: ax, y: ay } = arrowPositions[i];
+                        const className = `${colorService.getDependencyColor(arc.dependencyTag)}-light`;
                         return (
-                            <path
-                                key={`arc-${i}`}
-                                d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
-                                fill='none'
-                                className={`${colorService.getDependencyColor(arc.dependencyTag)}-light`}
-                            />
+                            <Fragment key={`arc-${i}`}>
+                                <path
+                                    d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
+                                    fill='none'
+                                    className={className} />
+                                <polygon
+                                    points={`${ax},${ay} ${ax},${ay + 10} ${ax + 6},${ay + 5}`}
+                                    className={className} />
+                            </Fragment>
                         )
                     })
                 }

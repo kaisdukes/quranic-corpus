@@ -58,6 +58,7 @@ export class DependencyGraphVisualizer {
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc[] = [];
+        const arrowPositions: Position[] = [];
         const labelPositions: Position[] = [];
         for (const edge of this.dependencyGraph.edges) {
             const { startNode, endNode, dependencyTag } = edge;
@@ -97,14 +98,18 @@ export class DependencyGraphVisualizer {
             arcs.push(arc);
             y += boxHeight;
 
+            // arrow
+            arrowPositions.push({ x: x2 - rx - 3, y: y - 5 });
+
             // layout edge label
             const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
+            y += 8;
             const labelPosition = {
                 x: x2 - rx - labelWidth * 0.5,
-                y: y + 5
+                y
             };
             labelPositions.push(labelPosition)
-            this.heightMap.addSpan(x1, x2, y + labelHeight + 5);
+            this.heightMap.addSpan(x1, x2, y + labelHeight);
         }
 
         return {
@@ -113,6 +118,7 @@ export class DependencyGraphVisualizer {
             phrasePositions: this.phrasePositions,
             lines: this.lines,
             arcs,
+            arrowPositions,
             labelPositions,
             containerSize: {
                 width: containerWidth,

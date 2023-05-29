@@ -25,6 +25,7 @@ export type GraphLayout = {
     phrasePositions: Position[],
     lines: Line[],
     arcs: Arc[],
+    arrowPositions: Position[],
     labelPositions: Position[],
     containerSize: Size
 }
