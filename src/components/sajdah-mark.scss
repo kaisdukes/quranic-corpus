@@ -1,0 +1,8 @@
+.sajdah-mark {
+    font-family: Noto Sans;
+    font-size: 60px;
+
+    @media only screen and (max-width: 600px) {
+        font-size: 36px;
+    }
+}
