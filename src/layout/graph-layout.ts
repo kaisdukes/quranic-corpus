@@ -15,6 +15,7 @@ export type Arc = {
 export type GraphLayout = {
     tokenPositions: Position[],
     nodePositions?: Position[],
+    phrasePositions: Position[],
     arcs?: Arc[],
     labelPositions: Position[],
     containerSize: Size

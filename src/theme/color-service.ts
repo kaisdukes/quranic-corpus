@@ -1,6 +1,7 @@
 import { Segment } from '../corpus/morphology/segment';
 import { singleton } from 'tsyringe';
 import { PosTag } from '../corpus/morphology/pos-tag';
+import { PhraseTag } from '../corpus/syntax/phrase-tag';
 import { DependencyTag } from '../corpus/syntax/dependency-tag';
 
 @singleton()
@@ -33,6 +34,10 @@ export class ColorService {
         ['VOC', 'green']
     ]);
 
+    private phraseTagColors: Map<PhraseTag, string> = new Map([
+        ['PP', 'rust']
+    ]);
+
     private dependencyTagColors: Map<DependencyTag, string> = new Map([
         ['circ', 'seagreen'],
         ['gen', 'rust'],
@@ -58,6 +63,10 @@ export class ColorService {
             }
         }
         return 'pink';
+    }
+
+    getPhraseColor(phraseTag: PhraseTag): string {
+        return this.phraseTagColors.get(phraseTag) || 'black';
     }
 
     getDependencyColor(dependencyTag: DependencyTag): string {

@@ -12,10 +12,12 @@ export type TokenDomElement = {
 export class DependencyGraphVisualizer {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
+    private readonly phrasePositions: Position[] = [];
 
     constructor(
         private readonly dependencyGraph: DependencyGraph,
         private readonly tokens: TokenDomElement[],
+        private readonly phrasesRef: RefObject<HTMLDivElement>[],
         private readonly labelRefs: RefObject<HTMLDivElement>[]) {
     }
 
@@ -110,6 +112,7 @@ export class DependencyGraphVisualizer {
         return {
             tokenPositions,
             nodePositions: this.nodePositions,
+            phrasePositions: this.phrasePositions,
             arcs,
             labelPositions,
             containerSize: {
@@ -126,6 +129,7 @@ export class DependencyGraphVisualizer {
         const y = this.heightMap.getHeight(x1, x2) + 10;
         const x = (x1 + x2) / 2;
         this.nodePositions[node] = { x, y };
+        this.phrasePositions[node - this.dependencyGraph.segmentNodeCount] = { x, y };
     }
 
     private measureTokens(): Rect[] {
