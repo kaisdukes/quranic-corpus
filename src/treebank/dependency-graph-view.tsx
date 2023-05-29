@@ -15,10 +15,10 @@ export const DependencyGraphView = () => {
     const words = dependencyGraph.words;
 
     const tokensRef = useRef<TokenDomElement[]>(words.map(word => {
-        const segmentCircleRefs = Array.from({ length: word.nodeCount }, () => createRef<HTMLDivElement>());
+        const posTagRefs = Array.from({ length: word.nodeCount }, () => createRef<HTMLDivElement>());
         return {
             ref: createRef<HTMLDivElement>(),
-            segmentCircleRefs
+            posTagRefs
         }
     }));
 
@@ -66,7 +66,7 @@ export const DependencyGraphView = () => {
                             key={`token-${i}`}
                             token={word.token}
                             ref={tokenDomElement.ref}
-                            segmentCircleRefs={tokenDomElement.segmentCircleRefs}
+                            posTagRefs={tokenDomElement.posTagRefs}
                             position={tokenPositions[i]} />
                     )
                 })

@@ -10,12 +10,12 @@ import './graph-token.scss';
 
 type Props = {
     token: Token,
-    segmentCircleRefs: RefObject<HTMLDivElement>[]
+    posTagRefs: RefObject<HTMLDivElement>[]
     position?: Position
 }
 
 export const GraphToken = forwardRef((
-    { token, segmentCircleRefs, position }: Props,
+    { token, posTagRefs, position }: Props,
     ref: Ref<HTMLDivElement>) => {
 
     const colorService = container.resolve(ColorService);
@@ -33,14 +33,14 @@ export const GraphToken = forwardRef((
                     {
                         (() => {
                             const posTags = [];
-                            let circleIndex = segmentCircleRefs.length - 1;
+                            let posTagIndex = posTagRefs.length - 1;
                             for (let i = segments.length - 1; i >= 0; i--) {
                                 const segment = segments[i];
                                 if (segment.posTag !== 'DET') {
                                     posTags.push(
                                         <NodeTag
                                             key={`tag-${i}`}
-                                            ref={segmentCircleRefs[circleIndex--]}
+                                            ref={posTagRefs[posTagIndex--]}
                                             className={colorService.getSegmentColor(segment)}
                                             tag={segment.posTag} />
                                     )

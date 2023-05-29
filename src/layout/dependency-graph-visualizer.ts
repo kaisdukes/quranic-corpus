@@ -6,7 +6,7 @@ import { Arc, GraphLayout } from './graph-layout';
 
 export type TokenDomElement = {
     ref: RefObject<HTMLDivElement>,
-    segmentCircleRefs: RefObject<HTMLDivElement>[]
+    posTagRefs: RefObject<HTMLDivElement>[]
 }
 
 export class DependencyGraphVisualizer {
@@ -40,12 +40,12 @@ export class DependencyGraphVisualizer {
             x -= tokenBounds.width;
             tokenPositions[i] = { x, y: 0 };
 
-            // segment circles
-            for (const segmentCircleRef of token.segmentCircleRefs) {
-                const circleElement = segmentCircleRef.current;
-                if (circleElement) {
-                    const circleBounds = circleElement.getBoundingClientRect();
-                    const cx = circleBounds.x + 0.5 * circleBounds.width - tokenBounds.x + x;
+            // POS tags
+            for (const posTagRefs of token.posTagRefs) {
+                const posTagElement = posTagRefs.current;
+                if (posTagElement) {
+                    const posTagBounds = posTagElement.getBoundingClientRect();
+                    const cx = posTagBounds.x + 0.5 * posTagBounds.width - tokenBounds.x + x;
                     this.nodePositions.push({ x: cx, y: tokenHeight + 5 });
                 }
             }

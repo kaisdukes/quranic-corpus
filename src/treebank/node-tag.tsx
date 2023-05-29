@@ -8,8 +8,8 @@ type Props = {
 
 export const NodeTag = forwardRef(({ className, tag }: Props, ref: Ref<HTMLDivElement>) => {
     return (
-        <div className={`node-tag ${className}`}>
-            <div ref={ref} className='node-circle' />
+        <div ref={ref} className={`node-tag ${className}`}>
+            <div className='node-circle' />
             <div>{tag}</div>
         </div>
     )
