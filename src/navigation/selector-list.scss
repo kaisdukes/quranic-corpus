@@ -1,0 +1,9 @@
+.selector-list {
+    display: flex;
+    flex-direction: column;
+
+    .items {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+}

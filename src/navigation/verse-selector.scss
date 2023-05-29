@@ -13,17 +13,10 @@
         flex-direction: row;
     }
 
-    .list {
-        display: flex;
-        flex-direction: column;
+    .selector-list {
 
         .header {
             padding: 10px;
-        }
-
-        .items {
-            overflow-y: auto;
-            flex-grow: 1;
         }
 
         .link {
