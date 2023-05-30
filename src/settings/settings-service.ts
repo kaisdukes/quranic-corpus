@@ -15,25 +15,28 @@ export class SettingsService {
     async loadSettings(settingsContext: SettingsContextType) {
         this.onChangeSettings = settingsContext._setSettings;
         const defaultSettings = settingsContext.settings;
+        const localSettings = JSON.parse(window.localStorage.getItem('settings') || '{}');
 
-        this.saveSettings({
+        const mergedSettings = {
             ...defaultSettings,
-            translations: [this.translationService.translations[0].key]
-        });
+            ...localSettings,
+            translations: localSettings.translations || [this.translationService.translations[0].key]
+        };
+
+        this.saveSettings(mergedSettings);
     }
 
-    async saveSettings(settings: Settings) {
+    saveSettings(settings: Settings) {
         if (!this.onChangeSettings) {
             throw new CorpusError('SERVICE_ERROR', 'Settings not loaded.');
         }
 
-        // translation
         this.translationsKeys.clear();
         for (const key of settings.translations) {
             this.translationsKeys.add(key);
         }
 
-        // notify
+        window.localStorage.setItem('settings', JSON.stringify(settings));
         this.onChangeSettings(settings);
     }
 

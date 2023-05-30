@@ -43,7 +43,7 @@ const Root = () => {
         const bootUp = async () => {
             try {
                 await metadataService.cacheMetadata();
-                await settingsService.loadSettings(settingsContext);
+                settingsService.loadSettings(settingsContext);
             } catch (error) {
                 console.error('Failed to boot up!', error);
             } finally {
