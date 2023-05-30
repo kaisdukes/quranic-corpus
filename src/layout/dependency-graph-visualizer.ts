@@ -147,7 +147,7 @@ export class DependencyGraphVisualizer {
         this.phrasePositions[phraseIndex] = { x: phraseX, y };
 
         // node
-        y += phraseRect.height + 5;
+        y += phraseRect.height + 4;
         this.nodePositions[node] = { x, y };
         this.heightMap.addSpan(x1, x2, y);
     }
