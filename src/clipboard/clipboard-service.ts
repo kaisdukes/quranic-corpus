@@ -14,7 +14,7 @@ export class ClipboardService {
     }
 
     async copyVerse(verse: Verse) {
-        const { location, translation } = verse;
+        const { location, translations } = verse;
         const [chapterNumber] = location;
         const chapter = this.chapterService.getChapter(chapterNumber);
 
@@ -24,7 +24,7 @@ export class ClipboardService {
             .newLine()
             .add(this.verseService.getArabic(verse)).newLine()
             .newLine()
-            .add(translation).newLine()
+            .add(translations[0]).newLine()
             .newLine()
             .add('---').newLine()
             .add('From the Quranic Arabic Corpus: ').link(`https://qurancorpus.app/${chapterNumber}`);

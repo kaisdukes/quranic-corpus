@@ -6,6 +6,6 @@ export type VerseMark = 'section' | 'sajdah';
 export type Verse = {
     location: Location,
     tokens: Token[],
-    translation: string,
+    translations: string[],
     verseMark?: VerseMark
 }

@@ -13,7 +13,8 @@ export class MorphologyService extends ApiBase {
             {
                 params: {
                     location: formatLocation(location),
-                    n: count
+                    n: count,
+                    translation: 'sahih-international'
                 }
             });
         return response.data as Verse[];

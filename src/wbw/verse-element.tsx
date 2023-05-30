@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const VerseElement = ({ verse, onClickToken }: Props) => {
-    const { location, tokens, translation, verseMark } = verse;
+    const { location, tokens, translations, verseMark } = verse;
 
     const handleCopy = async () => {
         const clipboardService = container.resolve(ClipboardService);
@@ -44,7 +44,7 @@ export const VerseElement = ({ verse, onClickToken }: Props) => {
                 <EndOfVerse verseNumber={location[1]} />
             </div>
             <div className='verse-translation'>
-                {translation}
+                {translations[0]}
             </div>
         </div>
     )
