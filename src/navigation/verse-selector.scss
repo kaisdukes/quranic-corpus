@@ -1,5 +1,4 @@
 .verse-selector {
-    display: none;
     position: absolute;
     height: 250px;
     background: white;
@@ -7,11 +6,7 @@
     border-top: none;
     left: 50%;
     transform: translateX(-50%);
-
-    &.show-popup {
-        display: flex;
-        flex-direction: row;
-    }
+    display: flex;
 
     .selector-list {
 

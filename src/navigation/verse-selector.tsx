@@ -1,4 +1,3 @@
-import { Ref, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { SelectorList } from './selector-list';
@@ -7,19 +6,16 @@ import './verse-selector.scss';
 
 type Props = {
     chapterNumber: number,
-    showPopup: boolean,
     onClickLink: () => void
 }
 
-export const VerseSelector = forwardRef((
-    { chapterNumber, showPopup, onClickLink }: Props,
-    ref: Ref<HTMLDivElement>) => {
+export const VerseSelector = ({ chapterNumber, onClickLink }: Props) =>  {
     const chapterService = container.resolve(ChapterService);
     const chapters = chapterService.chapters;
     const verseCount = chapterService.getChapter(chapterNumber).verseCount;
 
     return (
-        <div ref={ref} className={`verse-selector ${showPopup ? 'show-popup' : ''}`}>
+        <div className='verse-selector'>
             <SelectorList
                 header='Chapter'
                 length={chapters.length}
@@ -52,5 +48,4 @@ export const VerseSelector = forwardRef((
                 }} />
         </div>
     )
-
-})
+}

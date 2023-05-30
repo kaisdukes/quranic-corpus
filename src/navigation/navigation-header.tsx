@@ -1,11 +1,13 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
 import { Toolbar } from './toolbar';
-import { VerseSelector } from './verse-selector';
 import { Qaf } from './qaf';
+import { PopupLink } from '../components/popup-link';
+import { PopupMenu } from '../components/popup-menu';
+import { VerseSelector } from './verse-selector';
 import { container } from 'tsyringe';
 import './navigation-header.scss';
 
@@ -15,52 +17,29 @@ type Props = {
 
 export const NavigationHeader = ({ chapterNumber }: Props) => {
     const [showPopup, setShowPopup] = useState(false);
-    const chapterNameRef = useRef<HTMLAnchorElement | null>(null);
     const popupRef = useRef<HTMLDivElement | null>(null);
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const targetElement = event.target as Node;
-            if (chapterNameRef.current && chapterNameRef.current.contains(targetElement)) {
-                return;
-            }
-
-            if (popupRef.current && !popupRef.current.contains(targetElement)) {
-                setShowPopup(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const togglePopup = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        e.preventDefault();
-        setShowPopup(!showPopup);
-    }
-
     return (
         <div className='navigation-header'>
             <div className='navigation-bar'>
-                <Link to='/'>
-                    <Qaf />
-                </Link>
-                <a ref={chapterNameRef} className='chapter-name' href='#' onClick={togglePopup}>
+                <Link to='/'><Qaf /></Link>
+                <PopupLink
+                    className='chapter-name'
+                    popupRef={popupRef}
+                    showPopup={showPopup}
+                    onShowPopup={setShowPopup}>
                     {chapterNumber}. {chapter.phonetic}
                     <ChevronDown className='down' />
-                </a>
+                </PopupLink>
                 <Toolbar />
             </div>
-            <VerseSelector
-                ref={popupRef}
-                chapterNumber={chapterNumber}
-                showPopup={showPopup}
-                onClickLink={() => setShowPopup(false)} />
+            <PopupMenu ref={popupRef} showPopup={showPopup}>
+                <VerseSelector
+                    chapterNumber={chapterNumber}
+                    onClickLink={() => setShowPopup(false)} />
+            </PopupMenu>
         </div>
     )
 }
