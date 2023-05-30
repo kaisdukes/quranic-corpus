@@ -7,7 +7,7 @@ import { CorpusError } from '../errors/corpus-error';
 @singleton()
 export class SettingsService {
     private onChangeSettings: ((settings: Settings) => void) | undefined;
-    private translationsKeys: Set<string> = new Set<string>();
+    private translationsKeys: Set<string> = new Set();
 
     constructor(private readonly translationService: TranslationService) {
     }

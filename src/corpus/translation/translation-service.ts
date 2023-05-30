@@ -11,6 +11,7 @@ type TranslationInfo = {
 @singleton()
 export class TranslationService {
     private _translations: TranslationInfo[] | null = null;
+    private _translationsMap: Map<string, TranslationInfo> | null = null;
 
     get translations(): TranslationInfo[] {
         if (!this._translations) {
@@ -24,6 +25,19 @@ export class TranslationService {
             ...t,
             order: index
         }));
+        this._translationsMap = new Map();
+        this._translations.forEach(t => this._translationsMap!.set(t.key, t));
+    }
+
+    getTranslation(key: string) {
+        if (!this._translationsMap) {
+            throw new CorpusError('SERVICE_ERROR', 'Translations not loaded.');
+        }
+        const translation = this._translationsMap.get(key);
+        if (!translation) {
+            throw new CorpusError('SERVICE_ERROR', `Translation ${key} not found.`);
+        }
+        return translation;
     }
 
     toggleTranslation(currentTranslations: string[], key: string): string[] {
@@ -36,9 +50,9 @@ export class TranslationService {
             return newTranslations;
         }
 
-        //  add while preserving order
+        // add while preserving order
         const orderedTranslations = this.translations.filter(t => currentTranslations.includes(t.key));
-        orderedTranslations.push(this.translations.find(t => t.key === key)!);
+        orderedTranslations.push(this.getTranslation(key));
         orderedTranslations.sort((a, b) => a.order - b.order);
         return orderedTranslations.map(t => t.key);
     }

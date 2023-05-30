@@ -24,7 +24,7 @@ export class ClipboardService {
             .newLine()
             .add(this.verseService.getArabic(verse)).newLine()
             .newLine()
-            .add(translations[0]).newLine()
+            .add(translations[0].translation).newLine()
             .newLine()
             .add('---').newLine()
             .add('From the Quranic Arabic Corpus: ').link(`https://qurancorpus.app/${chapterNumber}`);

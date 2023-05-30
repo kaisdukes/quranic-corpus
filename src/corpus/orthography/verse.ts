@@ -3,9 +3,14 @@ import { Token } from './token';
 
 export type VerseMark = 'section' | 'sajdah';
 
+export type VerseTranslation = {
+    name: string,
+    translation: string
+}
+
 export type Verse = {
     location: Location,
     tokens: Token[],
-    translations: string[],
+    translations: VerseTranslation[],
     verseMark?: VerseMark
 }
