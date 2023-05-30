@@ -52,7 +52,7 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
                     onClose={() => setShowVerseSelectorPopup(false)} />
             </PopupMenu>
             <PopupMenu ref={hamburgerPopupRef} showPopup={showHamburgerPopup}>
-                <HamburgerMenu />
+                <HamburgerMenu onClose={() => setShowHamburgerPopup(false)} />
             </PopupMenu>
         </div>
     )

@@ -11,7 +11,7 @@ import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
 import { DetailView } from './detail-view';
-import { useReaderSettings } from '../context/reader-settings-context';
+import { useSettings } from '../context/settings-context';
 import { ChapterHeader } from './chapter-header';
 import { CorpusError } from '../errors/corpus-error';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
@@ -69,8 +69,8 @@ export const WordByWord = () => {
     const [startComplete, setStartComplete] = useState(false);
     const [endComplete, setEndComplete] = useState(false);
     const morphologyService = container.resolve(MorphologyService);
-    const { readerSettings } = useReaderSettings();
-    const { readerMode } = readerSettings;
+    const { settings } = useSettings();
+    const { readerMode } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {

@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
 import { MetadataService } from './metadata-service';
 import { OverlayProvider, useOverlay } from './context/overlay-context';
-import { ReaderSettingsProvider } from './context/reader-settings-context';
+import { SettingsProvider } from './context/settings-context';
 import { Home } from './home/home';
 import { WordByWord, resolveLocation } from './wbw/word-by-word';
 import { Treebank } from './treebank/treebank';
@@ -61,8 +61,8 @@ const Root = () => {
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <OverlayProvider>
-        <ReaderSettingsProvider>
+        <SettingsProvider>
             <Root />
-        </ReaderSettingsProvider>
+        </SettingsProvider>
     </OverlayProvider>
-);
+)

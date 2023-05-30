@@ -1,24 +1,29 @@
 import { MouseEvent } from 'react';
-import { useReaderSettings } from '../context/reader-settings-context';
+import { useSettings } from '../context/settings-context';
 import { TranslationService } from '../corpus/translation/translation-service';
 import { container } from 'tsyringe';
 import read from './../images/icons/read.svg'
 import tick from './../images/icons/tick.svg'
 import './hamburger-menu.scss';
 
-export const HamburgerMenu = () => {
+type Props = {
+    onClose: () => void
+}
+
+export const HamburgerMenu = ({ onClose }: Props) => {
     const translationService = container.resolve(TranslationService);
     const translations = translationService.translations;
 
-    const { readerSettings, setReaderSettings } = useReaderSettings();
-    const { readerMode } = readerSettings;
+    const { settings, setSettings } = useSettings();
+    const { readerMode } = settings;
 
     const toggleReaderMode = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        setReaderSettings({
-            ...readerSettings,
+        setSettings({
+            ...settings,
             readerMode: !readerMode
         })
+        onClose();
     }
 
     return (
