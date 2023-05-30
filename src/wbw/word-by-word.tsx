@@ -119,7 +119,7 @@ export const WordByWord = () => {
         setStartComplete(false);
         setEndComplete(false);
         loadVerses(false, []); // avoid stale state
-    }, [chapterNumber, verseNumber]);
+    }, [chapterNumber, verseNumber, translations]);
 
     useEffect(() => {
         if (!scrollTarget) return;
