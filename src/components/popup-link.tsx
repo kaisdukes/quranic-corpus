@@ -1,9 +1,9 @@
-import { useRef, useEffect, ReactNode, MutableRefObject } from 'react';
+import { useRef, useEffect, ReactNode, RefObject } from 'react';
 
 type Props = {
     className: string,
     children: ReactNode,
-    popupRef: MutableRefObject<HTMLDivElement | null>,
+    popupRef: RefObject<HTMLDivElement | null>,
     showPopup: boolean,
     onShowPopup: (showPopup: boolean) => void
 }

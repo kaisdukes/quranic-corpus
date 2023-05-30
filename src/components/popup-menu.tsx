@@ -1,8 +1,8 @@
-import { ReactNode, MutableRefObject, forwardRef, Ref } from 'react';
+import { ReactNode, forwardRef, Ref, RefObject } from 'react';
 import './popup-menu.scss';
 
 type Props = {
-    ref: MutableRefObject<HTMLDivElement | null>,
+    ref: RefObject<HTMLDivElement | null>,
     showPopup: boolean,
     children: ReactNode
 }
