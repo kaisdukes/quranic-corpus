@@ -23,12 +23,27 @@ export class ClipboardService {
             .add(`${chapter.phonetic} ${formatLocationWithBrackets(location)}`).newLine()
             .newLine()
             .add(this.verseService.getArabic(verse)).newLine()
-            .newLine()
-            .add(translations[0].translation).newLine()
-            .newLine()
+            .newLine();
+
+        if (translations && translations.length > 0) {
+            translations.forEach(translation => {
+                if (translations.length !== 1) {
+                    content
+                        .add(`${translation.name}: ${translation.translation}`).newLine()
+                        .newLine();
+                } else {
+                    content
+                        .add(translation.translation).newLine()
+                        .newLine();
+                }
+            })
+        }
+
+        content
             .add('---').newLine()
             .add('From the Quranic Arabic Corpus: ').link(`https://qurancorpus.app/${chapterNumber}`);
 
         await navigator.clipboard.write(content.build());
     }
+
 }
