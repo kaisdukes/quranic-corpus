@@ -70,7 +70,7 @@ export const WordByWord = () => {
     const [endComplete, setEndComplete] = useState(false);
     const morphologyService = container.resolve(MorphologyService);
     const { settings } = useSettings();
-    const { readerMode } = settings;
+    const { readerMode, translations } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {
@@ -86,7 +86,7 @@ export const WordByWord = () => {
 
         const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
-        const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount);
+        const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount, translations);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
