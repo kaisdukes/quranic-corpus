@@ -28,6 +28,15 @@ export const HamburgerMenu = ({ onClose }: Props) => {
         onClose();
     }
 
+    const toggleTranslation = (e: MouseEvent<HTMLAnchorElement>, key: string) => {
+        e.preventDefault();
+        settingsService.saveSettings({
+            ...settings,
+            translations: translationService.toggleTranslation(settings.translations, key)
+        });
+        onClose();
+    }
+
     return (
         <div className='hamburger-menu'>
             <a href='#' onClick={toggleReaderMode}>
@@ -38,17 +47,20 @@ export const HamburgerMenu = ({ onClose }: Props) => {
             </a>
             <div className='translations'>Translations:</div>
             {
-                translations.map((translation, i) => (
-                    <a key={`translation-${i}`} href='#'>
-                        <div className='icon-container'>
-                            {
-                                settingsService.hasTranslation(translation.key) &&
-                                <img src={tick} />
-                            }
-                        </div>
-                        {translation.name}
-                    </a>
-                ))
+                translations.map((translation, i) => {
+                    const { key, name } = translation;
+                    return (
+                        <a key={`translation-${i}`} href='#' onClick={e => toggleTranslation(e, key)}>
+                            <div className='icon-container'>
+                                {
+                                    settingsService.hasTranslation(key) &&
+                                    <img src={tick} />
+                                }
+                            </div>
+                            {name}
+                        </a>
+                    )
+                })
             }
         </div>
     )
