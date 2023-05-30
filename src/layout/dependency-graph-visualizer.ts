@@ -75,7 +75,7 @@ export class DependencyGraphVisualizer {
 
             // boost
             const maxY = this.heightMap.getHeight(x1, x2);
-            let boxHeight = 30;
+            let boxHeight = deltaY + 30;
             while (y + boxHeight < maxY) {
                 boxHeight += 50;
             }
@@ -149,7 +149,7 @@ export class DependencyGraphVisualizer {
         // node
         y += phraseRect.height + 5;
         this.nodePositions[node] = { x, y };
-        this.heightMap.addSpan(x1, x2, y + phraseRect.height);
+        this.heightMap.addSpan(x1, x2, y);
     }
 
     private measureElement(element: RefObject<HTMLElement>): Rect {
