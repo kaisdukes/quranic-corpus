@@ -1,11 +1,9 @@
-import { ApiBase } from '../../api-base';
-import { singleton } from 'tsyringe';
 import { Chapter } from './chapter';
 import { CorpusError } from '../../errors/corpus-error';
-import axios from 'axios';
+import { singleton } from 'tsyringe';
 
 @singleton()
-export class ChapterService extends ApiBase {
+export class ChapterService {
     private _chapters: Chapter[] | null = null;
 
     getChapter(chapterNumber: number): Chapter {
@@ -19,8 +17,7 @@ export class ChapterService extends ApiBase {
         return this._chapters;
     }
 
-    async cacheChapters() {
-        const response = await axios.get(this.url('/chapter'));
-        this._chapters = response.data;
+    set chapters(chapters: Chapter[]) {
+        this._chapters = chapters;
     }
 }

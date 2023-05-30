@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
-import { ChapterService } from './corpus/orthography/chapter-service';
+import { MetadataService } from './metadata-service';
 import { OverlayProvider, useOverlay } from './context/overlay-context';
 import { ReaderSettingsProvider } from './context/reader-settings-context';
 import { Home } from './home/home';
@@ -31,15 +31,14 @@ const router = createBrowserRouter([
 ]);
 
 const Root = () => {
+    const metadataService = container.resolve(MetadataService);
     const { overlay, setOverlay } = useOverlay();
-    const chapterService = container.resolve(ChapterService);
-
     const [booting, setBooting] = useState(true);
 
     useEffect(() => {
         const bootUp = async () => {
             try {
-                await chapterService.cacheChapters();
+                await metadataService.cacheMetadata();
             } catch (error) {
                 console.error('Failed to boot up!', error);
             } finally {
