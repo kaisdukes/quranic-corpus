@@ -5,6 +5,7 @@
     background: black;
     right: 5px;
     overflow-y: auto;
+    padding: 5px;
 
     a,
     a:visited {
@@ -12,20 +13,27 @@
     }
 
     >a {
-        padding: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         padding-right: 25px;
         display: flex;
 
-        img {
-            height: 20px;
-            width: auto;
-            margin-right: 8px;
+        .icon-container {
+            width: 35px;
+            display: flex;
+            justify-content: center;
+
+            img {
+                height: 20px;
+                width: auto;
+            }
         }
     }
 
     .translations {
-        padding: 10px;
+        padding-top: 15px;
         padding-bottom: 5px;
+        padding-left: 10px;
         padding-right: 25px;
     }
 }

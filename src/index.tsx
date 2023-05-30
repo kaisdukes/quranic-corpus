@@ -4,8 +4,9 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
 import { MetadataService } from './metadata-service';
-import { OverlayProvider, useOverlay } from './context/overlay-context';
-import { SettingsProvider } from './context/settings-context';
+import { SettingsService } from './settings/settings-service';
+import { OverlayProvider, useOverlay } from './overlay-context';
+import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
 import { WordByWord, resolveLocation } from './wbw/word-by-word';
 import { Treebank } from './treebank/treebank';
@@ -32,13 +33,17 @@ const router = createBrowserRouter([
 
 const Root = () => {
     const metadataService = container.resolve(MetadataService);
+    const settingsService = container.resolve(SettingsService);
+
     const { overlay, setOverlay } = useOverlay();
+    const settingsContext = useSettings();
     const [booting, setBooting] = useState(true);
 
     useEffect(() => {
         const bootUp = async () => {
             try {
                 await metadataService.cacheMetadata();
+                await settingsService.loadSettings(settingsContext);
             } catch (error) {
                 console.error('Failed to boot up!', error);
             } finally {

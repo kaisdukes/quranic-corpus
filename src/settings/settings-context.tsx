@@ -1,20 +1,20 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { Settings } from './settings';
 
-export type Settings = {
-    readerMode: boolean
-}
-
-type SettingsContextType = {
+export type SettingsContextType = {
     settings: Settings,
-    setSettings: (settings: Settings) => void
+    _setSettings: (settings: Settings) => void
 }
 
-const defaultSettings: Settings = { readerMode: false };
+const defaultSettings: Settings = {
+    readerMode: false,
+    translations: []
+}
 
 const SettingsContext = createContext<SettingsContextType>({
     settings: defaultSettings,
-    setSettings: () => { },
-});
+    _setSettings: () => { },
+})
 
 export const useSettings = () => {
     return useContext(SettingsContext);
@@ -25,10 +25,10 @@ type Props = {
 }
 
 export const SettingsProvider = ({ children }: Props) => {
-    const [settings, setSettings] = useState(defaultSettings);
+    const [settings, _setSettings] = useState(defaultSettings);
 
     return (
-        <SettingsContext.Provider value={{ settings, setSettings }}>
+        <SettingsContext.Provider value={{ settings, _setSettings }}>
             {children}
         </SettingsContext.Provider>
     )

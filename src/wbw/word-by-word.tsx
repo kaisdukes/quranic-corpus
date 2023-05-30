@@ -11,7 +11,7 @@ import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
 import { DetailView } from './detail-view';
-import { useSettings } from '../context/settings-context';
+import { useSettings } from '../settings/settings-context';
 import { ChapterHeader } from './chapter-header';
 import { CorpusError } from '../errors/corpus-error';
 import { formatLocationWithBrackets, parseLocation } from '../corpus/location';
