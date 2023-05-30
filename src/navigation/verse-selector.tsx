@@ -6,10 +6,10 @@ import './verse-selector.scss';
 
 type Props = {
     chapterNumber: number,
-    onClickLink: () => void
+    onClose: () => void
 }
 
-export const VerseSelector = ({ chapterNumber, onClickLink }: Props) =>  {
+export const VerseSelector = ({ chapterNumber, onClose }: Props) =>  {
     const chapterService = container.resolve(ChapterService);
     const chapters = chapterService.chapters;
     const verseCount = chapterService.getChapter(chapterNumber).verseCount;
@@ -26,7 +26,7 @@ export const VerseSelector = ({ chapterNumber, onClickLink }: Props) =>  {
                             key={chapterNumber}
                             to={`/${chapterNumber}`}
                             className='link'
-                            onClick={onClickLink}>
+                            onClick={onClose}>
                             {chapterNumber}. {phonetic}
                         </Link>
                     )
@@ -41,7 +41,7 @@ export const VerseSelector = ({ chapterNumber, onClickLink }: Props) =>  {
                             key={verseNumber}
                             to={`/${chapterNumber}:${verseNumber}`}
                             className='link'
-                            onClick={onClickLink}>
+                            onClick={onClose}>
                             {verseNumber}
                         </Link>
                     )

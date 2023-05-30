@@ -11,13 +11,23 @@ type Props = {
 export const PopupLink = ({ className, children, popupRef, showPopup, onShowPopup }: Props) => {
     const linkRef = useRef<HTMLAnchorElement | null>(null);
 
+    const isChildOfLink = (element: Node): boolean => {
+        if (element === linkRef.current) {
+            return true;
+        }
+        if (!element.parentElement) {
+            return false;
+        }
+        return isChildOfLink(element.parentElement);
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const targetElement = event.target as Node;
 
             if (popupRef.current
                 && !popupRef.current.contains(targetElement)
-                && linkRef.current !== targetElement) {
+                && !isChildOfLink(targetElement)) {
                 onShowPopup(false);
             }
         };

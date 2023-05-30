@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
-import { Toolbar } from './toolbar';
 import { Qaf } from './qaf';
 import { PopupLink } from '../components/popup-link';
 import { PopupMenu } from '../components/popup-menu';
 import { VerseSelector } from './verse-selector';
+import { HamburgerMenu } from './hamburger-menu';
 import { container } from 'tsyringe';
+import hamburger from './../images/icons/hamburger.svg'
 import './navigation-header.scss';
 
 type Props = {
@@ -16,8 +17,12 @@ type Props = {
 }
 
 export const NavigationHeader = ({ chapterNumber }: Props) => {
-    const [showPopup, setShowPopup] = useState(false);
-    const popupRef = useRef<HTMLDivElement | null>(null);
+    const [showVerseSelectorPopup, setShowVerseSelectorPopup] = useState(false);
+    const verseSelectorPopupRef = useRef<HTMLDivElement | null>(null);
+
+    const [showHamburgerPopup, setShowHamburgerPopup] = useState(false);
+    const hamburgerPopupRef = useRef<HTMLDivElement | null>(null);
+
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
 
@@ -27,18 +32,27 @@ export const NavigationHeader = ({ chapterNumber }: Props) => {
                 <Link to='/'><Qaf /></Link>
                 <PopupLink
                     className='chapter-name'
-                    popupRef={popupRef}
-                    showPopup={showPopup}
-                    onShowPopup={setShowPopup}>
+                    popupRef={verseSelectorPopupRef}
+                    showPopup={showVerseSelectorPopup}
+                    onShowPopup={setShowVerseSelectorPopup}>
                     {chapterNumber}. {chapter.phonetic}
                     <ChevronDown className='down' />
                 </PopupLink>
-                <Toolbar />
+                <PopupLink
+                    className='hamburger'
+                    popupRef={hamburgerPopupRef}
+                    showPopup={showHamburgerPopup}
+                    onShowPopup={setShowHamburgerPopup}>
+                    <img src={hamburger} />
+                </PopupLink>
             </div>
-            <PopupMenu ref={popupRef} showPopup={showPopup}>
+            <PopupMenu ref={verseSelectorPopupRef} showPopup={showVerseSelectorPopup}>
                 <VerseSelector
                     chapterNumber={chapterNumber}
-                    onClickLink={() => setShowPopup(false)} />
+                    onClose={() => setShowVerseSelectorPopup(false)} />
+            </PopupMenu>
+            <PopupMenu ref={hamburgerPopupRef} showPopup={showHamburgerPopup}>
+                <HamburgerMenu />
             </PopupMenu>
         </div>
     )

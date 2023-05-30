@@ -13,7 +13,6 @@ export const SelectorList = ({ header, length, renderItem }: Props) => {
             <div className='header'>{header}</div>
             <div className='items'>
                 {
-
                     Array.from({ length }, (_, index) => renderItem(index))
                 }
             </div>

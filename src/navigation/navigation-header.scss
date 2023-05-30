@@ -28,10 +28,19 @@
             }
         }
 
-        .toolbar {
+        .hamburger {
             position: absolute;
-            right: 15;
+            right: 0;
+            display: flex;
+            align-items: center;
+            padding: 0px 15px;
             height: 100%;
+            cursor: pointer;
+
+            img {
+                height: 20px;
+                width: auto;
+            }
         }
     }
 }
