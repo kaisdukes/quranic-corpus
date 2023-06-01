@@ -7,7 +7,6 @@
         align-items: center;
 
         .arabic-token {
-            margin-top: 12px;
             font-size: 34px;
         }
 
@@ -15,6 +14,15 @@
             display: flex;
             gap: 25px;
             margin-top: 4px;
+        }
+
+        .hidden-word {
+            margin-top: var(--token-header-height);
+
+            .bra,
+            .ket {
+                font-size: 24px;
+            }
         }
     }
 }

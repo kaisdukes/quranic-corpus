@@ -55,7 +55,19 @@ export const GraphWord = forwardRef((
                                 }
                             </div>
                         </>
-                        : <div>NO_TOKEN</div>
+                        : <div className='hidden-word silver'>
+                            <div className='arabic-token'>
+                                <span className='bra'>(</span>
+                                {word.hiddenText}
+                                <span className='ket'>)</span>
+                            </div>
+                            <div className='pos-tag-container'>
+                                <NodeElement
+                                    ref={posTagRefs[0]}
+                                    className='silver'
+                                    tag={word.hiddenPosTag!} />
+                            </div>
+                        </div>
                 }
             </div>
         </div>
