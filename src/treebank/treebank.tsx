@@ -57,7 +57,10 @@ export const Treebank = () => {
                 syntaxGraph &&
                 <div className='compare'>
                     <SyntaxGraphView syntaxGraph={syntaxGraph} />
-                    <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                    {
+                        syntaxGraph.legacyCorpusGraphNumber > 0 &&
+                        <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                    }
                 </div>
             }
         </ContentPage>
