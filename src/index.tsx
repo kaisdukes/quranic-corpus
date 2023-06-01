@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
     },
     {
-        path: '/:location',
+        path: '/wordbyword/:location',
         loader: resolveLocation,
         element: <WordByWord />,
         errorElement: <ErrorPage />

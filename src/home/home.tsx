@@ -25,7 +25,7 @@ export const Home = () => {
                 based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>
             <div className='links'>
-                <Link to={`/${randomChapter()}`}>Quran Word by Word</Link>
+                <Link to={`/wordbyword/${randomChapter()}`}>Quran Word by Word</Link>
                 <Link to='/treebank'>Quranic Treebank</Link>
             </div>
             <p>

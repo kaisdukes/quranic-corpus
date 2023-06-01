@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { NavigationBar, NavigationProps } from './navigation/navigation-bar';
+import { NavigationProps } from './navigation/navigation-props';
+import { NavigationBar } from './navigation/navigation-bar';
 import { Footer } from './components/footer';
 
 type Props = {

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useState } from 'react';
+import { NavigationProps } from './navigation-props';
 import { Link } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
@@ -12,11 +13,7 @@ import { container } from 'tsyringe';
 import hamburger from './../images/icons/hamburger.svg'
 import './navigation-bar.scss';
 
-export type NavigationProps = {
-    chapterNumber: number
-}
-
-export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
+export const NavigationBar = ({ chapterNumber, url }: NavigationProps) => {
     const [showVerseSelectorPopup, setShowVerseSelectorPopup] = useState(false);
     const verseSelectorPopupRef = useRef<HTMLDivElement | null>(null);
 
@@ -49,6 +46,7 @@ export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
             <PopupMenu ref={verseSelectorPopupRef} showPopup={showVerseSelectorPopup}>
                 <VerseSelector
                     chapterNumber={chapterNumber}
+                    url={url}
                     onClose={() => setShowVerseSelectorPopup(false)} />
             </PopupMenu>
             <PopupMenu ref={hamburgerPopupRef} showPopup={showHamburgerPopup}>

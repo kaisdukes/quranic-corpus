@@ -5,16 +5,17 @@ import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { Verse } from '../corpus/orthography/verse';
 import { formatLocationWithBrackets, Location, parseLocation } from '../corpus/orthography/location';
-import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
 import { DetailView } from './detail-view';
 import { useSettings } from '../settings/settings-context';
 import { ChapterHeader } from './chapter-header';
+import { CorpusHeader } from '../components/corpus-header';
 import { CorpusError } from '../errors/corpus-error';
 import { LoadingBanner } from '../components/loading-banner';
 import { Token } from '../corpus/orthography/token';
 import { getVerseId } from './verse-id';
+import { container } from 'tsyringe';
 import './word-by-word.scss';
 
 export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
@@ -195,7 +196,8 @@ export const WordByWord = () => {
     }
 
     return (
-        <ContentPage className='word-by-word' navigation={{ chapterNumber }}>
+        <ContentPage className='word-by-word' navigation={{ chapterNumber, url: '/wordbyword' }}>
+            <CorpusHeader/>
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
             {
