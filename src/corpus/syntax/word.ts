@@ -7,7 +7,7 @@ export type Word = {
     type: WordType,
     token?: Token,
     hiddenText?: string,
-    hiddenPartOfSpeech?: PosTag,
+    hiddenPosTag?: PosTag,
     startNode: number,
     endNode: number
 }

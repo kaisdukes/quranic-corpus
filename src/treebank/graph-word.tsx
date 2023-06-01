@@ -19,8 +19,7 @@ export const GraphWord = forwardRef((
     ref: Ref<HTMLDivElement>) => {
 
     const colorService = container.resolve(ColorService);
-    const token = word.token!;
-    const { segments } = token;
+    const token = word.token;
 
     return (
         <div
@@ -28,29 +27,36 @@ export const GraphWord = forwardRef((
             className='graph-word'
             style={positionElement(position)}>
             <div className='word-content'>
-                <TokenHeader token={token} />
-                <ArabicToken token={token} />
-                <div className='pos-tag-container'>
-                    {
-                        (() => {
-                            const posTags = [];
-                            let posTagIndex = posTagRefs.length - 1;
-                            for (let i = segments.length - 1; i >= 0; i--) {
-                                const segment = segments[i];
-                                if (segment.posTag !== 'DET') {
-                                    posTags.push(
-                                        <NodeElement
-                                            key={`tag-${i}`}
-                                            ref={posTagRefs[posTagIndex--]}
-                                            className={colorService.getSegmentColor(segment)}
-                                            tag={segment.posTag} />
-                                    )
+                {
+                    token
+                        ? <>
+                            <TokenHeader token={token} />
+                            <ArabicToken token={token} />
+                            <div className='pos-tag-container'>
+                                {
+                                    (() => {
+                                        const { segments } = token;
+                                        const posTags = [];
+                                        let posTagIndex = posTagRefs.length - 1;
+                                        for (let i = segments.length - 1; i >= 0; i--) {
+                                            const segment = segments[i];
+                                            if (segment.posTag !== 'DET') {
+                                                posTags.push(
+                                                    <NodeElement
+                                                        key={`tag-${i}`}
+                                                        ref={posTagRefs[posTagIndex--]}
+                                                        className={colorService.getSegmentColor(segment)}
+                                                        tag={segment.posTag} />
+                                                )
+                                            }
+                                        }
+                                        return posTags;
+                                    })()
                                 }
-                            }
-                            return posTags;
-                        })()
-                    }
-                </div>
+                            </div>
+                        </>
+                        : <div>NO_TOKEN</div>
+                }
             </div>
         </div>
     )

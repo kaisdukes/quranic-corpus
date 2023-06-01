@@ -7,8 +7,8 @@ import './treebank.scss';
 
 export const Treebank = () => {
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
-    const location = [4, 79]; // [6, 12]
-    const graphNumber = 3; // 1
+    const location = [4, 79];
+    const graphNumber = 3;
 
     useEffect(() => {
         (async () => {

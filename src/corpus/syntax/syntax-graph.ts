@@ -8,7 +8,7 @@ export type Graph = {
     legacyCorpusGraphNumber: number,
     words: Word[],
     edges: Edge[],
-    phraseNodes: PhraseNode[]
+    phraseNodes?: PhraseNode[]
 }
 
 export class SyntaxGraph {
@@ -17,7 +17,7 @@ export class SyntaxGraph {
     readonly legacyCorpusGraphNumber: number;
     readonly words: Word[];
     readonly edges: Edge[];
-    readonly phraseNodes: PhraseNode[];
+    readonly phraseNodes?: PhraseNode[];
     readonly segmentNodeCount: number;
 
     constructor({ graphNumber, graphCount, legacyCorpusGraphNumber, words, edges, phraseNodes }: Graph) {
@@ -35,6 +35,6 @@ export class SyntaxGraph {
     }
 
     getPhraseNode(node: number): PhraseNode {
-        return this.phraseNodes[node - this.segmentNodeCount];
+        return this.phraseNodes![node - this.segmentNodeCount];
     }
 }

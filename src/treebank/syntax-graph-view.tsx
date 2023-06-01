@@ -26,7 +26,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     }));
 
     const phrasesRef = useRef<RefObject<HTMLDivElement>[]>(
-        phraseNodes.map(() => createRef<HTMLDivElement>())
+        phraseNodes?.map(() => createRef<HTMLDivElement>()) || []
     );
 
     const labelsRef = useRef<RefObject<HTMLDivElement>[]>(
@@ -88,7 +88,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                 })
             }
             {
-                phraseNodes.map((phraseNode, i) => {
+                phraseNodes && phraseNodes.map((phraseNode, i) => {
                     const { phraseTag } = phraseNode;
                     return (
                         <PhraseElement
