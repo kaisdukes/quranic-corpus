@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { NavigationProps } from './navigation/navigation-props';
+import { NavigationProps } from './navigation/navigation';
 import { NavigationBar } from './navigation/navigation-bar';
 import { Footer } from './components/footer';
 

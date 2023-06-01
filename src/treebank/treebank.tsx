@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
+import { ContentPage } from '../content-page';
 import { container } from 'tsyringe';
 import './treebank.scss';
 
 export const Treebank = () => {
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const location = [4, 79];
+    const chapterNumber = location[0];
     const graphNumber = 3;
 
     useEffect(() => {
@@ -18,7 +20,7 @@ export const Treebank = () => {
     }, [])
 
     return (
-        <div className='treebank'>
+        <ContentPage className='treebank' navigation={{ chapterNumber, url: '/treebank' }}>
             <h1>Corpus 2.0: Renderer Test</h1>
             <p>
                 This desktop-optimized page tests a new vector renderer for Quranic Arabic Corpus 2.0.
@@ -34,6 +36,6 @@ export const Treebank = () => {
                     </div>
                     : <div>Loading...</div>
             }
-        </div>
+        </ContentPage>
     )
 }

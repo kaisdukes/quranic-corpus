@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useState } from 'react';
-import { NavigationProps } from './navigation-props';
+import { NavigationProps } from './navigation';
 import { Link } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { ChevronDown } from '../components/chevron-down';
