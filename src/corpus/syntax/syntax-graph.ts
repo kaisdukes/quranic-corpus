@@ -9,7 +9,7 @@ type Props = {
     phraseNodes: PhraseNode[]
 }
 
-export class DependencyGraph {
+export class SyntaxGraph {
     readonly words: Word[];
     readonly edges: Edge[];
     readonly phraseNodes: PhraseNode[];

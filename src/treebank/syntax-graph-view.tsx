@@ -3,17 +3,17 @@ import { GraphToken } from './graph-token';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
 import { GraphLayout } from '../layout/graph-layout';
-import { DependencyGraphService } from '../corpus/syntax/dependency-graph-service';
-import { DependencyGraphVisualizer, TokenDomElement } from '../layout/dependency-graph-visualizer';
+import { SyntaxService } from '../corpus/syntax/syntax-service';
+import { SyntaxGraphVisualizer, TokenDomElement } from '../layout/syntax-graph-visualizer';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
-import './dependency-graph-view.scss';
+import './syntax-graph-view.scss';
 
-export const DependencyGraphView = () => {
-    const dependencyGraphService = container.resolve(DependencyGraphService);
+export const SyntaxGraphView = () => {
+    const syntaxService = container.resolve(SyntaxService);
     const colorService = container.resolve(ColorService);
-    const dependencyGraph = dependencyGraphService.getDependencyGraph();
-    const { words, edges, phraseNodes } = dependencyGraph;
+    const syntaxGraph = syntaxService.getSyntax();
+    const { words, edges, phraseNodes } = syntaxGraph;
 
     const tokensRef = useRef<TokenDomElement[]>(words.map(word => {
         const posTagRefs = Array.from({ length: word.nodeCount }, () => createRef<HTMLDivElement>());
@@ -59,18 +59,18 @@ export const DependencyGraphView = () => {
     useEffect(() => {
         (async () => {
             await document.fonts.load('1em Hafs');
-            const dependencyGraphVisualizer = new DependencyGraphVisualizer(
-                dependencyGraph,
+            const syntaxGraphVisualizer = new SyntaxGraphVisualizer(
+                syntaxGraph,
                 tokensRef.current,
                 phrasesRef.current,
                 labelsRef.current);
-            setGraphLayout(dependencyGraphVisualizer.layoutDependencyGraph());
+            setGraphLayout(syntaxGraphVisualizer.layoutSyntaxGraph());
         })();
     }, [])
 
     return (
         <div
-            className='dependency-graph-view'
+            className='syntax-graph-view'
             style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
             {
                 words.map((word, i) => {

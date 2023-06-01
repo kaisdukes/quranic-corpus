@@ -1,4 +1,4 @@
-import { DependencyGraphView } from '../treebank/dependency-graph-view';
+import { SyntaxGraphView } from '../treebank/syntax-graph-view';
 import './treebank.scss';
 
 export const Treebank = () => {
@@ -12,7 +12,7 @@ export const Treebank = () => {
                 graph yet.
             </p>
             <div className='compare'>
-                <DependencyGraphView />
+                <SyntaxGraphView />
                 <img src='https://corpus.quran.com/graphimage?id=2553' />
             </div>
         </div>

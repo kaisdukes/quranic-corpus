@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { DependencyGraph } from '../corpus/syntax/dependency-graph';
+import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { Position, Rect } from './geometry';
 import { HeightMap } from './height-map';
 import { Arc, GraphLayout, Line } from './graph-layout';
@@ -9,7 +9,7 @@ export type TokenDomElement = {
     posTagRefs: RefObject<HTMLDivElement>[]
 }
 
-export class DependencyGraphVisualizer {
+export class SyntaxGraphVisualizer {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
     private readonly phrasePositions: Position[] = [];
@@ -17,13 +17,13 @@ export class DependencyGraphVisualizer {
     private lines: Line[] = [];
 
     constructor(
-        private readonly dependencyGraph: DependencyGraph,
+        private readonly syntaxGraph: SyntaxGraph,
         private readonly tokens: TokenDomElement[],
         private readonly phrasesRef: RefObject<HTMLDivElement>[],
         private readonly labelRefs: RefObject<HTMLDivElement>[]) {
     }
 
-    layoutDependencyGraph(): GraphLayout {
+    layoutSyntaxGraph(): GraphLayout {
 
         // measure tokens
         const tokenGap = 40;
@@ -60,9 +60,9 @@ export class DependencyGraphVisualizer {
         const arcs: Arc[] = [];
         const arrowPositions: Position[] = [];
         const labelPositions: Position[] = [];
-        for (const edge of this.dependencyGraph.edges) {
+        for (const edge of this.syntaxGraph.edges) {
             const { startNode, endNode, dependencyTag } = edge;
-            if (this.dependencyGraph.isPhraseNode(startNode)) {
+            if (this.syntaxGraph.isPhraseNode(startNode)) {
                 this.layoutPhraseNode(startNode);
             }
 
@@ -130,7 +130,7 @@ export class DependencyGraphVisualizer {
     private layoutPhraseNode(node: number) {
 
         // position
-        const { startNode, endNode } = this.dependencyGraph.getPhraseNode(node);
+        const { startNode, endNode } = this.syntaxGraph.getPhraseNode(node);
         const x1 = this.nodePositions[endNode].x;
         const x2 = this.nodePositions[startNode].x;
         let y = this.heightMap.getHeight(x1, x2) + 25;
@@ -141,7 +141,7 @@ export class DependencyGraphVisualizer {
         y += 10;
 
         // phrase
-        const phraseIndex = node - this.dependencyGraph.segmentNodeCount;
+        const phraseIndex = node - this.syntaxGraph.segmentNodeCount;
         const phraseRect = this.phraseBounds[phraseIndex];
         const phraseX = x - phraseRect.width / 2;
         this.phrasePositions[phraseIndex] = { x: phraseX, y };

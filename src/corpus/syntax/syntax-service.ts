@@ -1,9 +1,9 @@
-import { DependencyGraph } from './dependency-graph';
+import { SyntaxGraph } from './syntax-graph';
 import { DependencyTag } from './dependency-tag';
 import { singleton } from 'tsyringe';
 
 @singleton()
-export class DependencyGraphService {
+export class SyntaxService {
     private arabicTerms: Map<DependencyTag, string> = new Map([
         ['circ', 'حال'],
         ['gen', 'مجرور'],
@@ -12,8 +12,8 @@ export class DependencyGraphService {
         ['subj', 'فاعل']
     ]);
 
-    getDependencyGraph() {
-        return new DependencyGraph({
+    getSyntax() {
+        return new SyntaxGraph({
             tokens: [
                 {
                     location: [4, 79, 13],
