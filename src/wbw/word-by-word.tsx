@@ -18,7 +18,7 @@ import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import './word-by-word.scss';
 
-export const resolveLocation = ({ params }: LoaderFunctionArgs) => {
+export const wordByWordLoader = ({ params }: LoaderFunctionArgs) => {
     const location = parseLocation(params.location!);
     if (isNaN(location[0])) {
         throw new CorpusError('404', 'Page not found');

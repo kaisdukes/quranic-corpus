@@ -8,7 +8,7 @@ import { SettingsService } from './settings/settings-service';
 import { OverlayProvider, useOverlay } from './overlay-context';
 import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
-import { WordByWord, resolveLocation } from './wbw/word-by-word';
+import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank } from './treebank/treebank';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/wordbyword/:location',
-        loader: resolveLocation,
+        loader: wordByWordLoader,
         element: <WordByWord />,
         errorElement: <ErrorPage />
     }
