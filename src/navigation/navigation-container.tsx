@@ -7,9 +7,9 @@ type Props = NavigationProps & {
 
 export const NavigationContainer = ({ children, ...rest }: Props) => {
     return (
-        <div className='navigation-container'>
+        <>
             <NavigationHeader {...rest} />
             {children}
-        </div>
+        </>
     )
 }
