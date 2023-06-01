@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { NavigationContainer } from '../navigation/navigation-container';
+import { ContentPage } from '../content-page';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { Verse } from '../corpus/orthography/verse';
 import { formatLocationWithBrackets, Location, parseLocation } from '../corpus/orthography/location';
-import { Footer } from '../components/footer';
 import { container } from 'tsyringe';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
 import { ReaderView } from './reader-view';
@@ -196,28 +195,23 @@ export const WordByWord = () => {
     }
 
     return (
-        <NavigationContainer chapterNumber={chapterNumber}>
-            <div className='word-by-word'>
-                {loadingTop && <LoadingBanner />}
-                <div ref={loadingRefTop} />
-                <div className='word-by-word-view'>
-                    {
-                        verses.length > 0 && verses[0].location[1] === 1 &&
-                        <>
-                            <ChapterHeader chapter={chapter} />
-                            <Bismillah className='bismillah' />
-                        </>
-                    }
-                    {
-                        readerMode
-                            ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
-                            : <DetailView verses={verses} onClickToken={handleTokenClick} />
-                    }
-                </div>
-                {loadingBottom && <LoadingBanner />}
-                <div ref={loadingRefBottom} />
-                <Footer />
-            </div>
-        </NavigationContainer>
+        <ContentPage className='word-by-word' navigation={{ chapterNumber }}>
+            {loadingTop && <LoadingBanner />}
+            <div ref={loadingRefTop} />
+            {
+                verses.length > 0 && verses[0].location[1] === 1 &&
+                <>
+                    <ChapterHeader chapter={chapter} />
+                    <Bismillah className='bismillah' />
+                </>
+            }
+            {
+                readerMode
+                    ? <ReaderView verses={verses} onClickToken={handleTokenClick} />
+                    : <DetailView verses={verses} onClickToken={handleTokenClick} />
+            }
+            {loadingBottom && <LoadingBanner />}
+            <div ref={loadingRefBottom} />
+        </ContentPage>
     )
 }

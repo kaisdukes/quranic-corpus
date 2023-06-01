@@ -9,13 +9,8 @@
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    pointer-events: none;
-    display: none;
-
-    &.visible {
-        pointer-events: all;
-        display: flex;
-    }
+    pointer-events: all;
+    display: flex;
 
     .loader {
         position: relative;

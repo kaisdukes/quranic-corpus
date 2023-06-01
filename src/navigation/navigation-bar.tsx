@@ -10,13 +10,13 @@ import { VerseSelector } from './verse-selector';
 import { HamburgerMenu } from './hamburger-menu';
 import { container } from 'tsyringe';
 import hamburger from './../images/icons/hamburger.svg'
-import './navigation-header.scss';
+import './navigation-bar.scss';
 
 export type NavigationProps = {
     chapterNumber: number
 }
 
-export const NavigationHeader = ({ chapterNumber }: NavigationProps) => {
+export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
     const [showVerseSelectorPopup, setShowVerseSelectorPopup] = useState(false);
     const verseSelectorPopupRef = useRef<HTMLDivElement | null>(null);
 
@@ -27,7 +27,7 @@ export const NavigationHeader = ({ chapterNumber }: NavigationProps) => {
     const chapter = chapterService.getChapter(chapterNumber);
 
     return (
-        <div className='navigation-header'>
+        <nav>
             <div className='navigation-bar'>
                 <Link to='/'><Qaf /></Link>
                 <PopupLink
@@ -54,6 +54,6 @@ export const NavigationHeader = ({ chapterNumber }: NavigationProps) => {
             <PopupMenu ref={hamburgerPopupRef} showPopup={showHamburgerPopup}>
                 <HamburgerMenu onClose={() => setShowHamburgerPopup(false)} />
             </PopupMenu>
-        </div>
+        </nav>
     )
 }

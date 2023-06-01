@@ -65,7 +65,7 @@ const Root = () => {
     return (
         <>
             {!booting && <RouterProvider router={router} />}
-            <LoadingOverlay visible={overlay} />
+            {overlay && <LoadingOverlay />}
         </>
     )
 }

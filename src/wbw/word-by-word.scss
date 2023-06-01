@@ -1,55 +1,47 @@
 .word-by-word {
+    display: flex;
+    flex-direction: column;
 
-    .word-by-word-view {
-        display: flex;
-        flex-direction: column;
+    .bismillah {
+        margin-top: 10px;
+        height: 100px;
+        width: auto;
 
-        .bismillah {
-            margin-top: 10px;
-            height: 100px;
-            width: auto;
-
-            path {
-                fill: rgb(63, 132, 161);
-            }
+        path {
+            fill: rgb(63, 132, 161);
         }
+    }
 
-        .verse-element {
-            margin-top: 30px;
+    .verse-element {
+        margin-top: 30px;
 
-            &:nth-child(odd) {
-                background: #f6f6f6;
+        &:nth-child(even) {
+            background: #f6f6f6;
 
-                .verse-token {
-                    @media only screen and (min-width: 600px) {
-                        &:hover {
-                            background: #e8e4e1;
-                        }
+            .verse-token {
+                @media only screen and (min-width: 600px) {
+                    &:hover {
+                        background: #e8e4e1;
                     }
                 }
             }
         }
+    }
 
-        .reader-view {
-            margin-top: 40px;
-            margin-left: 25px;
-            margin-right: 25px;
-        }
+    .reader-view {
+        margin-top: 40px;
+        margin-left: 25px;
+        margin-right: 25px;
+    }
 
-        @media only screen and (max-width: 600px) {
-            .bismillah {
-                height: 60px;
-            }
-        }
-
-        @media only screen and (min-width: 1100px) {
-            margin: auto;
-            max-width: 1100px;
+    @media only screen and (max-width: 600px) {
+        .bismillah {
+            height: 60px;
         }
     }
 
-    footer {
-        margin-top: 30px;
-        margin-bottom: 50px;
+    @media only screen and (min-width: 1100px) {
+        margin: auto;
+        max-width: 1100px;
     }
 }
