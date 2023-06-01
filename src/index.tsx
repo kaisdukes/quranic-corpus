@@ -40,14 +40,15 @@ const Root = () => {
     const { overlay, setOverlay } = useOverlay();
     const settingsContext = useSettings();
     const [booting, setBooting] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         const bootUp = async () => {
             try {
                 await metadataService.cacheMetadata();
                 settingsService.loadSettings(settingsContext);
-            } catch (error) {
-                console.error('Failed to boot up!', error);
+            } catch (e) {
+                setError(e as Error);
             } finally {
                 setOverlay(false);
                 setBooting(false);
@@ -56,6 +57,10 @@ const Root = () => {
 
         bootUp();
     }, []);
+
+    if (error) {
+        return <div>{error.message}</div>;
+    }
 
     return (
         <>
