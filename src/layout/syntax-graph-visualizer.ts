@@ -74,7 +74,7 @@ export class SyntaxGraphVisualizer {
             const boxWidth = Math.abs(x2 - x1);
 
             // boost
-            const maxY = this.heightMap.getHeight(x1, x2);
+            const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
             let boxHeight = deltaY + 30;
             while (y + boxHeight < maxY) {
                 boxHeight += 50;
