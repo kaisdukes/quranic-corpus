@@ -35,15 +35,37 @@ export class ColorService {
     ]);
 
     private phraseTagColors: Map<PhraseTag, string> = new Map([
-        ['PP', 'rust']
+        ['CS', 'orange'],
+        ['PP', 'rust'],
+        ['SC', 'gold'],
+        ['VS', 'seagreen']
     ]);
 
     private dependencyTagColors: Map<DependencyTag, string> = new Map([
+        ['adj', 'purple'],
+        ['app', 'sky'],
         ['circ', 'seagreen'],
+        ['cog', 'seagreen'],
+        ['com', 'metal'],
+        ['cond', 'orange'],
+        ['cpnd', 'sky'],
         ['gen', 'rust'],
+        ['int', 'orange'],
+        ['intg', 'rose'],
         ['link', 'orange'],
+        ['neg', 'red'],
         ['obj', 'metal'],
-        ['subj', 'sky']
+        ['pass', 'sky'],
+        ['poss', 'sky'],
+        ['pred', 'metal'],
+        ['prev', 'orange'],
+        ['pro', 'red'],
+        ['prp', 'metal'],
+        ['spec', 'metal'],
+        ['spec', 'sky'],
+        ['sub', 'gold'],
+        ['subj', 'sky'],
+        ['voc', 'green']
     ]);
 
     getSegmentColor(segment: Segment): string {
@@ -66,10 +88,10 @@ export class ColorService {
     }
 
     getPhraseColor(phraseTag: PhraseTag): string {
-        return this.phraseTagColors.get(phraseTag) || 'black';
+        return this.phraseTagColors.get(phraseTag) || 'blue';
     }
 
     getDependencyColor(dependencyTag: DependencyTag): string {
-        return this.dependencyTagColors.get(dependencyTag) || 'black';
+        return this.dependencyTagColors.get(dependencyTag) || 'pink';
     }
 }
