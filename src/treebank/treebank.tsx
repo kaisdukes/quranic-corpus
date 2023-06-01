@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import { ContentPage } from '../content-page';
 import { Location, parseLocation } from '../corpus/orthography/location';
+import { ChapterService } from '../corpus/orthography/chapter-service';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
@@ -22,17 +23,22 @@ export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
 
 export const Treebank = () => {
     const location = useLoaderData() as Location;
-    const [chapterNumber, verseNumber] = location;
 
     const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
+
+    const chapterService = container.resolve(ChapterService);
+    const syntaxService = container.resolve(SyntaxService);
+
+    const [chapterNumber, verseNumber] = location;
     const graphNumber = 1;
+
+    const verseCount = chapterService.getChapter(chapterNumber).verseCount;
 
     useEffect(() => {
         (async () => {
             setOverlay(true);
             try {
-                const syntaxService = container.resolve(SyntaxService);
                 setSyntaxGraph(await syntaxService.getSyntax(location, graphNumber));
             } catch (e) {
                 if (e instanceof AxiosError && e.response?.status === 404) {
@@ -44,6 +50,10 @@ export const Treebank = () => {
             setOverlay(false);
         })();
     }, [chapterNumber, verseNumber])
+
+    const handleNavigation = (next: boolean) => {
+        console.log(`navigation: next = ${next}`);
+    }
 
     return (
         <ContentPage className='treebank' navigation={{ chapterNumber, url: '/treebank' }}>
@@ -62,7 +72,10 @@ export const Treebank = () => {
                         <div>Graph <strong>{syntaxGraph.graphNumber} / {syntaxGraph.graphCount}</strong></div>
                     }
                 </div>
-                <PrevNextNavigation />
+                <PrevNextNavigation
+                    prevEnabled={chapterNumber > 1 || verseNumber > 1}
+                    nextEnabled={chapterNumber < 114 || verseNumber < 6}
+                    onClick={handleNavigation} />
             </nav>
             {
                 syntaxGraph &&

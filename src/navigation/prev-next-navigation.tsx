@@ -1,11 +1,17 @@
 import { ArrowButton } from '../components/arrow-button';
 import './prev-next-navigation.scss';
 
-export const PrevNextNavigation = () => {
+type Props = {
+    prevEnabled: boolean,
+    nextEnabled: boolean,
+    onClick: (next: boolean) => void
+}
+
+export const PrevNextNavigation = ({ prevEnabled, nextEnabled, onClick }: Props) => {
     return (
         <div className='prev-next-navigation'>
-            <ArrowButton enabled={false} />
-            <ArrowButton right={true} enabled={true} />
+            <ArrowButton enabled={prevEnabled} onClick={() => onClick(false)} />
+            <ArrowButton right={true} enabled={nextEnabled} onClick={() => onClick(true)} />
         </div>
     )
 }
