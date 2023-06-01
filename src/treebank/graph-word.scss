@@ -8,6 +8,7 @@
 
         .arabic-token {
             font-size: 34px;
+            line-height: 34px;
         }
 
         .pos-tag-container {
@@ -19,8 +20,8 @@
         .hidden-word {
             margin-top: var(--token-header-height);
 
-            .bra,
-            .ket {
+            .pre {
+                font-family: 'Times New Roman', Times, serif;
                 font-size: 24px;
             }
         }

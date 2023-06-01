@@ -19,7 +19,7 @@ export const GraphWord = forwardRef((
     ref: Ref<HTMLDivElement>) => {
 
     const colorService = container.resolve(ColorService);
-    const token = word.token;
+    const { token, hiddenText, hiddenPosTag } = word;
 
     return (
         <div
@@ -55,19 +55,26 @@ export const GraphWord = forwardRef((
                                 }
                             </div>
                         </>
-                        : <div className='hidden-word silver'>
-                            <div className='arabic-token'>
-                                <span className='bra'>(</span>
-                                {word.hiddenText}
-                                <span className='ket'>)</span>
+                        :
+                        <>
+                            <div className='arabic-token hidden-word silver-light'>
+                                {
+                                    hiddenText ?
+                                        <>
+                                            <span className='pre'>(</span>
+                                            {hiddenText}
+                                            <span className='pre'>)</span>
+                                        </>
+                                        : <span className='pre'>(*)</span>
+                                }
                             </div>
                             <div className='pos-tag-container'>
                                 <NodeElement
                                     ref={posTagRefs[0]}
-                                    className='silver'
-                                    tag={word.hiddenPosTag!} />
+                                    className='silver-light'
+                                    tag={hiddenPosTag!} />
                             </div>
-                        </div>
+                        </>
                 }
             </div>
         </div>
