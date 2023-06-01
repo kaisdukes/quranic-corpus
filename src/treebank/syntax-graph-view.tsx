@@ -16,7 +16,7 @@ export const SyntaxGraphView = () => {
     const { words, edges, phraseNodes } = syntaxGraph;
 
     const tokensRef = useRef<TokenDomElement[]>(words.map(word => {
-        const posTagRefs = Array.from({ length: word.nodeCount }, () => createRef<HTMLDivElement>());
+        const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
         return {
             ref: createRef<HTMLDivElement>(),
             posTagRefs
@@ -78,7 +78,7 @@ export const SyntaxGraphView = () => {
                     return (
                         <GraphToken
                             key={`token-${i}`}
-                            token={word.token}
+                            token={word.token!}
                             ref={tokenDomElement.ref}
                             posTagRefs={tokenDomElement.posTagRefs}
                             position={tokenPositions[i]} />

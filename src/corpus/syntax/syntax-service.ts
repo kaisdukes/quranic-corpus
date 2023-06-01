@@ -14,37 +14,52 @@ export class SyntaxService {
 
     getSyntax() {
         return new SyntaxGraph({
-            tokens: [
+            words: [
                 {
-                    location: [4, 79, 13],
-                    translation: 'And We have sent you',
-                    phonetic: 'wa-arsalnāka',
-                    root: 'rsl',
-                    segments: [
-                        { arabic: 'وَ', posTag: 'REM' },
-                        { arabic: 'أَرْسَلْ', posTag: 'V' },
-                        { arabic: 'نَٰ', posTag: 'PRON', pronounType: 'subj' },
-                        { arabic: 'كَ', posTag: 'PRON', pronounType: 'obj' }]
+                    type: 'token',
+                    token: {
+                        location: [4, 79, 13],
+                        translation: 'And We have sent you',
+                        phonetic: 'wa-arsalnāka',
+                        root: 'rsl',
+                        segments: [
+                            { arabic: 'وَ', posTag: 'REM' },
+                            { arabic: 'أَرْسَلْ', posTag: 'V' },
+                            { arabic: 'نَٰ', posTag: 'PRON', pronounType: 'subj' },
+                            { arabic: 'كَ', posTag: 'PRON', pronounType: 'obj' }]
+                    },
+                    startNode: 0,
+                    endNode: 3
                 },
                 {
-                    location: [4, 79, 14],
-                    translation: 'for the people',
-                    phonetic: 'lilnnāsi',
-                    root: 'nws',
-                    segments: [
-                        { arabic: 'لِ', posTag: 'P' },
-                        { arabic: 'ل', posTag: 'DET' },
-                        { arabic: 'نَّاسِ', posTag: 'N' }
-                    ]
+                    type: 'token',
+                    token: {
+                        location: [4, 79, 14],
+                        translation: 'for the people',
+                        phonetic: 'lilnnāsi',
+                        root: 'nws',
+                        segments: [
+                            { arabic: 'لِ', posTag: 'P' },
+                            { arabic: 'ل', posTag: 'DET' },
+                            { arabic: 'نَّاسِ', posTag: 'N' }
+                        ]
+                    },
+                    startNode: 4,
+                    endNode: 5
                 },
                 {
-                    location: [4, 79, 15],
-                    translation: '(as) a Messenger',
-                    phonetic: 'rasūlan',
-                    root: 'rsl',
-                    segments: [
-                        { arabic: 'رَسُولًاۚ', posTag: 'N' }
-                    ]
+                    type: 'token',
+                    token: {
+                        location: [4, 79, 15],
+                        translation: '(as) a Messenger',
+                        phonetic: 'rasūlan',
+                        root: 'rsl',
+                        segments: [
+                            { arabic: 'رَسُولًاۚ', posTag: 'N' }
+                        ]
+                    },
+                    startNode: 6,
+                    endNode: 6
                 }
             ],
             edges: [
