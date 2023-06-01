@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe';
-import { formatLocationWithBrackets } from '../corpus/location';
+import { formatLocationWithBrackets } from '../corpus/orthography/location';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { VerseService } from '../corpus/orthography/verse-service';
 import { Verse } from '../corpus/orthography/verse';

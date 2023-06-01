@@ -2,7 +2,7 @@ import { Edge } from './edge';
 import { PhraseNode } from './phrase-node';
 import { Word } from './word';
 
-type Props = {
+export type Graph = {
     words: Word[],
     edges: Edge[],
     phraseNodes: PhraseNode[]
@@ -14,7 +14,7 @@ export class SyntaxGraph {
     readonly phraseNodes: PhraseNode[];
     readonly segmentNodeCount: number;
 
-    constructor({ words, edges, phraseNodes }: Props) {
+    constructor({ words, edges, phraseNodes }: Graph) {
         this.words = words;
         this.edges = edges;
         this.phraseNodes = phraseNodes;

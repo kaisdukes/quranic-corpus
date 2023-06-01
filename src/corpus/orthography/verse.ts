@@ -1,4 +1,4 @@
-import { Location } from '../location';
+import { Location } from './location';
 import { Token } from './token';
 
 export type VerseMark = 'section' | 'sajdah';

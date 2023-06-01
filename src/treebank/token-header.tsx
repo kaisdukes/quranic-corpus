@@ -1,4 +1,4 @@
-import { formatLocation } from '../corpus/location';
+import { formatLocation } from '../corpus/orthography/location';
 import { Token } from '../corpus/orthography/token';
 import './token-header.scss';
 

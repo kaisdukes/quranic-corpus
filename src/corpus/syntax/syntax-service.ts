@@ -1,9 +1,12 @@
-import { SyntaxGraph } from './syntax-graph';
+import { ApiBase } from '../../api-base';
+import { Graph, SyntaxGraph } from './syntax-graph';
 import { DependencyTag } from './dependency-tag';
+import { formatLocation, Location } from '../orthography/location';
 import { singleton } from 'tsyringe';
+import axios from 'axios';
 
 @singleton()
-export class SyntaxService {
+export class SyntaxService extends ApiBase {
     private arabicTerms: Map<DependencyTag, string> = new Map([
         ['circ', 'حال'],
         ['gen', 'مجرور'],
@@ -12,91 +15,16 @@ export class SyntaxService {
         ['subj', 'فاعل']
     ]);
 
-    getSyntax() {
-        return new SyntaxGraph({
-            words: [
-                {
-                    type: 'token',
-                    token: {
-                        location: [4, 79, 13],
-                        translation: 'And We have sent you',
-                        phonetic: 'wa-arsalnāka',
-                        root: 'rsl',
-                        segments: [
-                            { arabic: 'وَ', posTag: 'REM' },
-                            { arabic: 'أَرْسَلْ', posTag: 'V' },
-                            { arabic: 'نَٰ', posTag: 'PRON', pronounType: 'subj' },
-                            { arabic: 'كَ', posTag: 'PRON', pronounType: 'obj' }]
-                    },
-                    startNode: 0,
-                    endNode: 3
-                },
-                {
-                    type: 'token',
-                    token: {
-                        location: [4, 79, 14],
-                        translation: 'for the people',
-                        phonetic: 'lilnnāsi',
-                        root: 'nws',
-                        segments: [
-                            { arabic: 'لِ', posTag: 'P' },
-                            { arabic: 'ل', posTag: 'DET' },
-                            { arabic: 'نَّاسِ', posTag: 'N' }
-                        ]
-                    },
-                    startNode: 4,
-                    endNode: 5
-                },
-                {
-                    type: 'token',
-                    token: {
-                        location: [4, 79, 15],
-                        translation: '(as) a Messenger',
-                        phonetic: 'rasūlan',
-                        root: 'rsl',
-                        segments: [
-                            { arabic: 'رَسُولًاۚ', posTag: 'N' }
-                        ]
-                    },
-                    startNode: 6,
-                    endNode: 6
+    async getSyntax(location: Location, graphNumber: number) {
+        const response = await axios.get(
+            this.url('/syntax'),
+            {
+                params: {
+                    location: formatLocation(location),
+                    graph: graphNumber
                 }
-            ],
-            edges: [
-                {
-                    startNode: 2,
-                    endNode: 1,
-                    dependencyTag: 'subj'
-                },
-                {
-                    startNode: 3,
-                    endNode: 1,
-                    dependencyTag: 'obj'
-                },
-                {
-                    startNode: 5,
-                    endNode: 4,
-                    dependencyTag: 'gen'
-                },
-                {
-                    startNode: 7,
-                    endNode: 1,
-                    dependencyTag: 'link'
-                },
-                {
-                    startNode: 6,
-                    endNode: 1,
-                    dependencyTag: 'circ'
-                }
-            ],
-            phraseNodes: [
-                {
-                    startNode: 4,
-                    endNode: 5,
-                    phraseTag: 'PP'
-                }
-            ]
-        });
+            });
+        return new SyntaxGraph(response.data as Graph);
     }
 
     getArabicTerm(dependencyTag: DependencyTag): string {
