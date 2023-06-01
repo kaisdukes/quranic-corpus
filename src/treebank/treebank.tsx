@@ -1,23 +1,34 @@
 import { useEffect, useState } from 'react';
+import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
+import { ContentPage } from '../content-page';
+import { Location, parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
-import { ContentPage } from '../content-page';
+import { CorpusError } from '../errors/corpus-error';
 import { container } from 'tsyringe';
 import './treebank.scss';
 
+export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
+    const location = parseLocation(params.location!);
+    if (isNaN(location[0])) {
+        throw new CorpusError('404', 'Page not found');
+    }
+    return location.length === 1 ? [location[0], 1] : location;
+}
+
 export const Treebank = () => {
+    const location = useLoaderData() as Location;
+    const [chapterNumber, verseNumber] = location;
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
-    const location = [4, 79];
-    const chapterNumber = location[0];
-    const graphNumber = 3;
+    const graphNumber = 1;
 
     useEffect(() => {
         (async () => {
             const syntaxService = container.resolve(SyntaxService);
             setSyntaxGraph(await syntaxService.getSyntax(location, graphNumber));
         })();
-    }, [])
+    }, [chapterNumber, verseNumber])
 
     return (
         <ContentPage className='treebank' navigation={{ chapterNumber, url: '/treebank' }}>

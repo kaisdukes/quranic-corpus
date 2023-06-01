@@ -26,7 +26,7 @@ export const Home = () => {
             </p>
             <div className='links'>
                 <Link to={`/wordbyword/${randomChapter()}`}>Quran Word by Word</Link>
-                <Link to='/treebank'>Quranic Treebank</Link>
+                <Link to={`/treebank/${randomChapter()}`}>Quranic Treebank</Link>
             </div>
             <p>
                 The corpus provides a <strong>supportive community</strong> for learning Quranic Arabic.
