@@ -1,7 +1,8 @@
 import { ApiBase } from '../../api-base';
 import { Graph, SyntaxGraph } from './syntax-graph';
 import { DependencyTag } from './dependency-tag';
-import { formatLocation, Location } from '../orthography/location';
+import { GraphLocation } from './graph-location';
+import { formatLocation } from '../orthography/location';
 import { singleton } from 'tsyringe';
 import axios from 'axios';
 
@@ -55,13 +56,13 @@ export class SyntaxService extends ApiBase {
         ['voc', 'منادي']
     ]);
 
-    async getSyntax(location: Location, graphNumber: number) {
+    async getSyntax(graphLocation: GraphLocation) {
         const response = await axios.get(
             this.url('/syntax'),
             {
                 params: {
-                    location: formatLocation(location),
-                    graph: graphNumber
+                    location: formatLocation(graphLocation.location),
+                    graph: graphLocation.graphNumber
                 }
             });
         return new SyntaxGraph(response.data as Graph);

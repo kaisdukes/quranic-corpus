@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import { ContentPage } from '../content-page';
-import { Location, parseLocation } from '../corpus/orthography/location';
-import { ChapterService } from '../corpus/orthography/chapter-service';
+import { GraphLocation } from '../corpus/syntax/graph-location';
+import { parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
@@ -13,33 +13,33 @@ import { AxiosError } from 'axios';
 import { useOverlay } from '../overlay-context';
 import './treebank.scss';
 
-export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
+export const treebankLoader = ({ params, request }: LoaderFunctionArgs): GraphLocation => {
     const location = parseLocation(params.location!);
-    if (isNaN(location[0])) {
+    const graphParam = new URL(request.url).searchParams.get('graph');
+    const graphNumber = graphParam ? Number(graphParam) : 1;
+
+    if (isNaN(location[0]) || isNaN(graphNumber)) {
         throw new CorpusError('404', 'Page not found');
     }
-    return location.length === 1 ? [location[0], 1] : location;
+    return {
+        location: location.length === 1 ? [location[0], 1] : location,
+        graphNumber
+    }
 }
 
 export const Treebank = () => {
-    const location = useLoaderData() as Location;
-
+    const graphLocation = useLoaderData() as GraphLocation;
+    const { location } = graphLocation;
+    const [chapterNumber, verseNumber] = location;
     const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
-
-    const chapterService = container.resolve(ChapterService);
     const syntaxService = container.resolve(SyntaxService);
-
-    const [chapterNumber, verseNumber] = location;
-    const graphNumber = 1;
-
-    const verseCount = chapterService.getChapter(chapterNumber).verseCount;
 
     useEffect(() => {
         (async () => {
             setOverlay(true);
             try {
-                setSyntaxGraph(await syntaxService.getSyntax(location, graphNumber));
+                setSyntaxGraph(await syntaxService.getSyntax(graphLocation));
             } catch (e) {
                 if (e instanceof AxiosError && e.response?.status === 404) {
                     setSyntaxGraph(null);
