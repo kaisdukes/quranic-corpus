@@ -7,9 +7,10 @@ import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
 import { container } from 'tsyringe';
-import './treebank.scss';
-import { useOverlay } from '../overlay-context';
+import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { AxiosError } from 'axios';
+import { useOverlay } from '../overlay-context';
+import './treebank.scss';
 
 export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
     const location = parseLocation(params.location!);
@@ -53,6 +54,16 @@ export const Treebank = () => {
                 bitmap-rendered image (second). The vector image may not fully replicate the dependency
                 graph yet.
             </p>
+            <nav className='navigation'>
+                <div className='location'>
+                    <div>Verse {verseNumber}</div>
+                    {
+                        syntaxGraph && syntaxGraph.graphCount > 1 &&
+                        <div>Graph <strong>{syntaxGraph.graphNumber} / {syntaxGraph.graphCount}</strong></div>
+                    }
+                </div>
+                <PrevNextNavigation />
+            </nav>
             {
                 syntaxGraph &&
                 <div className='compare'>

@@ -1,6 +1,18 @@
 .treebank {
     margin: 25px;
 
+    .navigation {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+
+        .location {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+
     .compare {
         display: flex;
         flex-direction: column;

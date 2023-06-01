@@ -24,8 +24,8 @@ export const NavigationBar = ({ chapterNumber, url }: NavigationProps) => {
     const chapter = chapterService.getChapter(chapterNumber);
 
     return (
-        <nav>
-            <div className='navigation-bar'>
+        <nav className='navigation-bar'>
+            <header>
                 <Link to='/'><Qaf /></Link>
                 <PopupLink
                     className='chapter-name'
@@ -42,7 +42,7 @@ export const NavigationBar = ({ chapterNumber, url }: NavigationProps) => {
                     onShowPopup={setShowHamburgerPopup}>
                     <img src={hamburger} />
                 </PopupLink>
-            </div>
+            </header>
             <PopupMenu ref={verseSelectorPopupRef} showPopup={showVerseSelectorPopup}>
                 <VerseSelector
                     chapterNumber={chapterNumber}
