@@ -60,56 +60,59 @@ export class SyntaxGraphVisualizer {
         const arcs: Arc[] = [];
         const arrowPositions: Position[] = [];
         const labelPositions: Position[] = [];
-        for (const edge of this.syntaxGraph.edges) {
-            const { startNode, endNode, dependencyTag } = edge;
-            if (this.syntaxGraph.isPhraseNode(startNode)) {
-                this.layoutPhraseNode(startNode);
+        const { edges } = this.syntaxGraph;
+        if (edges) {
+            for (const edge of edges) {
+                const { startNode, endNode, dependencyTag } = edge;
+                if (this.syntaxGraph.isPhraseNode(startNode)) {
+                    this.layoutPhraseNode(startNode);
+                }
+
+                // compute bounding box for arc between two nodes
+                const { x: x1, y: y1 } = this.nodePositions[startNode];
+                const { x: x2, y: y2 } = this.nodePositions[endNode];
+                let y = y2;
+                const deltaY = Math.abs(y2 - y1);
+                const boxWidth = Math.abs(x2 - x1);
+
+                // boost
+                const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
+                let boxHeight = deltaY + 30;
+                while (y + boxHeight < maxY) {
+                    boxHeight += 50;
+                }
+
+                // compute ellipse radii so that arc touches the bounding max
+                const ry = boxHeight;
+                const theta = Math.asin(deltaY / ry);
+                const rx = boxWidth / (1 + Math.cos(theta));
+
+                const arc: Arc = {
+                    startNode,
+                    endNode,
+                    dependencyTag,
+                    rx,
+                    ry,
+                    xAxisRotation: 0,
+                    largeArcFlag: 0,
+                    sweepFlag: 0
+                };
+                arcs.push(arc);
+                y += boxHeight;
+
+                // arrow
+                arrowPositions.push({ x: x2 - rx - 3, y: y - 5 });
+
+                // layout edge label
+                const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
+                y += 8;
+                const labelPosition = {
+                    x: x2 - rx - labelWidth * 0.5,
+                    y
+                };
+                labelPositions.push(labelPosition)
+                this.heightMap.addSpan(x1, x2, y + labelHeight);
             }
-
-            // compute bounding box for arc between two nodes
-            const { x: x1, y: y1 } = this.nodePositions[startNode];
-            const { x: x2, y: y2 } = this.nodePositions[endNode];
-            let y = y2;
-            const deltaY = Math.abs(y2 - y1);
-            const boxWidth = Math.abs(x2 - x1);
-
-            // boost
-            const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
-            let boxHeight = deltaY + 30;
-            while (y + boxHeight < maxY) {
-                boxHeight += 50;
-            }
-
-            // compute ellipse radii so that arc touches the bounding max
-            const ry = boxHeight;
-            const theta = Math.asin(deltaY / ry);
-            const rx = boxWidth / (1 + Math.cos(theta));
-
-            const arc: Arc = {
-                startNode,
-                endNode,
-                dependencyTag,
-                rx,
-                ry,
-                xAxisRotation: 0,
-                largeArcFlag: 0,
-                sweepFlag: 0
-            };
-            arcs.push(arc);
-            y += boxHeight;
-
-            // arrow
-            arrowPositions.push({ x: x2 - rx - 3, y: y - 5 });
-
-            // layout edge label
-            const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
-            y += 8;
-            const labelPosition = {
-                x: x2 - rx - labelWidth * 0.5,
-                y
-            };
-            labelPositions.push(labelPosition)
-            this.heightMap.addSpan(x1, x2, y + labelHeight);
         }
 
         return {

@@ -35,7 +35,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     ), [syntaxGraph]);
 
     const labelsRef = useMemo(() => (
-        syntaxGraph.edges.map(() => createRef<HTMLDivElement>())
+        syntaxGraph.edges?.map(() => createRef<HTMLDivElement>()) || []
     ), [syntaxGraph]);
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
@@ -106,7 +106,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                 })
             }
             {
-                edges.map((edge, i) => {
+                edges && edges.map((edge, i) => {
                     return (
                         <EdgeLabel
                             key={`label-${i}`}

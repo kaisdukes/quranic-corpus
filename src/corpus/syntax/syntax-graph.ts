@@ -16,7 +16,7 @@ export class SyntaxGraph {
     readonly graphCount: number;
     readonly legacyCorpusGraphNumber: number;
     readonly words: Word[];
-    readonly edges: Edge[];
+    readonly edges?: Edge[];
     readonly phraseNodes?: PhraseNode[];
     readonly segmentNodeCount: number;
 
