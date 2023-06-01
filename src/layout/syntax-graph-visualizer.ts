@@ -4,7 +4,7 @@ import { Position, Rect } from './geometry';
 import { HeightMap } from './height-map';
 import { Arc, GraphLayout, Line } from './graph-layout';
 
-export type TokenDomElement = {
+export type WordElement = {
     ref: RefObject<HTMLDivElement>,
     posTagRefs: RefObject<HTMLDivElement>[]
 }
@@ -18,36 +18,36 @@ export class SyntaxGraphVisualizer {
 
     constructor(
         private readonly syntaxGraph: SyntaxGraph,
-        private readonly tokens: TokenDomElement[],
+        private readonly words: WordElement[],
         private readonly phrasesRef: RefObject<HTMLDivElement>[],
         private readonly labelRefs: RefObject<HTMLDivElement>[]) {
     }
 
     layoutSyntaxGraph(): GraphLayout {
 
-        // measure tokens
-        const tokenGap = 40;
-        const tokenBounds = this.tokens.map(token => this.measureElement(token.ref));
-        const containerWidth = tokenBounds.reduce((width, rect) => width + rect.width, 0) + tokenGap * (this.tokens.length - 1);
-        const tokenHeight = Math.max(...tokenBounds.map(rect => rect.height));
+        // measure words
+        const wordGap = 40;
+        const wordBounds = this.words.map(word => this.measureElement(word.ref));
+        const containerWidth = wordBounds.reduce((width, rect) => width + rect.width, 0) + wordGap * (this.words.length - 1);
+        const wordHeight = Math.max(...wordBounds.map(rect => rect.height));
 
-        // layout tokens
-        const tokenPositions: Position[] = [];
+        // layout words
+        const wordPositions: Position[] = [];
         let x = containerWidth;
-        for (let i = 0; i < this.tokens.length; i++) {
-            const tokenRect = tokenBounds[i];
-            x -= tokenRect.width;
-            tokenPositions[i] = { x, y: 0 };
+        for (let i = 0; i < this.words.length; i++) {
+            const wordRect = wordBounds[i];
+            x -= wordRect.width;
+            wordPositions[i] = { x, y: 0 };
 
             // POS tags
-            for (const posTag of this.tokens[i].posTagRefs) {
+            for (const posTag of this.words[i].posTagRefs) {
                 const posTagBounds = this.measureElement(posTag);
-                const cx = posTagBounds.x + 0.5 * posTagBounds.width - tokenRect.x + x;
-                this.nodePositions.push({ x: cx, y: tokenHeight + 5 });
+                const cx = posTagBounds.x + 0.5 * posTagBounds.width - wordRect.x + x;
+                this.nodePositions.push({ x: cx, y: wordHeight + 5 });
             }
-            x -= tokenGap;
+            x -= wordGap;
         }
-        this.heightMap.addSpan(0, containerWidth, tokenHeight + 5);
+        this.heightMap.addSpan(0, containerWidth, wordHeight + 5);
 
         // measure phrase nodes
         this.phraseBounds = this.phrasesRef.map(phrase => this.measureElement(phrase));
@@ -113,7 +113,7 @@ export class SyntaxGraphVisualizer {
         }
 
         return {
-            tokenPositions,
+            wordPositions,
             nodePositions: this.nodePositions,
             phrasePositions: this.phrasePositions,
             lines: this.lines,

@@ -20,7 +20,7 @@ export type Arc = {
 }
 
 export type GraphLayout = {
-    tokenPositions: Position[],
+    wordPositions: Position[],
     nodePositions: Position[],
     phrasePositions: Position[],
     lines: Line[],

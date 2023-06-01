@@ -1,32 +1,33 @@
 import { Ref, RefObject, forwardRef } from 'react';
-import { Token } from '../corpus/orthography/token';
+import { Word } from '../corpus/syntax/word';
 import { TokenHeader } from './token-header';
 import { Position, positionElement } from '../layout/geometry';
 import { NodeElement } from './node-element';
 import { ArabicToken } from '../arabic/arabic-token';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
-import './graph-token.scss';
+import './graph-word.scss';
 
 type Props = {
-    token: Token,
+    word: Word,
     posTagRefs: RefObject<HTMLDivElement>[]
     position?: Position
 }
 
-export const GraphToken = forwardRef((
-    { token, posTagRefs, position }: Props,
+export const GraphWord = forwardRef((
+    { word, posTagRefs, position }: Props,
     ref: Ref<HTMLDivElement>) => {
 
     const colorService = container.resolve(ColorService);
+    const token = word.token!;
     const { segments } = token;
 
     return (
         <div
             ref={ref}
-            className='graph-token'
+            className='graph-word'
             style={positionElement(position)}>
-            <div className='token-content'>
+            <div className='word-content'>
                 <TokenHeader token={token} />
                 <ArabicToken token={token} />
                 <div className='pos-tag-container'>

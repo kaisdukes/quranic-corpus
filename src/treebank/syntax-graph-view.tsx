@@ -1,9 +1,9 @@
 import { Fragment, RefObject, createRef, useEffect, useRef, useState } from 'react';
-import { GraphToken } from './graph-token';
+import { GraphWord } from './graph-word';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
 import { GraphLayout } from '../layout/graph-layout';
-import { SyntaxGraphVisualizer, TokenDomElement } from '../layout/syntax-graph-visualizer';
+import { SyntaxGraphVisualizer, WordElement } from '../layout/syntax-graph-visualizer';
 import { ColorService } from '../theme/color-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { container } from 'tsyringe';
@@ -17,7 +17,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
     const { words, edges, phraseNodes } = syntaxGraph;
 
-    const tokensRef = useRef<TokenDomElement[]>(words.map(word => {
+    const wordsRef = useRef<WordElement[]>(words.map(word => {
         const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
         return {
             ref: createRef<HTMLDivElement>(),
@@ -34,7 +34,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     );
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
-        tokenPositions: [],
+        wordPositions: [],
         nodePositions: [],
         phrasePositions: [],
         lines: [],
@@ -48,7 +48,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     });
 
     const {
-        tokenPositions,
+        wordPositions,
         nodePositions,
         phrasePositions,
         lines,
@@ -63,12 +63,12 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
             await document.fonts.load('1em Hafs');
             const syntaxGraphVisualizer = new SyntaxGraphVisualizer(
                 syntaxGraph,
-                tokensRef.current,
+                wordsRef.current,
                 phrasesRef.current,
                 labelsRef.current);
             setGraphLayout(syntaxGraphVisualizer.layoutSyntaxGraph());
         })();
-    }, [])
+    }, [syntaxGraph])
 
     return (
         <div
@@ -76,14 +76,14 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
             style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
             {
                 words.map((word, i) => {
-                    const tokenDomElement = tokensRef.current[i];
+                    const wordElement = wordsRef.current[i];
                     return (
-                        <GraphToken
-                            key={`token-${i}`}
-                            token={word.token!}
-                            ref={tokenDomElement.ref}
-                            posTagRefs={tokenDomElement.posTagRefs}
-                            position={tokenPositions[i]} />
+                        <GraphWord
+                            key={`word-${i}`}
+                            word={word}
+                            ref={wordElement.ref}
+                            posTagRefs={wordElement.posTagRefs}
+                            position={wordPositions[i]} />
                     )
                 })
             }
