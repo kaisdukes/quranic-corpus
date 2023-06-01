@@ -17,11 +17,13 @@ import './theme/styles.scss';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />
+        element: <Home />,
+        errorElement: <ErrorPage />
     },
     {
         path: '/treebank',
-        element: <Treebank />
+        element: <Treebank />,
+        errorElement: <ErrorPage />
     },
     {
         path: '/:location',
