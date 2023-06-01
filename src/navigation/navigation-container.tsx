@@ -1,15 +1,14 @@
 import { ReactNode } from 'react';
-import './navigation-container.scss';
+import { NavigationHeader, NavigationProps } from '../navigation/navigation-header';
 
-type Props = {
-    header: ReactNode,
+type Props = NavigationProps & {
     children: ReactNode
 }
 
-export const NavigationContainer = ({ header, children }: Props) => {
+export const NavigationContainer = ({ children, ...rest }: Props) => {
     return (
         <div className='navigation-container'>
-            <div className='sticky-header'>{header}</div>
+            <NavigationHeader {...rest} />
             {children}
         </div>
     )

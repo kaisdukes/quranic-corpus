@@ -12,11 +12,11 @@ import { container } from 'tsyringe';
 import hamburger from './../images/icons/hamburger.svg'
 import './navigation-header.scss';
 
-type Props = {
+export type NavigationProps = {
     chapterNumber: number
 }
 
-export const NavigationHeader = ({ chapterNumber }: Props) => {
+export const NavigationHeader = ({ chapterNumber }: NavigationProps) => {
     const [showVerseSelectorPopup, setShowVerseSelectorPopup] = useState(false);
     const verseSelectorPopupRef = useRef<HTMLDivElement | null>(null);
 

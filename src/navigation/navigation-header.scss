@@ -1,6 +1,9 @@
 .navigation-header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 2;
     background: #343540;
+    box-shadow: 0 5px 20px -10px #000;
 
     .navigation-bar {
         display: flex;

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import { NavigationContainer } from '../navigation/navigation-container';
-import { NavigationHeader } from '../navigation/navigation-header';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { Verse } from '../corpus/orthography/verse';
@@ -197,7 +196,7 @@ export const WordByWord = () => {
     }
 
     return (
-        <NavigationContainer header={<NavigationHeader chapterNumber={chapterNumber} />}>
+        <NavigationContainer chapterNumber={chapterNumber}>
             <div className='word-by-word'>
                 {loadingTop && <LoadingBanner />}
                 <div ref={loadingRefTop} />
