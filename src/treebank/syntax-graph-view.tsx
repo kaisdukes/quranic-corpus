@@ -19,7 +19,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
 
     // This component uses a syntax graph visualizer for layout, which calculates positions of words,
     // phrase tags, and edge labels in the graph by measuring DOM elements. We memoize refs not for
-    // performance, but to ensure consistency of these refs instances across component re-renders.
+    // performance, but to ensure consistency of these ref instances across component re-renders.
 
     const wordsRef = useMemo(() => syntaxGraph.words.map(word => {
         const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
