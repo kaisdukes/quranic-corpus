@@ -17,6 +17,10 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
     const { words, edges, phraseNodes } = syntaxGraph;
 
+    // This component uses a syntax graph visualizer for layout, which calculates positions of words,
+    // phrase tags, and edge labels in the graph by measuring DOM elements. We memoize refs not for
+    // performance, but to ensure consistency of these refs instances across component re-renders.
+
     const wordsRef = useMemo(() => syntaxGraph.words.map(word => {
         const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
         const wordElement: WordElement = {
