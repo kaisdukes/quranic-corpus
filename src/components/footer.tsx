@@ -1,12 +1,11 @@
-import { forwardRef } from 'react';
 import './footer.scss';
 
-export const Footer = forwardRef<HTMLDivElement, {}>((_, ref) => {
+export const Footer = () => {
     return (
-        <div ref={ref} className='footer'>
+        <footer>
             <div>Copyright &copy; <a href='https://www.linkedin.com/in/kaisdukes'>Dr. Kais Dukes</a>, 2009-2023.</div>
             <div><a href='https://eps.leeds.ac.uk/computing-applied-computing/staff/33/professor-eric-atwell'>Language Research Group,</a></div>
             <div><a href='https://eps.leeds.ac.uk/computing'>University of Leeds.</a></div>
-        </div>
+        </footer>
     )
-})
+}
