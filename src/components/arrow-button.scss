@@ -1,5 +1,4 @@
 .arrow-button {
-    all: unset;
     border-radius: 25px;
     transition: border-color 300ms;
 
@@ -11,9 +10,13 @@
     &.enabled {
         border: 1px solid #e5e5e5;
 
+        path {
+            color: black;
+        }
+
         &:hover {
             border: 1px solid #a9a9a9;
-            cursor: pointer;
+            //cursor: pointer;
         }
     }
 

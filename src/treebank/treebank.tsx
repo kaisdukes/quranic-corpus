@@ -72,10 +72,7 @@ export const Treebank = () => {
                         <div>Graph <strong>{syntaxGraph.graphNumber} / {syntaxGraph.graphCount}</strong></div>
                     }
                 </div>
-                <PrevNextNavigation
-                    prevEnabled={chapterNumber > 1 || verseNumber > 1}
-                    nextEnabled={chapterNumber < 114 || verseNumber < 6}
-                    onClick={handleNavigation} />
+                <PrevNextNavigation />
             </nav>
             {
                 syntaxGraph &&
