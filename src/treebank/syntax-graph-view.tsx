@@ -1,4 +1,4 @@
-import { Fragment, RefObject, createRef, useEffect, useRef, useState } from 'react';
+import { Fragment, createRef, useEffect, useMemo, useState } from 'react';
 import { GraphWord } from './graph-word';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
@@ -17,21 +17,22 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
     const { words, edges, phraseNodes } = syntaxGraph;
 
-    const wordsRef = useRef<WordElement[]>(words.map(word => {
+    const wordsRef = useMemo(() => syntaxGraph.words.map(word => {
         const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
-        return {
+        const wordElement: WordElement = {
             ref: createRef<HTMLDivElement>(),
             posTagRefs
-        }
-    }));
+        };
+        return wordElement;
+    }), [syntaxGraph]);
 
-    const phrasesRef = useRef<RefObject<HTMLDivElement>[]>(
-        phraseNodes?.map(() => createRef<HTMLDivElement>()) || []
-    );
+    const phrasesRef = useMemo(() => (
+        syntaxGraph.phraseNodes?.map(() => createRef<HTMLDivElement>()) || []
+    ), [syntaxGraph]);
 
-    const labelsRef = useRef<RefObject<HTMLDivElement>[]>(
-        edges.map(() => createRef<HTMLDivElement>())
-    );
+    const labelsRef = useMemo(() => (
+        syntaxGraph.edges.map(() => createRef<HTMLDivElement>())
+    ), [syntaxGraph]);
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         wordPositions: [],
@@ -63,9 +64,9 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
             await document.fonts.load('1em Hafs');
             const syntaxGraphVisualizer = new SyntaxGraphVisualizer(
                 syntaxGraph,
-                wordsRef.current,
-                phrasesRef.current,
-                labelsRef.current);
+                wordsRef,
+                phrasesRef,
+                labelsRef);
             setGraphLayout(syntaxGraphVisualizer.layoutSyntaxGraph());
         })();
     }, [syntaxGraph])
@@ -76,7 +77,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
             style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
             {
                 words.map((word, i) => {
-                    const wordElement = wordsRef.current[i];
+                    const wordElement = wordsRef[i];
                     return (
                         <GraphWord
                             key={`word-${i}`}
@@ -93,7 +94,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                     return (
                         <PhraseElement
                             key={`phrase-${i}`}
-                            ref={phrasesRef.current[i]}
+                            ref={phrasesRef[i]}
                             className={colorService.getPhraseColor(phraseTag)}
                             tag={phraseTag}
                             position={phrasePositions[i]} />
@@ -105,7 +106,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                     return (
                         <EdgeLabel
                             key={`label-${i}`}
-                            ref={labelsRef.current[i]}
+                            ref={labelsRef[i]}
                             dependencyTag={edge.dependencyTag}
                             position={labelPositions[i]} />
                     )
