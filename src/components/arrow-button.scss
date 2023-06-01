@@ -1,6 +1,7 @@
 .arrow-button {
     all: unset;
     border-radius: 25px;
+    transition: border-color 300ms;
 
     svg {
         width: 50px;
