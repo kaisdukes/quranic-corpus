@@ -8,6 +8,8 @@ import { SyntaxGraphView } from '../treebank/syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
 import { container } from 'tsyringe';
 import './treebank.scss';
+import { useOverlay } from '../overlay-context';
+import { AxiosError } from 'axios';
 
 export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
     const location = parseLocation(params.location!);
@@ -20,13 +22,25 @@ export const treebankLoader = ({ params }: LoaderFunctionArgs) => {
 export const Treebank = () => {
     const location = useLoaderData() as Location;
     const [chapterNumber, verseNumber] = location;
+
+    const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const graphNumber = 1;
 
     useEffect(() => {
         (async () => {
-            const syntaxService = container.resolve(SyntaxService);
-            setSyntaxGraph(await syntaxService.getSyntax(location, graphNumber));
+            setOverlay(true);
+            try {
+                const syntaxService = container.resolve(SyntaxService);
+                setSyntaxGraph(await syntaxService.getSyntax(location, graphNumber));
+            } catch (e) {
+                if (e instanceof AxiosError && e.response?.status === 404) {
+                    setSyntaxGraph(null);
+                } else {
+                    throw e;
+                }
+            }
+            setOverlay(false);
         })();
     }, [chapterNumber, verseNumber])
 
@@ -40,12 +54,11 @@ export const Treebank = () => {
                 graph yet.
             </p>
             {
-                syntaxGraph
-                    ? <div className='compare'>
-                        <SyntaxGraphView syntaxGraph={syntaxGraph} />
-                        <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
-                    </div>
-                    : <div>Loading...</div>
+                syntaxGraph &&
+                <div className='compare'>
+                    <SyntaxGraphView syntaxGraph={syntaxGraph} />
+                    <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                </div>
             }
         </ContentPage>
     )
