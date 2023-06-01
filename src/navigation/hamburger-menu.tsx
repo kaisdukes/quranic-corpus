@@ -43,7 +43,7 @@ export const HamburgerMenu = ({ onClose }: Props) => {
                 <div className='icon-container'>
                     <img src={read} />
                 </div>
-                {readerMode ? 'Reader mode' : 'Detail mode'}
+                {readerMode ? 'Detail mode' : 'Reader mode'}
             </a>
             <div className='translations'>Translations:</div>
             {
