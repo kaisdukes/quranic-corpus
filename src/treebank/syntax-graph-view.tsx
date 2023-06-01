@@ -3,24 +3,35 @@ import { GraphToken } from './graph-token';
 import { PhraseElement } from './phrase-element';
 import { EdgeLabel } from './edge-label';
 import { GraphLayout } from '../layout/graph-layout';
-import { SyntaxService } from '../corpus/syntax/syntax-service';
-import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphVisualizer, TokenDomElement } from '../layout/syntax-graph-visualizer';
 import { ColorService } from '../theme/color-service';
+import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { container } from 'tsyringe';
 import './syntax-graph-view.scss';
 
-export const SyntaxGraphView = () => {
-    const syntaxService = container.resolve(SyntaxService);
+type Props = {
+    syntaxGraph: SyntaxGraph
+}
+
+export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
+    const { words, edges, phraseNodes } = syntaxGraph;
 
-    const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
+    const tokensRef = useRef<TokenDomElement[]>(words.map(word => {
+        const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
+        return {
+            ref: createRef<HTMLDivElement>(),
+            posTagRefs
+        }
+    }));
 
-    const tokensRef = useRef<TokenDomElement[]>([]);
-    const phrasesRef = useRef<RefObject<HTMLDivElement>[]>([]);
-    const labelsRef = useRef<RefObject<HTMLDivElement>[]>([]);
+    const phrasesRef = useRef<RefObject<HTMLDivElement>[]>(
+        phraseNodes.map(() => createRef<HTMLDivElement>())
+    );
 
-    const [loading, setLoading] = useState(true);
+    const labelsRef = useRef<RefObject<HTMLDivElement>[]>(
+        edges.map(() => createRef<HTMLDivElement>())
+    );
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         tokenPositions: [],
@@ -50,47 +61,21 @@ export const SyntaxGraphView = () => {
     useEffect(() => {
         (async () => {
             await document.fonts.load('1em Hafs');
-            const location = [4, 79];
-            const graphNumber = 3;
-            const syntaxGraph = await syntaxService.getSyntax(location, graphNumber);
-            setSyntaxGraph(syntaxGraph);
-
-            tokensRef.current = syntaxGraph.words.map(word => {
-                const posTagRefs = Array.from({ length: word.endNode - word.startNode + 1 }, () => createRef<HTMLDivElement>());
-                return {
-                    ref: createRef<HTMLDivElement>(),
-                    posTagRefs
-                }
-            });
-
-            phrasesRef.current = syntaxGraph.phraseNodes.map(() => createRef<HTMLDivElement>());
-            labelsRef.current = syntaxGraph.edges.map(() => createRef<HTMLDivElement>());
-            setLoading(false);
-        })();
-    }, [])
-
-    useEffect(() => {
-        if (syntaxGraph) {
             const syntaxGraphVisualizer = new SyntaxGraphVisualizer(
                 syntaxGraph,
                 tokensRef.current,
                 phrasesRef.current,
-                labelsRef.current
-            );
+                labelsRef.current);
             setGraphLayout(syntaxGraphVisualizer.layoutSyntaxGraph());
-        }
-    }, [syntaxGraph]);
+        })();
+    }, [])
 
     return (
         <div
             className='syntax-graph-view'
             style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
             {
-                loading && <div>Loading...</div>
-            }
-            {
-                syntaxGraph &&
-                syntaxGraph.words.map((word, i) => {
+                words.map((word, i) => {
                     const tokenDomElement = tokensRef.current[i];
                     return (
                         <GraphToken
@@ -103,8 +88,7 @@ export const SyntaxGraphView = () => {
                 })
             }
             {
-                syntaxGraph &&
-                syntaxGraph.phraseNodes.map((phraseNode, i) => {
+                phraseNodes.map((phraseNode, i) => {
                     const { phraseTag } = phraseNode;
                     return (
                         <PhraseElement
@@ -117,8 +101,7 @@ export const SyntaxGraphView = () => {
                 })
             }
             {
-                syntaxGraph &&
-                syntaxGraph.edges.map((edge, i) => {
+                edges.map((edge, i) => {
                     return (
                         <EdgeLabel
                             key={`label-${i}`}
