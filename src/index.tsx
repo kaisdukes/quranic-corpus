@@ -59,7 +59,7 @@ const Root = () => {
     }, []);
 
     if (error) {
-        return <div>{error.message}</div>;
+        return <>{error.message}</>;
     }
 
     return (
