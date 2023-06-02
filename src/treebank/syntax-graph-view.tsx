@@ -15,7 +15,7 @@ type Props = {
 
 export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
-    const { words, edges, phraseNodes } = syntaxGraph;
+    const { words, edges, edgeLabels, phraseNodes } = syntaxGraph;
 
     // This component uses a syntax graph visualizer for layout, which calculates positions of words,
     // phrase tags, and edge labels in the graph by measuring DOM elements. We memoize refs not for
@@ -109,6 +109,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                             key={`label-${i}`}
                             ref={labelsRef[i]}
                             dependencyTag={edge.dependencyTag}
+                            label={edgeLabels[i]}
                             position={labelPositions[i]} />
                     )
                 })

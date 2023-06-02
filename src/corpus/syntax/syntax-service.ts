@@ -1,5 +1,6 @@
 import { ApiBase } from '../../api-base';
 import { Graph, SyntaxGraph } from './syntax-graph';
+import { Edge } from './edge';
 import { DependencyTag } from './dependency-tag';
 import { GraphLocation } from './graph-location';
 import { formatLocation } from '../orthography/location';
@@ -63,10 +64,12 @@ export class SyntaxService extends ApiBase {
                     graph: graphLocation.graphNumber
                 }
             });
-        return new SyntaxGraph(response.data as Graph);
+        const graph = response.data as Graph;
+        const edgeLabels = graph.edges.map(edge => this.getEdgeLabel(graph, edge));
+        return new SyntaxGraph(graph, edgeLabels);
     }
 
-    getArabicTerm(dependencyTag: DependencyTag): string {
-        return this.arabicTerms.get(dependencyTag) || '?';
+    private getEdgeLabel(graph: Graph, edge: Edge) {
+        return this.arabicTerms.get(edge.dependencyTag) || '?';
     }
 }

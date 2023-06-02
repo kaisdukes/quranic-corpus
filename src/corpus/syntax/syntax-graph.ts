@@ -22,10 +22,14 @@ export class SyntaxGraph {
     readonly next?: GraphLocation;
     readonly words: Word[];
     readonly edges?: Edge[];
+    readonly edgeLabels: string[];
     readonly phraseNodes?: PhraseNode[];
     readonly segmentNodeCount: number;
 
-    constructor({ graphNumber, graphCount, legacyCorpusGraphNumber, prev, next, words, edges, phraseNodes }: Graph) {
+    constructor(
+        { graphNumber, graphCount, legacyCorpusGraphNumber, prev, next, words, edges, phraseNodes }: Graph,
+        edgeLabels: string[]) {
+
         this.graphNumber = graphNumber;
         this.graphCount = graphCount;
         this.legacyCorpusGraphNumber = legacyCorpusGraphNumber;
@@ -33,6 +37,7 @@ export class SyntaxGraph {
         this.next = next;
         this.words = words;
         this.edges = edges;
+        this.edgeLabels = edgeLabels;
         this.phraseNodes = phraseNodes;
         this.segmentNodeCount = this.words.reduce((sum, word) => sum + word.endNode - word.startNode + 1, 0);
     }
