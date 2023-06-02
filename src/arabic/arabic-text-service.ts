@@ -40,11 +40,11 @@ export class ArabicTextService {
             if (diacriticsSet.has(ch)) {
                 continue;
             }
-            if (ch === alifWithHamzaBelow) {
+            if (ch === alifWithHamzaAbove || ch === alifWithHamzaBelow) {
                 result += 'ا';
-            } else {
-                result += text.charAt(i);
+                continue;
             }
+            result += text.charAt(i);
         }
         return result;
     }
