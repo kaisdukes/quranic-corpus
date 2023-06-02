@@ -18,13 +18,15 @@ const damma = 0x064F;
 const kasra = 0x0650;
 const shadda = 0x0651;
 const sukun = 0x0652;
+const maddah = 0x0653;
 
 const diacriticsSet = new Set([
     fatha,
     damma,
     kasra,
     shadda,
-    sukun
+    sukun,
+    maddah
 ]);
 
 @singleton()
