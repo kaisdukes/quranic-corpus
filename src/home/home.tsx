@@ -5,12 +5,20 @@ import slack from '../images/slack.svg';
 import github from '../images/github.svg';
 import './home.scss';
 
-const randomChapter = () => Math.floor(Math.random() * 114) + 1;
+const randomWordByWordLink = () => {
+    const chapterNumber = Math.floor(Math.random() * 114) + 1;
+    return `/wordbyword/${chapterNumber}`;
+}
+
+const randomTreebankLink = () => {
+    const chapterNumber = Math.floor(Math.random() * 64) + 1;
+    return `/treebank/${chapterNumber <= 8 ? chapterNumber : chapterNumber + 50}`;
+}
 
 export const Home = () => {
     return (
         <div className='home'>
-            <Link to={`/${randomChapter()}`}>
+            <Link to={randomWordByWordLink()}>
                 <CalligraphyLogo />
             </Link>
             <h1>The Quranic Arabic Corpus</h1>
@@ -25,8 +33,8 @@ export const Home = () => {
                 based on <strong><em>i’rāb</em> (إعراب)</strong>, the traditional science of Arabic linguistics, in the Quranic Treebank.
             </p>
             <div className='links'>
-                <Link to={`/wordbyword/${randomChapter()}`}>Quran Word by Word</Link>
-                <Link to={`/treebank/${randomChapter()}`}>Quranic Treebank</Link>
+                <Link to={randomWordByWordLink()}>Quran Word by Word</Link>
+                <Link to={randomTreebankLink()}>Quranic Treebank</Link>
             </div>
             <p>
                 The corpus provides a <strong>supportive community</strong> for learning Quranic Arabic.
