@@ -1,4 +1,5 @@
 import { ApiBase } from '../../api-base';
+import { ArabicTextService } from '../../arabic/arabic-text-service';
 import { Graph, SyntaxGraph } from './syntax-graph';
 import { Edge } from './edge';
 import { DependencyTag } from './dependency-tag';
@@ -58,6 +59,10 @@ export class SyntaxService extends ApiBase {
     private readonly subject = 'اسم';
     private readonly predicate = 'خبر';
 
+    constructor(private readonly arabicTextService: ArabicTextService) {
+        super();
+    }
+
     async getSyntax(graphLocation: GraphLocation) {
         const response = await axios.get(
             this.url('/syntax'),
@@ -91,7 +96,7 @@ export class SyntaxService extends ApiBase {
                 if (token != null) {
                     const arabic = token.segments[headNode - word.startNode].arabic;
                     if (arabic) {
-                        return `${name} «${arabic}»`;
+                        return `${name} «${this.arabicTextService.removeDiacritics(arabic)}»`;
                     }
                 }
             }

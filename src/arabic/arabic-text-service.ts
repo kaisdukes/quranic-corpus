@@ -18,8 +18,28 @@ const kasra = 0x0650;
 const shadda = 0x0651;
 const sukun = 0x0652;
 
+const diacriticsSet = new Set([
+    fatha,
+    damma,
+    kasra,
+    shadda,
+    sukun
+]);
+
 @singleton()
 export class ArabicTextService {
+
+    removeDiacritics(text: string) {
+        let result = '';
+        const n = text.length;
+        for (var i = 0; i < n; i++) {
+            const ch = text.charCodeAt(i)
+            if (!diacriticsSet.has(ch)) {
+                result += text.charAt(i);
+            }
+        }
+        return result;
+    }
 
     insertZeroWidthJoinersForSafari(segments: (string | undefined)[]) {
         let shouldJoin = false;
