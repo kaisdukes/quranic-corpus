@@ -55,6 +55,9 @@ export class SyntaxService extends ApiBase {
         ['voc', 'منادي']
     ]);
 
+    private readonly subject = 'اسم';
+    private readonly predicate = 'خبر';
+
     async getSyntax(graphLocation: GraphLocation) {
         const response = await axios.get(
             this.url('/syntax'),
@@ -64,12 +67,36 @@ export class SyntaxService extends ApiBase {
                     graph: graphLocation.graphNumber
                 }
             });
+
         const graph = response.data as Graph;
-        const edgeLabels = graph.edges.map(edge => this.getEdgeLabel(graph, edge));
-        return new SyntaxGraph(graph, edgeLabels);
+        const { words, edges } = graph;
+        const segmentNodeCount = words.reduce((sum, word) => sum + word.endNode - word.startNode + 1, 0);
+        const edgeLabels = edges ? edges.map(edge => this.getEdgeLabel(graph, edge, segmentNodeCount)) : [];
+        return new SyntaxGraph(graph, edgeLabels, segmentNodeCount);
     }
 
-    private getEdgeLabel(graph: Graph, edge: Edge) {
-        return this.arabicTerms.get(edge.dependencyTag) || '?';
+    private getEdgeLabel(graph: Graph, edge: Edge, segmentNodeCount: number) {
+        const { dependencyTag, endNode: headNode } = edge;
+        if (dependencyTag !== 'subjx' && dependencyTag !== 'predx') {
+            return this.arabicTerms.get(dependencyTag) || '?';
+        }
+
+        const name = dependencyTag === 'subjx' ? this.subject : this.predicate;
+        const isPhraseNode = headNode >= segmentNodeCount;
+        if (isPhraseNode) return name;
+
+        for (const word of graph.words) {
+            if (headNode <= word.endNode) {
+                const token = word.token;
+                if (token != null) {
+                    const arabic = token.segments[headNode - word.startNode].arabic;
+                    if (arabic) {
+                        return `${name} «${arabic}»`;
+                    }
+                }
+            }
+        }
+
+        return name;
     }
 }
