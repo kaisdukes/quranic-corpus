@@ -93,24 +93,11 @@ export class SyntaxGraphVisualizer {
                     boxHeight += 50;
                 }
 
-                // compute ellipse radii so that arc touches the bounding max
+                // compute ellipse radii so the arc touches the bounding box
                 const ry = boxHeight;
                 const theta = Math.asin(deltaY / ry);
                 const rx = boxWidth / (1 + Math.cos(theta));
-
-                const arc: Arc = {
-                    x1,
-                    y1,
-                    x2,
-                    y2,
-                    dependencyTag,
-                    rx,
-                    ry,
-                    xAxisRotation: 0,
-                    largeArcFlag: 0,
-                    sweepFlag: 0
-                };
-                arcs.push(arc);
+                arcs.push({ x1, y1, x2, y2, rx, ry, dependencyTag });
                 y += boxHeight;
 
                 const maximaX = y2 > y1 ? x1 + rx : x2 - rx;

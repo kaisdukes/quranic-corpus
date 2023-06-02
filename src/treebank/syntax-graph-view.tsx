@@ -126,7 +126,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                         return (
                             <Fragment key={`arc-${i}`}>
                                 <path
-                                    d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${arc.x2} ${arc.y2}`}
+                                    d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
                                     fill='none'
                                     className={className} />
                                 <polygon

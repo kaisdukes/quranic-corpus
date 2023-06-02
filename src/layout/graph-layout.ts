@@ -13,12 +13,9 @@ export type Arc = {
     y1: number,
     x2: number,
     y2: number
-    dependencyTag: DependencyTag,
     rx: number,
     ry: number,
-    xAxisRotation: number,
-    largeArcFlag: number,
-    sweepFlag: number,
+    dependencyTag: DependencyTag
 }
 
 export type Arrow = {
