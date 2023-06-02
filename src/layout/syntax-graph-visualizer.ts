@@ -92,9 +92,16 @@ export class SyntaxGraphVisualizer {
                 }
 
                 // compute bounding box for arc between two nodes
+                const boxWidth = x2 - x1;
+                let deltaY: number;
                 let y = y2;
-                const deltaY = Math.abs(y2 - y1);
-                const boxWidth = Math.abs(x2 - x1);
+                if (y2 > y1) {
+                    y = y1;
+                    deltaY = y2 - y1;
+                } else {
+                    y = y2;
+                    deltaY = y1 - y2;
+                }
 
                 // boost
                 const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
