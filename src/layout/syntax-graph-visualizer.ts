@@ -65,8 +65,13 @@ export class SyntaxGraphVisualizer {
         if (edges) {
             for (const edge of edges) {
                 const { startNode, endNode, dependencyTag } = edge;
+
+                // layout phrase nodes
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
                     this.layoutPhraseNode(startNode);
+                }
+                if (this.syntaxGraph.isPhraseNode(endNode)) {
+                    this.layoutPhraseNode(endNode);
                 }
 
                 // compute bounding box for arc between two nodes
