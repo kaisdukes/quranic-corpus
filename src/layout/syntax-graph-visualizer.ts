@@ -125,7 +125,6 @@ export class SyntaxGraphVisualizer {
 
         return {
             wordPositions,
-            nodePositions: this.nodePositions,
             phrasePositions: this.phrasePositions,
             lines: this.lines,
             arcs,

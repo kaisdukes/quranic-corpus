@@ -40,7 +40,6 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         wordPositions: [],
-        nodePositions: [],
         phrasePositions: [],
         lines: [],
         arcs: [],
@@ -54,7 +53,6 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
 
     const {
         wordPositions,
-        nodePositions,
         phrasePositions,
         lines,
         arcs,

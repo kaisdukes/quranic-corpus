@@ -23,7 +23,6 @@ export type Arc = {
 
 export type GraphLayout = {
     wordPositions: Position[],
-    nodePositions: Position[],
     phrasePositions: Position[],
     lines: Line[],
     arcs: Arc[],
