@@ -2,7 +2,7 @@ import { RefObject } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { Position, Rect } from './geometry';
 import { HeightMap } from './height-map';
-import { Arc, GraphLayout, Line } from './graph-layout';
+import { Arc, Arrow, GraphLayout, Line } from './graph-layout';
 
 export type WordElement = {
     ref: RefObject<HTMLDivElement>,
@@ -59,7 +59,7 @@ export class SyntaxGraphVisualizer {
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc[] = [];
-        const arrowPositions: Position[] = [];
+        const arrows: Arrow[] = [];
         const labelPositions: Position[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
@@ -74,9 +74,24 @@ export class SyntaxGraphVisualizer {
                     this.layoutPhraseNode(endNode);
                 }
 
+                // node coordinates
+                let x1: number, x2: number, y1: number, y2: number;
+                const start = this.nodePositions[startNode];
+                const end = this.nodePositions[endNode];
+                const right = start.x < end.x;
+                if (right) {
+                    x1 = start.x;
+                    y1 = start.y;
+                    x2 = end.x;
+                    y2 = end.y;
+                } else {
+                    x1 = end.x;
+                    y1 = end.y;
+                    x2 = start.x;
+                    y2 = start.y;
+                }
+
                 // compute bounding box for arc between two nodes
-                const { x: x1, y: y1 } = this.nodePositions[startNode];
-                const { x: x2, y: y2 } = this.nodePositions[endNode];
                 let y = y2;
                 const deltaY = Math.abs(y2 - y1);
                 const boxWidth = Math.abs(x2 - x1);
@@ -109,7 +124,7 @@ export class SyntaxGraphVisualizer {
                 y += boxHeight;
 
                 // arrow
-                arrowPositions.push({ x: x2 - rx - 3, y: y - 5 });
+                arrows.push({ x: x2 - rx - 3, y: y - 5, right });
 
                 // layout edge label
                 const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
@@ -128,7 +143,7 @@ export class SyntaxGraphVisualizer {
             phrasePositions: this.phrasePositions,
             lines: this.lines,
             arcs,
-            arrowPositions,
+            arrows,
             labelPositions,
             containerSize: {
                 width: containerWidth,

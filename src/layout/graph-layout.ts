@@ -21,12 +21,18 @@ export type Arc = {
     sweepFlag: number,
 }
 
+export type Arrow = {
+    x: number,
+    y: number,
+    right: boolean
+}
+
 export type GraphLayout = {
     wordPositions: Position[],
     phrasePositions: Position[],
     lines: Line[],
     arcs: Arc[],
-    arrowPositions: Position[],
+    arrows: Arrow[],
     labelPositions: Position[],
     containerSize: Size
 }

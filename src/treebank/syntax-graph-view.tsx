@@ -43,7 +43,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
         phrasePositions: [],
         lines: [],
         arcs: [],
-        arrowPositions: [],
+        arrows: [],
         labelPositions: [],
         containerSize: {
             width: 0,
@@ -56,7 +56,7 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
         phrasePositions,
         lines,
         arcs,
-        arrowPositions,
+        arrows,
         labelPositions,
         containerSize
     } = graphLayout;
@@ -119,8 +119,9 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                 }
                 {
                     arcs.map((arc, i) => {
-                        const { x: ax, y: ay } = arrowPositions[i];
+                        const { x: ax, y: ay, right } = arrows[i];
                         const className = `${colorService.getDependencyColor(arc.dependencyTag)}-light`;
+
                         return (
                             <Fragment key={`arc-${i}`}>
                                 <path
@@ -128,7 +129,11 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                     fill='none'
                                     className={className} />
                                 <polygon
-                                    points={`${ax},${ay} ${ax},${ay + 10} ${ax + 6},${ay + 5}`}
+                                    points={
+                                        right
+                                            ? `${ax},${ay} ${ax},${ay + 10} ${ax + 6},${ay + 5}`
+                                            : `${ax + 6},${ay} ${ax + 6},${ay + 10} ${ax},${ay + 5}`
+                                    }
                                     className={className} />
                             </Fragment>
                         )
