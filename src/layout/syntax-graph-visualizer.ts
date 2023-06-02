@@ -30,6 +30,7 @@ export class SyntaxGraphVisualizer {
         const wordBounds = this.words.map(word => this.measureElement(word.ref));
         const containerWidth = wordBounds.reduce((width, rect) => width + rect.width, 0) + wordGap * (this.words.length - 1);
         const wordHeight = Math.max(...wordBounds.map(rect => rect.height));
+        const segmentNodeY = wordHeight + 5;
 
         // layout words
         const wordPositions: Position[] = [];
@@ -43,11 +44,11 @@ export class SyntaxGraphVisualizer {
             for (const posTag of this.words[i].posTagRefs) {
                 const posTagBounds = this.measureElement(posTag);
                 const cx = posTagBounds.x + 0.5 * posTagBounds.width - wordRect.x + x;
-                this.nodePositions.push({ x: cx, y: wordHeight + 5 });
+                this.nodePositions.push({ x: cx, y: segmentNodeY });
             }
             x -= wordGap;
         }
-        this.heightMap.addSpan(0, containerWidth, wordHeight + 5);
+        this.heightMap.addSpan(0, containerWidth, segmentNodeY);
 
         // measure phrase nodes
         this.phraseBounds = this.phrasesRef.map(phrase => this.measureElement(phrase));
