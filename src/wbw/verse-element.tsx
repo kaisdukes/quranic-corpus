@@ -6,7 +6,6 @@ import { SectionMark } from '../components/section-mark';
 import { SajdahMark } from '../components/sajdah-mark';
 import { EndOfVerse } from '../components/end-of-verse';
 import { ClipboardService } from '../clipboard/clipboard-service';
-import { useSettings } from '../settings/settings-context';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import copy from '../images/icons/copy.svg';
@@ -19,7 +18,6 @@ type Props = {
 
 export const VerseElement = ({ verse, onClickToken }: Props) => {
     const { location, tokens, translations, verseMark } = verse;
-    const { settings } = useSettings();
 
     const handleCopy = async () => {
         const clipboardService = container.resolve(ClipboardService);
