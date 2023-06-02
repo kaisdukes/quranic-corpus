@@ -58,6 +58,7 @@ export class ColorService {
         ['pass', 'sky'],
         ['poss', 'sky'],
         ['pred', 'metal'],
+        ['predx', 'metal'],
         ['prev', 'orange'],
         ['pro', 'red'],
         ['prp', 'metal'],
@@ -65,6 +66,7 @@ export class ColorService {
         ['spec', 'sky'],
         ['sub', 'gold'],
         ['subj', 'sky'],
+        ['subjx', 'sky'],
         ['voc', 'green']
     ]);
 
