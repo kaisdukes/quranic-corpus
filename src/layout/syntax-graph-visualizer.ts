@@ -75,33 +75,16 @@ export class SyntaxGraphVisualizer {
                 }
 
                 // node coordinates
-                let x1: number, x2: number, y1: number, y2: number;
                 const start = this.nodePositions[startNode];
                 const end = this.nodePositions[endNode];
                 const right = start.x < end.x;
-                if (right) {
-                    x1 = start.x;
-                    y1 = start.y;
-                    x2 = end.x;
-                    y2 = end.y;
-                } else {
-                    x1 = end.x;
-                    y1 = end.y;
-                    x2 = start.x;
-                    y2 = start.y;
-                }
+                const { x: x1, y: y1 } = right ? start : end;
+                const { x: x2, y: y2 } = right ? end : start;
 
                 // compute bounding box for arc between two nodes
                 const boxWidth = x2 - x1;
-                let deltaY: number;
-                let y = y2;
-                if (y2 > y1) {
-                    y = y1;
-                    deltaY = y2 - y1;
-                } else {
-                    y = y2;
-                    deltaY = y1 - y2;
-                }
+                let y = Math.min(y1, y2);
+                const deltaY = Math.abs(y2 - y1);
 
                 // boost
                 const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
@@ -130,14 +113,14 @@ export class SyntaxGraphVisualizer {
                 arcs.push(arc);
                 y += boxHeight;
 
-                // arrow
-                arrows.push({ x: x2 - rx - 3, y: y - 5, right });
+                const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
+                arrows.push({ x: maximaX - 3, y: y - 5, right });
 
                 // layout edge label
                 const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
                 y += 8;
                 const labelPosition = {
-                    x: x2 - rx - labelWidth * 0.5,
+                    x: maximaX - labelWidth * 0.5,
                     y
                 };
                 labelPositions.push(labelPosition)
