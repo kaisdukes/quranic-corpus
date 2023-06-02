@@ -40,7 +40,6 @@ export class SyntaxService extends ApiBase {
         ['pass', 'نائب فاعل'],
         ['poss', 'مضاف إليه'],
         ['pred', 'خبر'],
-        ['predx', 'null'],
         ['prev', 'كاف'],
         ['pro', 'نهي'],
         ['prp', 'مفعول لأجله'],
@@ -50,7 +49,6 @@ export class SyntaxService extends ApiBase {
         ['spec', 'تمييز'],
         ['sub', 'صلة'],
         ['subj', 'فاعل'],
-        ['subjx', 'null'],
         ['sup', 'زائد'],
         ['sur', 'فجاءة'],
         ['voc', 'منادي']
