@@ -6,10 +6,11 @@ import { container } from 'tsyringe';
 import './arabic-token.scss';
 
 type Props = {
-    token: Token
+    token: Token,
+    fade?: boolean
 }
 
-export const ArabicToken = ({ token }: Props) => {
+export const ArabicToken = ({ token, fade }: Props) => {
     const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
 
@@ -30,7 +31,7 @@ export const ArabicToken = ({ token }: Props) => {
                         ? (
                             <span
                                 key={`segment-${i}`}
-                                className={`segment ${colorService.getSegmentColor(segment)}`}
+                                className={`segment ${fade ? 'silver' : colorService.getSegmentColor(segment)}`}
                                 dangerouslySetInnerHTML={{ __html: joinedSegment }} />
                         )
                         : null;

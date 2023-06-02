@@ -19,7 +19,8 @@ export const GraphWord = forwardRef((
     ref: Ref<HTMLDivElement>) => {
 
     const colorService = container.resolve(ColorService);
-    const { token, hiddenText, hiddenPosTag } = word;
+    const { type, token, hiddenText, hiddenPosTag } = word;
+    const fade = type === 'reference';
 
     return (
         <div
@@ -30,8 +31,8 @@ export const GraphWord = forwardRef((
                 {
                     token
                         ? <>
-                            <TokenHeader token={token} />
-                            <ArabicToken token={token} />
+                            <TokenHeader token={token} fade={fade} />
+                            <ArabicToken token={token} fade={fade} />
                             <div className='pos-tag-container'>
                                 {
                                     (() => {
@@ -45,7 +46,7 @@ export const GraphWord = forwardRef((
                                                     <NodeElement
                                                         key={`tag-${i}`}
                                                         ref={posTagRefs[posTagIndex--]}
-                                                        className={colorService.getSegmentColor(segment)}
+                                                        className={fade ? 'silver' : colorService.getSegmentColor(segment)}
                                                         tag={segment.posTag} />
                                                 )
                                             }
