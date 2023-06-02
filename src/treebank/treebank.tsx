@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
 import { ContentPage } from '../content-page';
 import { GraphLocation } from '../corpus/syntax/graph-location';
-import { parseLocation } from '../corpus/orthography/location';
+import { formatLocation, parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from '../treebank/syntax-graph-view';
@@ -29,11 +29,12 @@ export const treebankLoader = ({ params, request }: LoaderFunctionArgs): GraphLo
 
 export const Treebank = () => {
     const graphLocation = useLoaderData() as GraphLocation;
-    const { location } = graphLocation;
+    const { location, graphNumber } = graphLocation;
     const [chapterNumber, verseNumber] = location;
     const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const syntaxService = container.resolve(SyntaxService);
+    const baseUrl = '/treebank';
 
     useEffect(() => {
         (async () => {
@@ -49,14 +50,17 @@ export const Treebank = () => {
             }
             setOverlay(false);
         })();
-    }, [chapterNumber, verseNumber])
+    }, [chapterNumber, verseNumber, graphNumber])
 
-    const handleNavigation = (next: boolean) => {
-        console.log(`navigation: next = ${next}`);
+    const getGraphUrl = (graphLocation?: GraphLocation) => {
+        if (!graphLocation) return undefined;
+        const { location, graphNumber } = graphLocation;
+        const url = `${baseUrl}/${formatLocation(location)}`;
+        return graphNumber === 1 ? url : `${url}?graph=${graphNumber}`;
     }
 
     return (
-        <ContentPage className='treebank' navigation={{ chapterNumber, url: '/treebank' }}>
+        <ContentPage className='treebank' navigation={{ chapterNumber, url: baseUrl }}>
             <h1>Corpus 2.0: Renderer Test</h1>
             <p>
                 This desktop-optimized page tests a new vector renderer for Quranic Arabic Corpus 2.0.
@@ -64,25 +68,29 @@ export const Treebank = () => {
                 bitmap-rendered image (second). The vector image may not fully replicate the dependency
                 graph yet.
             </p>
-            <nav className='navigation'>
-                <div className='location'>
-                    <div>Verse {verseNumber}</div>
-                    {
-                        syntaxGraph && syntaxGraph.graphCount > 1 &&
-                        <div>Graph <strong>{syntaxGraph.graphNumber} / {syntaxGraph.graphCount}</strong></div>
-                    }
-                </div>
-                <PrevNextNavigation />
-            </nav>
             {
                 syntaxGraph &&
-                <div className='compare'>
-                    <SyntaxGraphView syntaxGraph={syntaxGraph} />
-                    {
-                        syntaxGraph.legacyCorpusGraphNumber > 0 &&
-                        <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
-                    }
-                </div>
+                <>
+                    <nav className='navigation'>
+                        <div className='location'>
+                            <div>Verse {verseNumber}</div>
+                            {
+                                syntaxGraph.graphCount > 1 &&
+                                <div>Graph <strong>{graphNumber} / {syntaxGraph.graphCount}</strong></div>
+                            }
+                        </div>
+                        <PrevNextNavigation
+                            prevUrl={getGraphUrl(syntaxGraph.prev)}
+                            nextUrl={getGraphUrl(syntaxGraph.next)} />
+                    </nav>
+                    <div className='compare'>
+                        <SyntaxGraphView syntaxGraph={syntaxGraph} />
+                        {
+                            syntaxGraph.legacyCorpusGraphNumber > 0 &&
+                            <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                        }
+                    </div>
+                </>
             }
         </ContentPage>
     )
