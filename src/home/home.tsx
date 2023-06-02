@@ -1,18 +1,27 @@
 import { Link } from 'react-router-dom';
+import { ChapterService } from '../corpus/orthography/chapter-service';
 import { CalligraphyLogo } from '../components/calligraphy-logo';
 import { Footer } from '../components/footer';
+import { container } from 'tsyringe';
 import slack from '../images/slack.svg';
 import github from '../images/github.svg';
 import './home.scss';
 
+const randomNumberInInterval = (a: number, b: number) => {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
+}
+
 const randomWordByWordLink = () => {
-    const chapterNumber = Math.floor(Math.random() * 114) + 1;
+    const chapterNumber = randomNumberInInterval(1, 114);
     return `/wordbyword/${chapterNumber}`;
 }
 
 const randomTreebankLink = () => {
-    const chapterNumber = Math.floor(Math.random() * 64) + 1;
-    return `/treebank/${chapterNumber <= 8 ? chapterNumber : chapterNumber + 50}`;
+    const [a, b] = Math.random() < 0.5 ? [1, 8] : [59, 114];
+    const chapterNumber = randomNumberInInterval(a, b);
+    const chapterService = container.resolve(ChapterService);
+    const verseNumber = randomNumberInInterval(1, chapterService.chapters[chapterNumber - 1].verseCount);
+    return `/treebank/${chapterNumber}:${verseNumber}`;
 }
 
 export const Home = () => {
