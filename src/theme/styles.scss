@@ -1,11 +1,13 @@
 :root {
-    --default-arabic-font-family: Hafs;
-    --verse-end-font-family: Uthmani Hafs;
+    --default-font-family: 'Noto Sans';
+    --default-arabic-font-family: 'Hafs';
+    --verse-end-font-family: 'Uthmani Hafs';
+    --edge-label-font-family: 'Traditional Arabic';
+    --hidden-word-font-family: 'Times New Roman';
     --arabic-font-size-large: 50px;
     --arabic-font-size-medium: 30px;
     --popup-menu-height: 250px;
-    --token-header-height: 75px;
-    font-family: Noto Sans;
+    --token-header-height: 80px;
 }
 
 @font-face {
@@ -16,6 +18,11 @@
 @font-face {
     font-family: 'Uthmani Hafs';
     src: url('../fonts/uthmani-hafs.woff2');
+}
+
+@font-face {
+    font-family: 'Traditional Arabic';
+    src: url('../fonts/traditional-arabic.woff2');
 }
 
 .navy {
@@ -140,6 +147,7 @@
 
 body {
     margin: 0;
+    font-family: var(--default-font-family);
 }
 
 a,

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
+import { FontService } from './theme/font-service';
 import { MetadataService } from './metadata-service';
 import { SettingsService } from './settings/settings-service';
 import { OverlayProvider, useOverlay } from './overlay-context';
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
 ]);
 
 const Root = () => {
+    const fontService = container.resolve(FontService);
     const metadataService = container.resolve(MetadataService);
     const settingsService = container.resolve(SettingsService);
 
@@ -46,6 +48,7 @@ const Root = () => {
     useEffect(() => {
         const bootUp = async () => {
             try {
+                await fontService.loadFonts();
                 await metadataService.cacheMetadata();
                 settingsService.loadSettings(settingsContext);
             } catch (e) {

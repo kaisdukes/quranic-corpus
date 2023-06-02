@@ -65,7 +65,6 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
 
     useEffect(() => {
         (async () => {
-            await document.fonts.load('1em Hafs');
             const syntaxGraphVisualizer = new SyntaxGraphVisualizer(
                 syntaxGraph,
                 wordsRef,

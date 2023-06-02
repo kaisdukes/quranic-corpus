@@ -3,9 +3,10 @@
     flex-direction: column;
     align-items: center;
     height: var(--token-header-height);
+    white-space: nowrap;
 
     div {
-        font: 0.833em Arial;
+        font-size: 90%;
         line-height: 1.6em;
 
         &.location {

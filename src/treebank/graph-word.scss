@@ -21,7 +21,7 @@
             margin-top: var(--token-header-height);
 
             .pre {
-                font-family: 'Times New Roman', Times, serif;
+                font-family: var(--hidden-word-font-family);
                 font-size: 24px;
             }
         }
