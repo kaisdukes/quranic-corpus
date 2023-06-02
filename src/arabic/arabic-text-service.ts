@@ -3,6 +3,7 @@ import { singleton } from 'tsyringe';
 // characters
 const hamza = 0x0621;
 const alifWithHamzaAbove = 0x0623;
+const alifWithHamzaBelow = 0x0625;
 const wawWithHamzaAbove = 0x0624;
 const alif = 0x0627;
 const dal = 0x062f;
@@ -34,7 +35,12 @@ export class ArabicTextService {
         const n = text.length;
         for (var i = 0; i < n; i++) {
             const ch = text.charCodeAt(i)
-            if (!diacriticsSet.has(ch)) {
+            if (diacriticsSet.has(ch)) {
+                continue;
+            }
+            if (ch === alifWithHamzaBelow) {
+                result += 'ا';
+            } else {
                 result += text.charAt(i);
             }
         }
