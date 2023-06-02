@@ -9,14 +9,16 @@ export type Line = {
 }
 
 export type Arc = {
-    startNode: number,
-    endNode: number,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
     dependencyTag: DependencyTag,
     rx: number,
     ry: number,
     xAxisRotation: number,
     largeArcFlag: number,
-    sweepFlag: number
+    sweepFlag: number,
 }
 
 export type GraphLayout = {

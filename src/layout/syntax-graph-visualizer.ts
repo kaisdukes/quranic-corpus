@@ -94,8 +94,10 @@ export class SyntaxGraphVisualizer {
                 const rx = boxWidth / (1 + Math.cos(theta));
 
                 const arc: Arc = {
-                    startNode,
-                    endNode,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
                     dependencyTag,
                     rx,
                     ry,

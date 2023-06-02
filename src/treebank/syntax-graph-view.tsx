@@ -121,14 +121,12 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                 }
                 {
                     arcs.map((arc, i) => {
-                        const { x: x1, y: y1 } = nodePositions[arc.startNode];
-                        const { x: x2, y: y2 } = nodePositions[arc.endNode];
                         const { x: ax, y: ay } = arrowPositions[i];
                         const className = `${colorService.getDependencyColor(arc.dependencyTag)}-light`;
                         return (
                             <Fragment key={`arc-${i}`}>
                                 <path
-                                    d={`M ${x1} ${y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${x2} ${y2}`}
+                                    d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} ${arc.xAxisRotation} ${arc.largeArcFlag} ${arc.sweepFlag} ${arc.x2} ${arc.y2}`}
                                     fill='none'
                                     className={className} />
                                 <polygon
