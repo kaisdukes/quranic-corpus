@@ -3,6 +3,7 @@ import { SVGText } from './svg-text';
 import { SVGSegmentedText } from './svg-segmented-text';
 import { Rect } from '../layout/geometry';
 import { FontService } from '../typography/font-service';
+import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { container } from 'tsyringe';
 import './svg-view.scss';
 
@@ -16,7 +17,7 @@ type Layout = {
     segmentedTextBoxes: Rect[]
 }
 
-const layoutWords = (
+const layoutGraph = (
     wordRefs: RefObject<SVGTextElement>[],
     segmentedWordRefs: RefObject<SVGTextElement>[]): Layout => {
 
@@ -33,13 +34,14 @@ const layoutWords = (
         }
     }
 
-    x = 0;
+    x = 1200;
     for (const segmentedWordRef of segmentedWordRefs) {
         if (segmentedWordRef.current) {
             const { width, height } = segmentedWordRef.current.getBBox();
             const y = 100;
+            x -= width;
             segmentedTextBoxes.push({ x, y, width, height });
-            x += width + 5;
+            x -= 5;
         }
     }
 
@@ -47,31 +49,31 @@ const layoutWords = (
 }
 
 type Props = {
-    words: string[],
-    segmentedWords: SegmentedWord[]
+    syntaxGraph: SyntaxGraph
 }
 
-export const SVGView = ({ words, segmentedWords }: Props) => {
+export const SVGView = ({ syntaxGraph }: Props) => {
     const fontService = container.resolve(FontService);
+    const { words } = syntaxGraph;
+
+    const wordsRef = useMemo(
+        () => syntaxGraph.words.map(() => createRef<SVGTextElement>()),
+        [syntaxGraph]
+    );
+
+    const segmentedWordsRef = useMemo(
+        () => syntaxGraph.words.map(() => createRef<SVGTextElement>()),
+        [syntaxGraph]
+    );
 
     const [layout, setLayout] = useState<Layout>({
         textBoxes: [],
         segmentedTextBoxes: []
     });
 
-    const wordsRef = useMemo(
-        () => words.map(() => createRef<SVGTextElement>()),
-        [words]
-    );
-
-    const segmentedWordsRef = useMemo(
-        () => segmentedWords.map(() => createRef<SVGTextElement>()),
-        [segmentedWords]
-    );
-
     useEffect(() => {
-        setLayout(layoutWords(wordsRef, segmentedWordsRef));
-    }, [words]);
+        setLayout(layoutGraph(wordsRef, segmentedWordsRef));
+    }, [syntaxGraph]);
 
     const wordFontSize = 20;
     const wordFontFamily = '"Times New Roman"';
@@ -82,13 +84,13 @@ export const SVGView = ({ words, segmentedWords }: Props) => {
     const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFontFamily);
 
     return (
-        <svg className='svg-view' width={500} height={500}>
+        <svg className='svg-view' width={1200} height={300}>
             {
                 words.map((word, i) => (
                     <SVGText
                         key={`word-${i}`}
                         ref={wordsRef[i]}
-                        text={word}
+                        text={word.token ? word.token.translation : 'NO_TOKEN'}
                         fontFamily={wordFontFamily}
                         fontSize={wordFontSize}
                         fontMetrics={wordFontMetrics}
@@ -96,12 +98,11 @@ export const SVGView = ({ words, segmentedWords }: Props) => {
                 ))
             }
             {
-                segmentedWords.map((word, i) => (
+                words.map((word, i) => (
                     <SVGSegmentedText
                         key={`segmented-word-${i}`}
                         ref={segmentedWordsRef[i]}
-                        segments={word.segments}
-                        classNames={word.classNames}
+                        segments={word.token ? word.token.segments : []}
                         fontFamily={segmentedWordFontFamily}
                         fontSize={segmentedWordFontSize}
                         fontMetrics={segmentedWordFontMetrics}

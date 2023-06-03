@@ -1,20 +1,10 @@
 .svg-view {
-    border: 1px solid blue;
-
     .box {
         stroke: red;
         fill: none;
     }
 
-    .a {
-        fill: green;
-    }
-
-    .b {
-        fill: orange;
-    }
-
-    .c {
-        fill: blue;
+    .segment {
+        fill: currentColor;
     }
 }

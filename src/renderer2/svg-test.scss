@@ -1,3 +1,23 @@
 .svg-test {
     margin: 25px;
+    display: flex;
+    flex-direction: column;
+
+    .navigation {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+
+        .location {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+
+    .svg-view {
+        border: 1px solid blue;
+        margin-top: 25px;
+
+    }
 }

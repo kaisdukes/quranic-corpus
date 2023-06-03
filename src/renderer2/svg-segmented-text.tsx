@@ -1,10 +1,12 @@
 import { Ref, forwardRef } from 'react';
 import { Rect } from '../layout/geometry';
 import { FontMetrics } from '../typography/font-metrics';
+import { Segment } from '../corpus/morphology/segment';
+import { ColorService } from '../theme/color-service';
+import { container } from 'tsyringe';
 
 type Props = {
-    segments: string[],
-    classNames: string[],
+    segments: Segment[],
     fontSize: number,
     fontFamily: string,
     fontMetrics: FontMetrics,
@@ -12,14 +14,16 @@ type Props = {
 }
 
 export const SVGSegmentedText = forwardRef((
-    { segments, classNames, fontSize, fontFamily, fontMetrics, box }: Props,
+    { segments, fontSize, fontFamily, fontMetrics, box }: Props,
     ref: Ref<SVGTextElement>) => {
+
+    const colorService = container.resolve(ColorService);
 
     return (
         <>
             <text
                 ref={ref}
-                x={box ? box.width - box.x : undefined}
+                x={box ? box.x + box.width : undefined}
                 y={box ? box.y + box.height - (fontMetrics.ascenderHeight - fontMetrics.descenderHeight) * fontSize : undefined}
                 fontSize={fontSize}
                 fontFamily={fontFamily}
@@ -28,8 +32,8 @@ export const SVGSegmentedText = forwardRef((
                     segments.map((segment, i) => (
                         <tspan
                             key={i}
-                            className={classNames[i]}
-                            dangerouslySetInnerHTML={{ __html: segment }} />
+                            className={`segment ${colorService.getSegmentColor(segment)}`}
+                            dangerouslySetInnerHTML={{ __html: segment.arabic! }} />
                     ))
                 }
             </text>

@@ -35,7 +35,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
     },
     {
-        path: '/svg-test',
+        path: '/svg-test/:location',
+        loader: treebankLoader,
         element: <SVGTest />,
         errorElement: <ErrorPage />
     }
