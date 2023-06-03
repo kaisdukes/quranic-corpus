@@ -1,0 +1,30 @@
+.svg-test {
+    margin: 25px;
+
+    svg {
+        border: 1px solid purple;
+    }
+
+    .foo {
+        fill: green;
+    }
+
+    .bar {
+        fill: red;
+        font-size: 50px;
+        font-family: var(--default-arabic-font-family);
+        direction: rtl;
+    }
+
+    .a {
+        fill: green;
+    }
+
+    .b {
+        fill: orange;
+    }
+
+    .c {
+        fill: blue;
+    }
+}
