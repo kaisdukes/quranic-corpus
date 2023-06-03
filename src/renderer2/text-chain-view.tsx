@@ -30,7 +30,6 @@ export const TextChainView = ({ words }: Props) => {
         wordPositions: []
     });
 
-
     const wordsRef = useMemo(
         () => words.map(() => createRef<SVGTextElement>()),
         [words]
