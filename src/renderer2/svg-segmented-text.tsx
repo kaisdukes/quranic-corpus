@@ -1,21 +1,23 @@
 import { Ref, forwardRef, useMemo } from 'react';
 import { Rect } from '../layout/geometry';
+import { Font } from '../typography/font';
 import { FontMetrics } from '../typography/font-metrics';
 import { Segment } from '../corpus/morphology/segment';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
+import { getTextPosition } from '../layout/text-position';
 import { container } from 'tsyringe';
 
 type Props = {
     segments: Segment[],
     fontSize: number,
-    fontFamily: string,
+    font: Font,
     fontMetrics: FontMetrics,
     box?: Rect
 }
 
 export const SVGSegmentedText = forwardRef((
-    { segments, fontSize, fontFamily, fontMetrics, box }: Props,
+    { segments, fontSize, font, fontMetrics, box }: Props,
     ref: Ref<SVGTextElement>) => {
 
     const arabicTextService = container.resolve(ArabicTextService);
@@ -27,15 +29,17 @@ export const SVGSegmentedText = forwardRef((
         return joinedSegments;
     }, [segments]);
 
+    const { rtl } = font;
+    const position = getTextPosition(box, fontMetrics, fontSize, rtl);
     return (
         <>
             <text
                 ref={ref}
-                x={box ? box.x + box.width : undefined}
-                y={box ? box.y + box.height - (fontMetrics.ascenderHeight - fontMetrics.descenderHeight) * fontSize : undefined}
+                x={position?.x}
+                y={position?.y}
                 fontSize={fontSize}
-                fontFamily={fontFamily}
-                direction='rtl'>
+                fontFamily={font.family}
+                direction={rtl ? 'rtl' : undefined}>
                 {
                     segments.map((segment, i) => (
                         <tspan

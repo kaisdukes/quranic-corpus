@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
+import { theme, applyStyles } from './theme/theme';
 import { FontService } from './typography/font-service';
 import { MetadataService } from './metadata-service';
 import { SettingsService } from './settings/settings-service';
@@ -55,6 +56,7 @@ const Root = () => {
     useEffect(() => {
         const bootUp = async () => {
             try {
+                applyStyles(theme);
                 await fontService.loadFonts();
                 await metadataService.cacheMetadata();
                 settingsService.loadSettings(settingsContext);

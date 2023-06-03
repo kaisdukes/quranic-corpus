@@ -4,6 +4,7 @@ import { SVGSegmentedText } from './svg-segmented-text';
 import { Rect } from '../layout/geometry';
 import { FontService } from '../typography/font-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
+import { theme } from '../theme/theme';
 import { container } from 'tsyringe';
 import './svg-view.scss';
 
@@ -75,13 +76,13 @@ export const SVGView = ({ syntaxGraph }: Props) => {
         setLayout(layoutGraph(wordsRef, segmentedWordsRef));
     }, [syntaxGraph]);
 
-    const wordFontSize = 14;
-    const wordFontFamily = '"Noto Sans"';
-    const wordFontMetrics = fontService.getFontMetrics(wordFontFamily);
+    const wordFontSize = theme.syntaxGraphHeaderFontSize;
+    const wordFont = theme.fonts.defaultFont;
+    const wordFontMetrics = fontService.getFontMetrics(wordFont);
 
-    const segmentedWordFontSize = 34;
-    const segmentedWordFontFamily = '"Hafs"';
-    const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFontFamily);
+    const segmentedWordFontSize = theme.syntaxGraphArabicFontSize;
+    const segmentedWordFont = theme.fonts.defaultArabicFont;
+    const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFont);
 
     return (
         <svg className='svg-view' width={600} height={300} viewBox='0 0 600 300'>
@@ -91,7 +92,7 @@ export const SVGView = ({ syntaxGraph }: Props) => {
                         key={`word-${i}`}
                         ref={wordsRef[i]}
                         text={word.token ? word.token.translation : 'NO_TOKEN'}
-                        fontFamily={wordFontFamily}
+                        font={wordFont}
                         fontSize={wordFontSize}
                         fontMetrics={wordFontMetrics}
                         box={layout.textBoxes[i]} />
@@ -103,7 +104,7 @@ export const SVGView = ({ syntaxGraph }: Props) => {
                         key={`segmented-word-${i}`}
                         ref={segmentedWordsRef[i]}
                         segments={word.token ? word.token.segments : []}
-                        fontFamily={segmentedWordFontFamily}
+                        font={segmentedWordFont}
                         fontSize={segmentedWordFontSize}
                         fontMetrics={segmentedWordFontMetrics}
                         box={layout.segmentedTextBoxes[i]} />

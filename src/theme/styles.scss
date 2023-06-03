@@ -1,15 +1,3 @@
-:root {
-    --default-font-family: 'Noto Sans';
-    --default-arabic-font-family: 'Hafs';
-    --verse-end-font-family: 'Uthmani Hafs';
-    --edge-label-font-family: 'Traditional Arabic';
-    --hidden-word-font-family: 'Times New Roman';
-    --arabic-font-size-large: 50px;
-    --arabic-font-size-medium: 30px;
-    --popup-menu-height: 250px;
-    --token-header-height: 80px;
-}
-
 @font-face {
     font-family: 'Hafs';
     src: url('../fonts/hafs.woff2');
