@@ -93,8 +93,8 @@ type SVGRectProps = {
 const SVGRect = ({ position, rect }: SVGRectProps) => {
     return (
         <rect
-            x1={position.x + rect.x}
-            y1={position.y + rect.y}
+            x={position.x + rect.x}
+            y={position.y + rect.y}
             width={rect.width}
             height={rect.height}
             fill='none'
