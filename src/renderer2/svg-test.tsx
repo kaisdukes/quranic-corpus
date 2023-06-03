@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { ContentPage } from '../content-page';
 import { GraphLocation } from '../corpus/syntax/graph-location';
-import { formatLocation, parseLocation } from '../corpus/orthography/location';
-import { ArabicTextService } from '../arabic/arabic-text-service';
+import { formatLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
-import { SVGView, SegmentedWord } from './svg-view';
+import { SVGView } from './svg-view';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
-import { SyntaxGraphView } from '../treebank/syntax-graph-view';
-import { CorpusError } from '../errors/corpus-error';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { container } from 'tsyringe';
 import { AxiosError } from 'axios';
@@ -49,7 +46,13 @@ export const SVGTest = () => {
 
     return (
         <ContentPage className='svg-test' navigation={{ chapterNumber, url: baseUrl }}>
-            <h1>Corpus 2.0: SVG Test</h1>
+            <h1>Corpus 2.0: Renderer Test</h1>
+            <p>
+                This desktop-optimized page tests a new vector renderer for Quranic Arabic Corpus 2.0.
+                We're comparing the under-development vector-rendered image (first) with the existing
+                bitmap-rendered image (second). The vector image may not fully replicate the dependency
+                graph yet.
+            </p>
             {
                 syntaxGraph &&
                 <>
@@ -65,7 +68,13 @@ export const SVGTest = () => {
                             prevUrl={getGraphUrl(syntaxGraph.prev)}
                             nextUrl={getGraphUrl(syntaxGraph.next)} />
                     </nav>
-                    <SVGView syntaxGraph={syntaxGraph} />
+                    <div className='compare'>
+                        <SVGView syntaxGraph={syntaxGraph} />
+                        {
+                            syntaxGraph.legacyCorpusGraphNumber > 0 &&
+                            <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                        }
+                    </div>
                 </>
             }
         </ContentPage>

@@ -1,7 +1,5 @@
 .svg-test {
     margin: 25px;
-    display: flex;
-    flex-direction: column;
 
     .navigation {
         display: inline-flex;
@@ -15,10 +13,21 @@
         }
     }
 
-    .svg-view {
-        border: 1px solid blue;
+    .compare {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
         margin-top: 25px;
-        max-width: 100%;
-        height: auto;
+
+        .svg-view {
+            max-width: 100%;
+            height: auto;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     }
 }

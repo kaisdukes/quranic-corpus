@@ -1,10 +1,6 @@
 import { Font } from '../typography/font';
 
-type Styles = {
-    [key: string]: number | string | Styles | Font;
-}
-
-interface ITheme extends Styles {
+interface ITheme {
     fonts: {
         [key: string]: Font
     },
@@ -38,13 +34,13 @@ const setThemeProperty = (name: string, value: string | number) => {
     document.documentElement.style.setProperty(`--${kebabName}`, String(value));
 }
 
-export const applyStyles = (styles: Styles) => {
-    for (let [key, value] of Object.entries(styles)) {
-        if (key === 'fonts' && typeof value === 'object') {
+export const applyStyles = (theme: ITheme) => {
+    for (let [key, value] of Object.entries(theme)) {
+        if (key === 'fonts') {
             for (let [fontKey, fontValue] of Object.entries(value)) {
-                setThemeProperty(`${fontKey}-family`, fontValue.family);
+                setThemeProperty(`${fontKey}-family`, (fontValue as Font).family);
             }
-        } else if (typeof value === 'number' || typeof value === 'string') {
+        } else {
             setThemeProperty(key, value);
         }
     }

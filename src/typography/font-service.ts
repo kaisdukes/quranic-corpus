@@ -19,9 +19,8 @@ export class FontService {
 
     async loadFonts() {
         for (const font of Object.values(theme.fonts)) {
-            const { family: fontFamily } = font;
-            await this.loadFont(fontFamily);
-            this.computeFontMetrics(fontFamily);
+            await this.loadFont(font);
+            this.computeFontMetrics(font);
         }
     }
 
@@ -33,23 +32,25 @@ export class FontService {
         return metrics;
     }
 
-    private async loadFont(fontFamily: string) {
-        const style = `1em ${fontFamily}`;
+    private async loadFont(font: Font) {
+        const { family } = font;
+        const style = `1em ${family}`;
         await document.fonts.load(style);
         const loaded = document.fonts.check(style);
         if (!loaded) {
-            console.warn(`Failed to load font ${fontFamily}`);
+            console.warn(`Failed to load font ${family}`);
         }
     }
 
-    private computeFontMetrics(fontFamily: string) {
+    private computeFontMetrics(font: Font) {
         const fontSize = 100;
-        this.g.font = `${fontSize}px ${fontFamily}`;
+        const { family } = font;
+        this.g.font = `${fontSize}px ${family}`;
         const textMetrics = this.g.measureText('abc');
         const fontMetrics = {
             ascenderHeight: textMetrics.fontBoundingBoxAscent / fontSize,
             descenderHeight: textMetrics.fontBoundingBoxDescent / fontSize
         }
-        this.fontMetrics.set(fontFamily, fontMetrics);
+        this.fontMetrics.set(family, fontMetrics);
     }
 }
