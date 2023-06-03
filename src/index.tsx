@@ -11,7 +11,7 @@ import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
-import { SVGTest2 } from './renderer2/svg-test2';
+import { SVGTest } from './renderer2/svg-test';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/svg-test',
-        element: <SVGTest2 />,
+        element: <SVGTest />,
         errorElement: <ErrorPage />
     }
 ]);

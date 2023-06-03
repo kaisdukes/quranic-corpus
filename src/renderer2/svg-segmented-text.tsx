@@ -3,15 +3,16 @@ import { Rect } from '../layout/geometry';
 import { FontMetrics } from '../typography/font-metrics';
 
 type Props = {
-    text: string,
+    segments: string[],
+    classNames: string[],
     fontSize: number,
     fontFamily: string,
     fontMetrics: FontMetrics,
     box?: Rect
 }
 
-export const SVGText = forwardRef((
-    { text, fontSize, fontFamily, fontMetrics, box }: Props,
+export const SVGSegmentedText = forwardRef((
+    { segments, classNames, fontSize, fontFamily, fontMetrics, box }: Props,
     ref: Ref<SVGTextElement>) => {
 
     return (
@@ -19,10 +20,17 @@ export const SVGText = forwardRef((
             <text
                 ref={ref}
                 x={box?.x}
-                y={box ? box.y + box.height - fontMetrics.descenderHeight * fontSize : undefined}
+                y={box ? box.y + box.height - (fontMetrics.ascenderHeight + fontMetrics.descenderHeight / 2) * fontSize : undefined}
                 fontSize={fontSize}
                 fontFamily={fontFamily}>
-                {text}
+                {
+                    segments.map((segment, i) => (
+                        <tspan
+                            key={i}
+                            className={classNames[i]}
+                            dangerouslySetInnerHTML={{ __html: segment }} />
+                    ))
+                }
             </text>
             {
                 box &&

@@ -53,10 +53,12 @@ export class FontService {
     private computeFontMetrics(font: string) {
         const fontSize = 100;
         this.g.font = `${fontSize}px ${font}`;
-        const metrics = this.g.measureText('gjpqy');
-        const descenderSizeInPixels = metrics.actualBoundingBoxDescent;
-        const descenderHeight = descenderSizeInPixels / fontSize;
-        console.log(`Font ${font} has descender height ${descenderHeight}`);
-        this.fontMetrics.set(font, { descenderHeight });
+        const textMetrics = this.g.measureText('gjpqy');
+        const fontMetrics = {
+            ascenderHeight: textMetrics.actualBoundingBoxAscent / fontSize,
+            descenderHeight: textMetrics.actualBoundingBoxDescent / fontSize
+        }
+        console.log(`Font ${font} has metrics ${JSON.stringify(fontMetrics)}`);
+        this.fontMetrics.set(font, fontMetrics);
     }
 }
