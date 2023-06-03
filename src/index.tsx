@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoadingOverlay } from './components/loading-overlay';
-import { FontService } from './theme/font-service';
+import { FontService } from './typography/font-service';
 import { MetadataService } from './metadata-service';
 import { SettingsService } from './settings/settings-service';
 import { OverlayProvider, useOverlay } from './overlay-context';

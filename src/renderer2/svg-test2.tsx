@@ -1,13 +1,13 @@
-import { TextChainView } from './text-chain-view';
+import { SVGView } from './svg-view';
 import './svg-test2.scss';
 
 export const SVGTest2 = () => {
-    const words = ['Hello', 'foo', 'xxx'];
+    const words = ['Hello', 'xyz', 'ggg'];
 
     return (
         <div className='svg-test2'>
             <h1>SVG Test #2</h1>
-            <TextChainView words={words} />
+            <SVGView words={words} />
         </div>
     )
 }
