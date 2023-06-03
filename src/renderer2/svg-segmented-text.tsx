@@ -1,7 +1,8 @@
-import { Ref, forwardRef } from 'react';
+import { Ref, forwardRef, useMemo } from 'react';
 import { Rect } from '../layout/geometry';
 import { FontMetrics } from '../typography/font-metrics';
 import { Segment } from '../corpus/morphology/segment';
+import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
 
@@ -17,7 +18,14 @@ export const SVGSegmentedText = forwardRef((
     { segments, fontSize, fontFamily, fontMetrics, box }: Props,
     ref: Ref<SVGTextElement>) => {
 
+    const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
+
+    const joinedSegments = useMemo(() => {
+        const joinedSegments = segments.map(segment => segment.arabic);
+        arabicTextService.insertZeroWidthJoinersForSafari(joinedSegments);
+        return joinedSegments;
+    }, [segments]);
 
     return (
         <>
@@ -33,7 +41,7 @@ export const SVGSegmentedText = forwardRef((
                         <tspan
                             key={i}
                             className={`segment ${colorService.getSegmentColor(segment)}`}
-                            dangerouslySetInnerHTML={{ __html: segment.arabic! }} />
+                            dangerouslySetInnerHTML={{ __html: joinedSegments[i]! }} />
                     ))
                 }
             </text>
