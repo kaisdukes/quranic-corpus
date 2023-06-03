@@ -84,7 +84,7 @@ export const SVGView = ({ syntaxGraph }: Props) => {
     const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFontFamily);
 
     return (
-        <svg className='svg-view' width={1200} height={300}>
+        <svg className='svg-view' width={1200} height={300} viewBox='0 0 1200 300'>
             {
                 words.map((word, i) => (
                     <SVGText
