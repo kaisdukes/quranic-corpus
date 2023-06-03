@@ -19,10 +19,11 @@ export const SVGSegmentedText = forwardRef((
         <>
             <text
                 ref={ref}
-                x={box?.x}
-                y={box ? box.y + box.height - (fontMetrics.ascenderHeight + fontMetrics.descenderHeight / 2) * fontSize : undefined}
+                x={box ? box.width - box.x : undefined}
+                y={box ? box.y + box.height - (fontMetrics.ascenderHeight - fontMetrics.descenderHeight) * fontSize : undefined}
                 fontSize={fontSize}
-                fontFamily={fontFamily}>
+                fontFamily={fontFamily}
+                direction='rtl'>
                 {
                     segments.map((segment, i) => (
                         <tspan

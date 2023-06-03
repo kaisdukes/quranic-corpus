@@ -53,10 +53,10 @@ export class FontService {
     private computeFontMetrics(font: string) {
         const fontSize = 100;
         this.g.font = `${fontSize}px ${font}`;
-        const textMetrics = this.g.measureText('gjpqy');
+        const textMetrics = this.g.measureText('abc');
         const fontMetrics = {
-            ascenderHeight: textMetrics.actualBoundingBoxAscent / fontSize,
-            descenderHeight: textMetrics.actualBoundingBoxDescent / fontSize
+            ascenderHeight: textMetrics.fontBoundingBoxAscent / fontSize,
+            descenderHeight: textMetrics.fontBoundingBoxDescent / fontSize
         }
         console.log(`Font ${font} has metrics ${JSON.stringify(fontMetrics)}`);
         this.fontMetrics.set(font, fontMetrics);
