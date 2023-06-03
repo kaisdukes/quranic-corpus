@@ -1,5 +1,6 @@
 import { singleton } from 'tsyringe';
 import { CorpusError } from '../errors/corpus-error';
+import { FontMetrics } from './font-metrics';
 
 @singleton()
 export class FontService {
@@ -13,7 +14,7 @@ export class FontService {
 
     private canvas: HTMLCanvasElement;
     private g: CanvasRenderingContext2D;
-    private descenderHeights: Map<string, number> = new Map();
+    private fontMetrics: Map<string, FontMetrics> = new Map();
 
     constructor() {
         this.canvas = document.createElement('canvas');
@@ -26,16 +27,16 @@ export class FontService {
         for (const property of this.fontProperties) {
             const font = getComputedStyle(document.documentElement).getPropertyValue(property);
             await this.loadFont(font);
-            this.computeDescenderHeight(font);
+            this.computeFontMetrics(font);
         }
     }
 
-    getDescenderHeight(font: string) {
-        var descenderHeight = this.descenderHeights.get(font);
-        if (!descenderHeight) {
-            throw new CorpusError('SERVICE_ERROR', `Failed to get descender height for font ${font}`);
+    getFontMetrics(font: string) {
+        var metrics = this.fontMetrics.get(font);
+        if (!metrics) {
+            throw new CorpusError('SERVICE_ERROR', `Failed to get metrics for font ${font}`);
         }
-        return descenderHeight;
+        return metrics;
     }
 
     private async loadFont(font: string) {
@@ -49,13 +50,13 @@ export class FontService {
         }
     }
 
-    private computeDescenderHeight(font: string) {
+    private computeFontMetrics(font: string) {
         const fontSize = 100;
         this.g.font = `${fontSize}px ${font}`;
         const metrics = this.g.measureText('gjpqy');
         const descenderSizeInPixels = metrics.actualBoundingBoxDescent;
         const descenderHeight = descenderSizeInPixels / fontSize;
         console.log(`Font ${font} has descender height ${descenderHeight}`);
-        this.descenderHeights.set(font, descenderHeight);
+        this.fontMetrics.set(font, { descenderHeight });
     }
 }

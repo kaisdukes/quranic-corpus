@@ -1,16 +1,17 @@
 import { Ref, forwardRef } from 'react';
 import { Rect } from '../layout/geometry';
+import { FontMetrics } from '../typography/font-metrics';
 
 type Props = {
     text: string,
     fontFamily: string,
     fontSize: number,
-    descenderHeight: number,
+    fontMetrics: FontMetrics,
     box?: Rect
 }
 
 export const SVGText = forwardRef((
-    { text, fontFamily, fontSize, descenderHeight, box }: Props,
+    { text, fontFamily, fontSize, fontMetrics, box }: Props,
     ref: Ref<SVGTextElement>) => {
 
     return (
@@ -18,7 +19,7 @@ export const SVGText = forwardRef((
             <text
                 ref={ref}
                 x={box?.x}
-                y={box ? box.y + box.height - descenderHeight * fontSize : undefined}
+                y={box ? box.y + box.height - fontMetrics.descenderHeight * fontSize : undefined}
                 fontFamily={fontFamily}
                 fontSize={fontSize}>
                 {text}

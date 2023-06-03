@@ -47,7 +47,7 @@ export const SVGView = ({ words }: Props) => {
 
     const fontFamily = '"Times New Roman"';
     const fontSize = 30;
-    const descenderHeight = fontService.getDescenderHeight(fontFamily);
+    const fontMetrics = fontService.getFontMetrics(fontFamily);
 
     return (
         <svg className='svg-view'>
@@ -59,7 +59,7 @@ export const SVGView = ({ words }: Props) => {
                         text={word}
                         fontFamily={fontFamily}
                         fontSize={fontSize}
-                        descenderHeight={descenderHeight}
+                        fontMetrics={fontMetrics}
                         box={layout.textBoxes[i]} />
                 ))
             }
