@@ -34,7 +34,7 @@ const layoutGraph = (
         }
     }
 
-    x = 1200;
+    x = 600;
     for (const segmentedWordRef of segmentedWordRefs) {
         if (segmentedWordRef.current) {
             const { width, height } = segmentedWordRef.current.getBBox();
@@ -75,16 +75,16 @@ export const SVGView = ({ syntaxGraph }: Props) => {
         setLayout(layoutGraph(wordsRef, segmentedWordsRef));
     }, [syntaxGraph]);
 
-    const wordFontSize = 20;
-    const wordFontFamily = '"Times New Roman"';
+    const wordFontSize = 14;
+    const wordFontFamily = '"Noto Sans"';
     const wordFontMetrics = fontService.getFontMetrics(wordFontFamily);
 
-    const segmentedWordFontSize = 50;
+    const segmentedWordFontSize = 34;
     const segmentedWordFontFamily = '"Hafs"';
     const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFontFamily);
 
     return (
-        <svg className='svg-view' width={1200} height={300} viewBox='0 0 1200 300'>
+        <svg className='svg-view' width={600} height={300} viewBox='0 0 600 300'>
             {
                 words.map((word, i) => (
                     <SVGText
