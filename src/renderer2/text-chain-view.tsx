@@ -26,14 +26,15 @@ const layoutWords = (elements: RefObject<SVGTextElement>[]): Layout => {
 }
 
 export const TextChainView = ({ words }: Props) => {
+    const [layout, setLayout] = useState<Layout>({
+        wordPositions: []
+    });
+
+
     const wordsRef = useMemo(
         () => words.map(() => createRef<SVGTextElement>()),
         [words]
     );
-
-    const [layout, setLayout] = useState<Layout>({
-        wordPositions: []
-    });
 
     useEffect(() => {
         setLayout(layoutWords(wordsRef));
