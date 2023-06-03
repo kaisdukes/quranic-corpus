@@ -1,12 +1,12 @@
 .svg-view {
     border: 1px solid blue;
 
-    .box {
+    rect {
         stroke: red;
         fill: none;
     }
 
-    .segment {
+    text {
         fill: currentColor;
     }
 }

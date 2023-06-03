@@ -44,7 +44,7 @@ export const SVGSegmentedText = forwardRef((
                     segments.map((segment, i) => (
                         <tspan
                             key={i}
-                            className={`segment ${colorService.getSegmentColor(segment)}`}
+                            className={colorService.getSegmentColor(segment)}
                             dangerouslySetInnerHTML={{ __html: joinedSegments[i]! }} />
                     ))
                 }
@@ -52,7 +52,6 @@ export const SVGSegmentedText = forwardRef((
             {
                 box &&
                 <rect
-                    className='box'
                     x={box.x}
                     y={box.y}
                     width={box.width}

@@ -32,7 +32,6 @@ export const SVGText = forwardRef((
             {
                 box &&
                 <rect
-                    className='box'
                     x={box.x}
                     y={box.y}
                     width={box.width}
