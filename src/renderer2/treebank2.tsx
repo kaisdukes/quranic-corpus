@@ -10,16 +10,16 @@ import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { container } from 'tsyringe';
 import { AxiosError } from 'axios';
 import { useOverlay } from '../overlay-context';
-import './svg-test.scss';
+import './treebank2.scss';
 
-export const SVGTest = () => {
+export const Treebank2 = () => {
     const graphLocation = useLoaderData() as GraphLocation;
     const { location, graphNumber } = graphLocation;
     const [chapterNumber, verseNumber] = location;
     const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const syntaxService = container.resolve(SyntaxService);
-    const baseUrl = '/svg-test';
+    const baseUrl = '/treebank2';
 
     useEffect(() => {
         (async () => {
@@ -45,7 +45,7 @@ export const SVGTest = () => {
     }
 
     return (
-        <ContentPage className='svg-test' navigation={{ chapterNumber, url: baseUrl }}>
+        <ContentPage className='treebank2' navigation={{ chapterNumber, url: baseUrl }}>
             <h1>Corpus 2.0: Renderer Test</h1>
             <p>
                 This desktop-optimized page tests a new vector renderer for Quranic Arabic Corpus 2.0.

@@ -12,7 +12,7 @@ import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
-import { SVGTest } from './renderer2/svg-test';
+import { Treebank2 } from './renderer2/treebank2';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
@@ -30,15 +30,15 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
     },
     {
-        path: '/wordbyword/:location',
-        loader: wordByWordLoader,
-        element: <WordByWord />,
+        path: '/treebank2/:location',
+        loader: treebankLoader,
+        element: <Treebank2 />,
         errorElement: <ErrorPage />
     },
     {
-        path: '/svg-test/:location',
-        loader: treebankLoader,
-        element: <SVGTest />,
+        path: '/wordbyword/:location',
+        loader: wordByWordLoader,
+        element: <WordByWord />,
         errorElement: <ErrorPage />
     }
 ]);
