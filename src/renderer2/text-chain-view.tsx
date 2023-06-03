@@ -1,33 +1,38 @@
 import { useEffect, useMemo, useState, createRef, RefObject } from 'react';
 import { SVGWord } from './svg-word';
-import { Position } from '../layout/geometry';
+import { Position, Rect } from '../layout/geometry';
 
 type Props = {
     words: string[]
 }
 
 type Layout = {
-    wordPositions: Position[]
+    wordPositions: Position[],
+    boxes: Rect[]
 }
 
 const layoutWords = (elements: RefObject<SVGTextElement>[]): Layout => {
     const wordPositions: Position[] = [];
+    const boxes: Rect[] = [];
     let x = 0;
 
     for (const element of elements) {
         if (element.current) {
             const { width, height } = element.current.getBBox();
-            wordPositions.push({ x, y: height });
+            const y = height;
+            wordPositions.push({ x, y });
+            boxes.push({ x, y: 0, width, height });
             x += width + 5;
         }
     }
 
-    return { wordPositions }
+    return { wordPositions, boxes };
 }
 
 export const TextChainView = ({ words }: Props) => {
     const [layout, setLayout] = useState<Layout>({
-        wordPositions: []
+        wordPositions: [],
+        boxes: []
     });
 
     const wordsRef = useMemo(
@@ -48,6 +53,17 @@ export const TextChainView = ({ words }: Props) => {
                         ref={wordsRef[i]}
                         word={word}
                         position={layout.wordPositions[i]} />
+                ))
+            }
+            {
+                layout.boxes.map((box, i) => (
+                    <rect
+                        key={`box-${i}`}
+                        className='box'
+                        x={box.x}
+                        y={box.y}
+                        width={box.width}
+                        height={box.height} />
                 ))
             }
         </svg>
