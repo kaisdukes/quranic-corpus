@@ -10,7 +10,7 @@
     }
 
     .bar {
-        fill: red;
+        fill: rgb(40, 103, 147);
         font-size: 50px;
         font-family: var(--default-arabic-font-family);
         direction: rtl;
@@ -18,13 +18,16 @@
 
     .a {
         fill: green;
+        color: green;
     }
 
     .b {
         fill: orange;
+        color: orange;
     }
 
     .c {
         fill: blue;
+        color: blue;
     }
 }
