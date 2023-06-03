@@ -3,16 +3,15 @@ import { Position } from '../layout/geometry';
 
 type Props = {
     word: string,
-    position: Position
+    position?: Position
 }
 
 export const SVGWord = forwardRef((
     { word, position }: Props,
     ref: Ref<SVGTextElement>) => {
-    const { x, y } = position;
 
     return (
-        <text ref={ref} x={x} y={y}>
+        <text ref={ref} x={position?.x} y={position?.y}>
             {word}
         </text>
     )
