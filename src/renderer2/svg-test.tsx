@@ -4,6 +4,12 @@ import { ArabicTextService } from '../arabic/arabic-text-service';
 import { container } from 'tsyringe';
 import './svg-test.scss';
 
+export type GraphLayout = {
+    position: Position,
+    rect: Rect,
+    layoutUpdated: boolean
+}
+
 export const SVGTest = () => {
     const text = 'بِٱلْحَقِّ';
     const classNames = ['a', 'b', 'c'];
@@ -12,30 +18,43 @@ export const SVGTest = () => {
     arabicTextService.insertZeroWidthJoinersForSafari(segments);
 
     const textRef = useRef<SVGTextElement>(null);
-    const [position, setPosition] = useState({ x: 200, y: 200 });
-    const [rect, setRect] = useState<Rect>();
+    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
+        position: { x: 200, y: 200 },
+        rect: { x: 0, y: 0, width: 0, height: 0 },
+        layoutUpdated: false,
+    });
 
+    // Measurement phase
     useEffect(() => {
         if (textRef.current) {
             const bounds: Rect = textRef.current.getBBox();
-            console.log('BOUNDS = ' + JSON.stringify(bounds)); // EMPTY OBJECT!
-            setPosition({
-                x: 200 - bounds.width / 2,
-                y: 200 - bounds.height / 2
-            });
-            setRect(bounds);
+            console.log('BOUNDS = ' + JSON.stringify(bounds)); // ERROR! empty object!
+            setGraphLayout(prevLayout => ({ ...prevLayout, rect: bounds }));
         }
     }, [textRef]);
+
+    // Layout phase
+    useEffect(() => {
+        if (!graphLayout.layoutUpdated) {
+            setGraphLayout(prevLayout => {
+                const position = {
+                    x: 200 - prevLayout.rect.width / 2,
+                    y: 200 - prevLayout.rect.height / 2
+                };
+                return { ...prevLayout, position, layoutUpdated: true };
+            });
+        }
+    }, [graphLayout]);
 
     return (
         <div className='svg-test'>
             <h1>SVG Test</h1>
             <svg width={400} height={400}>
                 {
-                    rect &&
-                    <SVGRect position={position} rect={rect} />
+                    graphLayout.layoutUpdated &&
+                    <SVGRect position={graphLayout.position} rect={graphLayout.rect} />
                 }
-                <SVGText textRef={textRef} position={position} segments={segments} classNames={classNames} />
+                <SVGText textRef={textRef} position={graphLayout.position} segments={segments} classNames={classNames} />
             </svg>
         </div>
     )
