@@ -9,5 +9,9 @@
     text,
     tspan {
         fill: currentColor;
+
+        &.phonetic {
+            color: #4886d0;
+        }
     }
 }
