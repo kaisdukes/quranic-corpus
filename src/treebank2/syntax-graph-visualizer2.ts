@@ -114,6 +114,11 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
+    private measureWidth(elements: Rect[], gap: number): number {
+        return elements.reduce((totalWidth, element) => totalWidth + element.width, 0)
+            + gap * (elements.length - 1);
+    }
+
     private centerHorizontal(element: Rect, x: number, y: number, width: number) {
         element.x = x + (width - element.width) / 2;
         element.y = y;
@@ -123,9 +128,5 @@ export class SyntaxGraphVisualizer2 {
         const element = ref.current;
         const { x = 0, y = 0, width = 0, height = 0 } = element ? element.getBBox() : {};
         return { x, y, width, height };
-    }
-
-    private measureWidth(elements: Rect[], gap: number): number {
-        return elements.reduce((totalWidth, element) => totalWidth + element.width, 0) + gap * (elements.length - 1);
     }
 }
