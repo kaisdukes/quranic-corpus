@@ -18,27 +18,34 @@ export class SyntaxGraphVisualizer2 {
 
     layoutGraph(): GraphLayout2 {
         const { words } = this.syntaxGraph;
-        const { locationRefs, phoneticRefs, translationRefs, tokenRefs } = this.svgDom;
+        const {
+            locationRefs,
+            phoneticRefs,
+            translationRefs,
+            tokenRefs,
+            posTagRefs
+        } = this.svgDom;
         const locationBoxes: Rect[] = [];
         const phoneticBoxes: Rect[] = [];
         const translationBoxes: Rect[] = [];
         const tokenBoxes: Rect[] = [];
-        const segmentLabelBoxes: Rect[] = [];
+        const posTagBoxes: Rect[] = [];
         const wordGap = 40;
         const headerTextDeltaY = 25;
 
-        // measure words
+        // measure
         const locationBounds = locationRefs.map(element => this.measureElement(element));
         const phoneticBounds = phoneticRefs.map(element => this.measureElement(element));
         const translationBounds = translationRefs.map(element => this.measureElement(element));
         const tokenBounds = tokenRefs.map(element => this.measureElement(element));
+        const posTagBounds = posTagRefs.map(element => this.measureElement(element));
         const wordWidths = words.map((_, i) => Math.max(
             locationBounds[i].width,
             phoneticBounds[i].width,
             translationBounds[i].width,
             tokenBounds[i].width));
         const containerWidth = wordWidths.reduce((width, wordWidth) => width + wordWidth, 0) + wordGap * (words.length - 1);
-        const containerHeight = headerTextDeltaY * 3 + Math.max(...tokenBounds.map(size => size.height));
+        const tokenMaxY = headerTextDeltaY * 3 + Math.max(...tokenBounds.map(size => size.height));
 
         // layout words
         let x = containerWidth;
@@ -56,15 +63,24 @@ export class SyntaxGraphVisualizer2 {
             x -= wordGap;
         }
 
+        // layout POS tags
+        x = containerWidth;
+        for (const posTag of posTagBounds) {
+            const width = posTag.width;
+            x -= width;
+            posTagBoxes.push({ x, y: 150, width, height: posTag.height });
+            x -= 25;
+        }
+
         return {
             locationBoxes,
             phoneticBoxes,
             translationBoxes,
             tokenBoxes,
-            segmentLabelBoxes,
+            posTagBoxes,
             containerSize: {
                 width: containerWidth,
-                height: containerHeight
+                height: tokenMaxY + 50
             }
         }
     }

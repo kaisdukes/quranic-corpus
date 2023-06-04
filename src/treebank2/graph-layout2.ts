@@ -5,6 +5,6 @@ export type GraphLayout2 = {
     phoneticBoxes: Rect[],
     translationBoxes: Rect[],
     tokenBoxes: Rect[],
-    segmentLabelBoxes: Rect[],
+    posTagBoxes: Rect[],
     containerSize: Size
 }

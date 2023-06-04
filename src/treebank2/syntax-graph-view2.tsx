@@ -29,7 +29,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             phoneticRefs: createTextRefs(wordCount),
             translationRefs: createTextRefs(wordCount),
             tokenRefs: createTextRefs(wordCount),
-            segmentLabelRefs: createTextRefs(syntaxGraph.segmentNodeCount)
+            posTagRefs: createTextRefs(syntaxGraph.segmentNodeCount)
         };
     }, [syntaxGraph]);
 
@@ -38,7 +38,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         phoneticBoxes: [],
         translationBoxes: [],
         tokenBoxes: [],
-        segmentLabelBoxes: [],
+        posTagBoxes: [],
         containerSize: {
             width: 0,
             height: 0
@@ -50,6 +50,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         phoneticBoxes,
         translationBoxes,
         tokenBoxes,
+        posTagBoxes,
         containerSize
     } = graphLayout;
 
@@ -78,50 +79,83 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             {
                 words.map((word, i) => {
                     const fade = word.type === 'reference';
-                    return word.token ?
+                    return (
                         <Fragment key={`word-${i}`}>
-                            <SVGText
-                                ref={svgDom.locationRefs[i]}
-                                text={formatLocation(word.token.location)}
-                                font={wordFont}
-                                fontSize={wordFontSize}
-                                fontMetrics={wordFontMetrics}
-                                box={locationBoxes[i]}
-                                className={fade ? 'silver' : undefined} />
-                            <SVGText
-                                ref={svgDom.phoneticRefs[i]}
-                                text={word.token.phonetic}
-                                font={wordFont}
-                                fontSize={wordFontSize}
-                                fontMetrics={wordFontMetrics}
-                                box={phoneticBoxes[i]}
-                                className={fade ? 'silver' : 'phonetic'} />
-                            <SVGText
-                                ref={svgDom.translationRefs[i]}
-                                text={word.token.translation}
-                                font={wordFont}
-                                fontSize={wordFontSize}
-                                fontMetrics={wordFontMetrics}
-                                box={translationBoxes[i]}
-                                className={fade ? 'silver' : undefined} />
-                            <SVGArabicToken
-                                ref={svgDom.tokenRefs[i]}
-                                token={word.token}
-                                font={tokenFont}
-                                fontSize={tokenFontSize}
-                                fontMetrics={tokenFontMetrics}
-                                box={tokenBoxes[i]}
-                                fade={fade} />
+                            {
+                                word.token ? (
+                                    <>
+                                        <SVGText
+                                            ref={svgDom.locationRefs[i]}
+                                            text={formatLocation(word.token.location)}
+                                            font={wordFont}
+                                            fontSize={wordFontSize}
+                                            fontMetrics={wordFontMetrics}
+                                            box={locationBoxes[i]}
+                                            className={fade ? 'silver' : undefined} />
+                                        <SVGText
+                                            ref={svgDom.phoneticRefs[i]}
+                                            text={word.token.phonetic}
+                                            font={wordFont}
+                                            fontSize={wordFontSize}
+                                            fontMetrics={wordFontMetrics}
+                                            box={phoneticBoxes[i]}
+                                            className={fade ? 'silver' : 'phonetic'} />
+                                        <SVGText
+                                            ref={svgDom.translationRefs[i]}
+                                            text={word.token.translation}
+                                            font={wordFont}
+                                            fontSize={wordFontSize}
+                                            fontMetrics={wordFontMetrics}
+                                            box={translationBoxes[i]}
+                                            className={fade ? 'silver' : undefined} />
+                                        <SVGArabicToken
+                                            ref={svgDom.tokenRefs[i]}
+                                            token={word.token}
+                                            font={tokenFont}
+                                            fontSize={tokenFontSize}
+                                            fontMetrics={tokenFontMetrics}
+                                            box={tokenBoxes[i]}
+                                            fade={fade} />
+                                        {
+                                            word.token.segments.map((segment, j) => {
+                                                const segmentIndex = word.startNode + j;
+                                                return (
+                                                    <SVGText
+                                                        key={`segment-${i}-${j}`}
+                                                        ref={svgDom.posTagRefs[segmentIndex]}
+                                                        text={segment.posTag}
+                                                        font={wordFont}
+                                                        fontSize={wordFontSize}
+                                                        fontMetrics={wordFontMetrics}
+                                                        box={posTagBoxes[segmentIndex]}
+                                                        className={fade ? 'silver' : undefined} />
+                                                )
+                                            })
+                                        }
+                                    </>
+                                ) : (
+                                    <>
+                                        <SVGText
+                                            ref={svgDom.tokenRefs[i]}
+                                            text={word.hiddenText ?? '*'}
+                                            font={tokenFont}
+                                            fontSize={tokenFontSize}
+                                            fontMetrics={tokenFontMetrics}
+                                            box={tokenBoxes[i]}
+                                            className='silver' />
+                                        <SVGText
+                                            ref={svgDom.posTagRefs[word.startNode]}
+                                            text={word.hiddenPosTag!}
+                                            font={wordFont}
+                                            fontSize={wordFontSize}
+                                            fontMetrics={wordFontMetrics}
+                                            box={posTagBoxes[word.startNode]}
+                                            className='silver' />
+                                    </>
+                                )
+                            }
                         </Fragment>
-                        : <SVGText
-                            key={`word-${i}`}
-                            ref={svgDom.tokenRefs[i]}
-                            text={word.hiddenText ?? '*'}
-                            font={tokenFont}
-                            fontSize={tokenFontSize}
-                            fontMetrics={tokenFontMetrics}
-                            box={tokenBoxes[i]}
-                            className='silver' />
+                    )
                 })
             }
         </svg>
