@@ -6,7 +6,7 @@ import { FontService } from '../typography/font-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { theme } from '../theme/theme';
 import { container } from 'tsyringe';
-import './svg-view.scss';
+import './syntax-graph-view2.scss';
 
 export type SegmentedWord = {
     segments: string[],
@@ -53,7 +53,7 @@ type Props = {
     syntaxGraph: SyntaxGraph
 }
 
-export const SVGView = ({ syntaxGraph }: Props) => {
+export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const fontService = container.resolve(FontService);
     const { words } = syntaxGraph;
 
@@ -85,7 +85,7 @@ export const SVGView = ({ syntaxGraph }: Props) => {
     const segmentedWordFontMetrics = fontService.getFontMetrics(segmentedWordFont);
 
     return (
-        <svg className='svg-view' width={600} height={300} viewBox='0 0 600 300'>
+        <svg className='syntax-graph-view2' width={600} height={300} viewBox='0 0 600 300'>
             {
                 words.map((word, i) => (
                     <SVGText

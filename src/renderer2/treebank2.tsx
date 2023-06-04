@@ -4,7 +4,7 @@ import { ContentPage } from '../content-page';
 import { GraphLocation } from '../corpus/syntax/graph-location';
 import { formatLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
-import { SVGView } from './svg-view';
+import { SyntaxGraphView2 } from './syntax-graph-view2';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { container } from 'tsyringe';
@@ -69,7 +69,7 @@ export const Treebank2 = () => {
                             nextUrl={getGraphUrl(syntaxGraph.next)} />
                     </nav>
                     <div className='compare'>
-                        <SVGView syntaxGraph={syntaxGraph} />
+                        <SyntaxGraphView2 syntaxGraph={syntaxGraph} />
                         {
                             syntaxGraph.legacyCorpusGraphNumber > 0 &&
                             <img src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
