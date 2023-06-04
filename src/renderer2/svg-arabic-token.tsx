@@ -13,11 +13,12 @@ type Props = {
     fontSize: number,
     font: Font,
     fontMetrics: FontMetrics,
-    box?: Rect
+    box?: Rect,
+    fade: boolean
 }
 
-export const SVGSegmentedText = forwardRef((
-    { segments, fontSize, font, fontMetrics, box }: Props,
+export const SVGArabicToken = forwardRef((
+    { segments, fontSize, font, fontMetrics, box, fade }: Props,
     ref: Ref<SVGTextElement>) => {
 
     const arabicTextService = container.resolve(ArabicTextService);
@@ -44,7 +45,7 @@ export const SVGSegmentedText = forwardRef((
                     segments.map((segment, i) => (
                         <tspan
                             key={i}
-                            className={colorService.getSegmentColor(segment)}
+                            className={fade ? 'silver' : colorService.getSegmentColor(segment)}
                             dangerouslySetInnerHTML={{ __html: joinedSegments[i]! }} />
                     ))
                 }

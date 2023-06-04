@@ -9,11 +9,12 @@ type Props = {
     fontSize: number,
     font: Font,
     fontMetrics: FontMetrics,
-    box?: Rect
+    box?: Rect,
+    className?: string
 }
 
 export const SVGText = forwardRef((
-    { text, fontSize, font, fontMetrics, box }: Props,
+    { text, fontSize, font, fontMetrics, box, className }: Props,
     ref: Ref<SVGTextElement>) => {
 
     const { rtl } = font;
@@ -26,7 +27,8 @@ export const SVGText = forwardRef((
                 y={position?.y}
                 fontSize={fontSize}
                 fontFamily={font.family}
-                direction={rtl ? 'rtl' : undefined}>
+                direction={rtl ? 'rtl' : undefined}
+                className={className}>
                 {text}
             </text>
             {
