@@ -13,69 +13,73 @@ export type SegmentedWord = {
     classNames: string[]
 }
 
+type SVGDom = {
+    translationRefs: RefObject<SVGTextElement>[],
+    tokenRefs: RefObject<SVGTextElement>[]
+};
+
 type Layout = {
-    textBoxes: Rect[],
-    segmentedTextBoxes: Rect[]
+    translationBoxes: Rect[],
+    tokenBoxes: Rect[]
 }
 
-const layoutGraph = (
-    translationRefs: RefObject<SVGTextElement>[],
-    tokensRef: RefObject<SVGTextElement>[]): Layout => {
+const layoutGraph = (svgDom: SVGDom): Layout => {
+    const { translationRefs, tokenRefs } = svgDom;
+    const translationBoxes: Rect[] = [];
+    const tokenBoxes: Rect[] = [];
 
-    const textBoxes: Rect[] = [];
-    const segmentedTextBoxes: Rect[] = [];
     let x = 0;
-
     for (const translationRef of translationRefs) {
         if (translationRef.current) {
             const { width, height } = translationRef.current.getBBox();
             const y = 0;
-            textBoxes.push({ x, y, width, height });
+            translationBoxes.push({ x, y, width, height });
             x += width + 5;
         } else {
-            textBoxes.push({ x: 0, y: 0, width: 0, height: 0 });
+            translationBoxes.push({ x: 0, y: 0, width: 0, height: 0 });
         }
     }
 
     x = 600;
-    for (const tokenRef of tokensRef) {
+    for (const tokenRef of tokenRefs) {
         if (tokenRef.current) {
             const { width, height } = tokenRef.current.getBBox();
             const y = 100;
             x -= width;
-            segmentedTextBoxes.push({ x, y, width, height });
+            tokenBoxes.push({ x, y, width, height });
             x -= 5;
         }
     }
 
-    return { textBoxes, segmentedTextBoxes };
+    return { translationBoxes, tokenBoxes };
 }
 
 type Props = {
     syntaxGraph: SyntaxGraph
 }
 
+const createTextRefs = (count: number) => {
+    return Array.from({ length: count }, () => createRef<SVGTextElement>());
+}
+
 export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const fontService = container.resolve(FontService);
-    const { words } = syntaxGraph;
 
-    const translationsRef = useMemo(
-        () => syntaxGraph.words.map(() => createRef<SVGTextElement>()),
-        [syntaxGraph]
-    );
-
-    const tokensRef = useMemo(
-        () => syntaxGraph.words.map(() => createRef<SVGTextElement>()),
-        [syntaxGraph]
-    );
+    const svgDom: SVGDom = useMemo(() => {
+        const wordCount = syntaxGraph.words.length;
+        return {
+            translationRefs: createTextRefs(wordCount),
+            tokenRefs: createTextRefs(wordCount)
+        };
+    }, [syntaxGraph]);
 
     const [layout, setLayout] = useState<Layout>({
-        textBoxes: [],
-        segmentedTextBoxes: []
+        translationBoxes: [],
+        tokenBoxes: []
     });
 
     useEffect(() => {
-        setLayout(layoutGraph(translationsRef, tokensRef));
+        setLayout(layoutGraph(svgDom));
     }, [syntaxGraph]);
 
     const wordFontSize = theme.syntaxGraphHeaderFontSize;
@@ -86,6 +90,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const tokenFont = theme.fonts.defaultArabicFont;
     const tokenFontMetrics = fontService.getFontMetrics(tokenFont);
 
+    const { words } = syntaxGraph;
     return (
         <svg className='syntax-graph-view2' width={600} height={300} viewBox='0 0 600 300'>
             {
@@ -93,12 +98,12 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                     word.token ?
                         <SVGText
                             key={`translation-${i}`}
-                            ref={translationsRef[i]}
+                            ref={svgDom.translationRefs[i]}
                             text={word.token.translation}
                             font={wordFont}
                             fontSize={wordFontSize}
                             fontMetrics={wordFontMetrics}
-                            box={layout.textBoxes[i]} />
+                            box={layout.translationBoxes[i]} />
                         : null
                 ))
             }
@@ -107,21 +112,21 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                     word.token ?
                         <SVGArabicToken
                             key={`token-${i}`}
-                            ref={tokensRef[i]}
+                            ref={svgDom.tokenRefs[i]}
                             segments={word.token ? word.token.segments : []}
                             font={tokenFont}
                             fontSize={tokenFontSize}
                             fontMetrics={tokenFontMetrics}
-                            box={layout.segmentedTextBoxes[i]}
+                            box={layout.tokenBoxes[i]}
                             fade={word.type === 'reference'} />
                         : <SVGText
                             key={`token-${i}`}
-                            ref={tokensRef[i]}
+                            ref={svgDom.tokenRefs[i]}
                             text={word.hiddenText ?? '*'}
                             font={tokenFont}
                             fontSize={tokenFontSize}
                             fontMetrics={tokenFontMetrics}
-                            box={layout.segmentedTextBoxes[i]}
+                            box={layout.tokenBoxes[i]}
                             className='silver' />
                 ))
             }
