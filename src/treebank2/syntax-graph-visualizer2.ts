@@ -1,10 +1,13 @@
 import { RefObject } from 'react';
-import { Rect } from '../layout/geometry';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
-import { SVGDom } from './svg-dom';
+import { Position, Rect } from '../layout/geometry';
+import { HeightMap } from '../layout/height-map';
 import { Arc2, GraphLayout2, WordLayout } from './graph-layout2';
+import { SVGDom } from './svg-dom';
 
 export class SyntaxGraphVisualizer2 {
+    private readonly heightMap = new HeightMap();
+    private readonly nodePositions: Position[] = [];
 
     constructor(
         private readonly syntaxGraph: SyntaxGraph,
@@ -20,9 +23,8 @@ export class SyntaxGraphVisualizer2 {
             tokenRefs,
             posTagRefs
         } = this.svgDom;
-        const wordGap = 40;
 
-        // measure
+        // measure words
         const wordLayouts: WordLayout[] = words.map((word, i) => ({
             location: this.createBox(locationRefs[i]),
             phonetic: this.createBox(phoneticRefs[i]),
@@ -38,8 +40,10 @@ export class SyntaxGraphVisualizer2 {
             this.layoutWord(layout);
         }
 
-        const containerWidth = this.measureWidth(wordLayouts.map(layout => layout.bounds), wordGap);
-        const containerHeight = Math.max(...wordLayouts.map(layout => layout.bounds.height));
+        const wordGap = 40;
+        const containerWidth = this.getTotalWidth(wordLayouts.map(layout => layout.bounds), wordGap);
+        const segmentNodeY = Math.max(...wordLayouts.map(layout => layout.bounds.height)) + 5;
+        this.heightMap.addSpan(0, containerWidth, segmentNodeY);
 
         // position words
         let x = containerWidth;
@@ -47,19 +51,84 @@ export class SyntaxGraphVisualizer2 {
             x -= layout.bounds.width;
             this.positionWord(layout, x, 0);
             x -= wordGap;
+
+            for (const nodeCircle of layout.nodeCircles) {
+                this.nodePositions.push({ x: nodeCircle.cx, y: segmentNodeY });
+            }
         }
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc2[] = [];
-        arcs.push({ x1: 50, y1: 50, x2: 200, y2: 50, rx: 300, ry: 450 });
+        // arcs.push({ x1: this.nodePositions[9].x, y1: segmentNodeY, x2: this.nodePositions[8].x, y2: segmentNodeY, rx: 300, ry: 450 });
+        // const arcs: Arc[] = [];
+        // const arrows: Arrow[] = [];
+        // const labelPositions: Position[] = [];
+        const { edges } = this.syntaxGraph;
+        if (edges) {
+            for (const edge of edges) {
+                const { startNode, endNode } = edge;
+
+                // layout phrase nodes
+                if (this.syntaxGraph.isPhraseNode(startNode)) {
+                    // this.layoutPhraseNode(startNode);
+                    continue;
+                }
+                if (this.syntaxGraph.isPhraseNode(endNode)) {
+                    // this.layoutPhraseNode(endNode);
+                    continue;
+                }
+
+                // node coordinates
+                const start = this.nodePositions[startNode];
+                const end = this.nodePositions[endNode];
+                const right = start.x < end.x;
+                const { x: x1, y: y1 } = right ? start : end;
+                const { x: x2, y: y2 } = right ? end : start;
+
+                // compute bounding box for arc between two nodes
+                const boxWidth = x2 - x1;
+                let y = Math.min(y1, y2);
+                const deltaY = Math.abs(y2 - y1);
+
+                // boost
+                const maxY = this.heightMap.getHeight(x1 + 5, x2 - 5);
+                let boxHeight = deltaY + 30;
+                while (y + boxHeight < maxY) {
+                    boxHeight += 50;
+                }
+
+                // compute ellipse radii so the arc touches the bounding box
+                const ry = boxHeight;
+                const theta = Math.asin(deltaY / ry);
+                const rx = boxWidth / (1 + Math.cos(theta));
+                arcs.push({ x1, y1, x2, y2, rx, ry });
+                y += boxHeight;
+
+                // const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
+                // arrows.push({ x: maximaX - 3, y: y - 5, right });
+
+                /*
+                // layout edge label
+                const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
+                y += 8;
+                const labelPosition = {
+                    x: maximaX - labelWidth * 0.5,
+                    y
+                };
+                labelPositions.push(labelPosition)
+                this.heightMap.addSpan(x1, x2, y + labelHeight);
+                */
+                this.heightMap.addSpan(x1, x2, y);
+            }
+        }
 
         return {
             wordLayouts,
             arcs,
             containerSize: {
                 width: containerWidth,
-                height: containerHeight
+                height: this.heightMap.height
             }
         }
     }
@@ -71,7 +140,7 @@ export class SyntaxGraphVisualizer2 {
         let y = 0;
 
         // measure
-        const posTagWidth = this.measureWidth(posTags, posTagGap);
+        const posTagWidth = this.getTotalWidth(posTags, posTagGap);
 
         let width = Math.max(
             location.width,
@@ -130,7 +199,7 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
-    private measureWidth(elements: Rect[], gap: number): number {
+    private getTotalWidth(elements: Rect[], gap: number): number {
         return elements.reduce((totalWidth, element) => totalWidth + element.width, 0)
             + gap * (elements.length - 1);
     }
