@@ -2,7 +2,7 @@ import { RefObject } from 'react';
 import { Rect } from '../layout/geometry';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SVGDom } from './svg-dom';
-import { GraphLayout2, WordLayout } from './graph-layout2';
+import { Arc2, GraphLayout2, WordLayout } from './graph-layout2';
 
 export class SyntaxGraphVisualizer2 {
 
@@ -49,8 +49,14 @@ export class SyntaxGraphVisualizer2 {
             x -= wordGap;
         }
 
+        // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
+        // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
+        const arcs: Arc2[] = [];
+        arcs.push({ x1: 50, y1: 50, x2: 200, y2: 50, rx: 300, ry: 450 });
+
         return {
             wordLayouts,
+            arcs,
             containerSize: {
                 width: containerWidth,
                 height: containerHeight

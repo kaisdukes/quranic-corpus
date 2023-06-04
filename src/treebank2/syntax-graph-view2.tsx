@@ -37,6 +37,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
         wordLayouts: [],
+        arcs: [],
         containerSize: {
             width: 0,
             height: 0
@@ -45,6 +46,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const {
         wordLayouts,
+        arcs,
         containerSize
     } = graphLayout;
 
@@ -169,6 +171,16 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 )
                             }
                         </Fragment>
+                    )
+                })
+            }
+            {
+                arcs.map((arc, i) => {
+                    return (
+                        <path
+                            key={`arc-${i}`}
+                            d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
+                            fill='none' />
                     )
                 })
             }
