@@ -1,6 +1,7 @@
 import { Rect, Size } from '../layout/geometry';
 
 export type WordLayout = {
+    bounds: Rect,
     location: Rect,
     phonetic: Rect,
     translation: Rect,

@@ -148,6 +148,14 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                     </>
                                 )
                             }
+                            {
+                                wordLayout &&
+                                <rect
+                                    x={wordLayout.bounds.x}
+                                    y={wordLayout.bounds.y}
+                                    width={wordLayout.bounds.width}
+                                    height={wordLayout.bounds.height} />
+                            }
                         </Fragment>
                     )
                 })
