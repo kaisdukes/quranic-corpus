@@ -108,7 +108,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                             <SVGArabicToken
                                 key={`token-${i}`}
                                 ref={svgDom.tokenRefs[i]}
-                                segments={word.token.segments}
+                                token={word.token}
                                 font={tokenFont}
                                 fontSize={tokenFontSize}
                                 fontMetrics={tokenFontMetrics}

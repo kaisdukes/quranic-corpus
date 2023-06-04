@@ -2,14 +2,14 @@ import { Ref, forwardRef, useMemo } from 'react';
 import { Rect } from '../layout/geometry';
 import { Font } from '../typography/font';
 import { FontMetrics } from '../typography/font-metrics';
-import { Segment } from '../corpus/morphology/segment';
+import { Token } from '../corpus/orthography/token';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { getTextPosition } from '../layout/text-position';
 import { container } from 'tsyringe';
 
 type Props = {
-    segments: Segment[],
+    token: Token,
     fontSize: number,
     font: Font,
     fontMetrics: FontMetrics,
@@ -18,11 +18,12 @@ type Props = {
 }
 
 export const SVGArabicToken = forwardRef((
-    { segments, fontSize, font, fontMetrics, box, fade }: Props,
+    { token, fontSize, font, fontMetrics, box, fade }: Props,
     ref: Ref<SVGTextElement>) => {
 
     const arabicTextService = container.resolve(ArabicTextService);
     const colorService = container.resolve(ColorService);
+    const { segments } = token;
 
     const joinedSegments = useMemo(() => {
         const joinedSegments = segments.map(segment => segment.arabic);
