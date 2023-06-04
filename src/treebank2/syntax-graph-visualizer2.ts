@@ -60,22 +60,16 @@ export class SyntaxGraphVisualizer2 {
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc2[] = [];
-        // arcs.push({ x1: this.nodePositions[9].x, y1: segmentNodeY, x2: this.nodePositions[8].x, y2: segmentNodeY, rx: 300, ry: 450 });
-        // const arcs: Arc[] = [];
-        // const arrows: Arrow[] = [];
-        // const labelPositions: Position[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
             for (const edge of edges) {
                 const { startNode, endNode } = edge;
 
-                // layout phrase nodes
+                // skip phrase nodes for now
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
-                    // this.layoutPhraseNode(startNode);
                     continue;
                 }
                 if (this.syntaxGraph.isPhraseNode(endNode)) {
-                    // this.layoutPhraseNode(endNode);
                     continue;
                 }
 
@@ -104,21 +98,6 @@ export class SyntaxGraphVisualizer2 {
                 const rx = boxWidth / (1 + Math.cos(theta));
                 arcs.push({ x1, y1, x2, y2, rx, ry });
                 y += boxHeight;
-
-                // const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
-                // arrows.push({ x: maximaX - 3, y: y - 5, right });
-
-                /*
-                // layout edge label
-                const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
-                y += 8;
-                const labelPosition = {
-                    x: maximaX - labelWidth * 0.5,
-                    y
-                };
-                labelPositions.push(labelPosition)
-                this.heightMap.addSpan(x1, x2, y + labelHeight);
-                */
                 this.heightMap.addSpan(x1, x2, y);
             }
         }
@@ -174,7 +153,6 @@ export class SyntaxGraphVisualizer2 {
         bounds.width = width;
         bounds.height = Math.max(...posTags.map(tag => tag.y + tag.height));
     }
-
 
     private positionWord(layout: WordLayout, x: number, y: number) {
         layout.bounds.x = x;
