@@ -60,7 +60,7 @@ export class SyntaxGraphVisualizer2 {
 
     private layoutWord(layout: WordLayout) {
         const { bounds, location, phonetic, translation, token, nodeCircles, posTags } = layout;
-        const headerTextDeltaY = 25;
+        const headerTextDeltaY = 23;
         const posTagGap = 25;
         let y = 0;
 
@@ -81,23 +81,23 @@ export class SyntaxGraphVisualizer2 {
         this.centerHorizontal(phonetic, 0, y, width);
         y += headerTextDeltaY;
         this.centerHorizontal(translation, 0, y, width);
-        y += headerTextDeltaY;
+        y += headerTextDeltaY + 6;
         this.centerHorizontal(token, 0, y, width);
         y += token.height + 5;
 
         // layout POS tags
-        let x = (width + posTagWidth) / 2;
+        let tagX = (width + posTagWidth) / 2;
+        const r = 3;
         for (const posTag of posTags) {
-            x -= posTag.width;
-            nodeCircles.push({ cx: x, cy: y, r: 3 })
-            posTag.x = x;
-            posTag.y = y;
-            x -= posTagGap;
+            tagX -= posTag.width;
+            nodeCircles.push({ cx: tagX + posTag.width / 2, cy: y, r })
+            posTag.x = tagX;
+            posTag.y = y + 10;
+            tagX -= posTagGap;
         }
 
-        y += Math.max(...posTags.map(tag => tag.height));
         bounds.width = width;
-        bounds.height = y;
+        bounds.height = Math.max(...posTags.map(tag => tag.y + tag.height));
     }
 
 

@@ -51,14 +51,6 @@ export const SVGArabicToken = forwardRef((
                     ))
                 }
             </text>
-            {
-                box &&
-                <rect
-                    x={box.x}
-                    y={box.y}
-                    width={box.width}
-                    height={box.height} />
-            }
         </>
     )
 })

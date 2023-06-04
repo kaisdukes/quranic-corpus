@@ -157,20 +157,16 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             ref={svgDom.posTagRefs[word.startNode]}
                                             text={word.hiddenPosTag!}
                                             font={defaultFont}
-                                            fontSize={syntaxGraphHeaderFontSize}
+                                            fontSize={syntaxGraphPosTagFontSize}
                                             fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.posTags[0]}
                                             className='silver' />
+                                        {
+                                            wordLayout && wordLayout.nodeCircles[0] &&
+                                            <circle key={`circle-${i}`} {...wordLayout.nodeCircles[0]} className='silver' />
+                                        }
                                     </>
                                 )
-                            }
-                            {
-                                wordLayout &&
-                                <rect
-                                    x={wordLayout.bounds.x}
-                                    y={wordLayout.bounds.y}
-                                    width={wordLayout.bounds.width}
-                                    height={wordLayout.bounds.height} />
                             }
                         </Fragment>
                     )
