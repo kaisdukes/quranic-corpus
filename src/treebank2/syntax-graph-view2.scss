@@ -10,6 +10,10 @@
     tspan {
         fill: currentColor;
 
+        &.location {
+            color: #787878;
+        }
+
         &.phonetic {
             color: #4886d0;
         }

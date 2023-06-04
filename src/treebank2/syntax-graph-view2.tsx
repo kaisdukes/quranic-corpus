@@ -86,7 +86,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             fontSize={syntaxGraphHeaderFontSize}
                                             fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.location}
-                                            className={fade ? 'silver' : undefined} />
+                                            className={fade ? 'silver' : 'location'} />
                                         <SVGText
                                             ref={svgDom.phoneticRefs[i]}
                                             text={word.token.phonetic}
