@@ -1,10 +1,14 @@
 import { Rect, Size } from '../layout/geometry';
 
+export type WordLayout = {
+    location: Rect,
+    phonetic: Rect,
+    translation: Rect,
+    token: Rect,
+    posTags: Rect[]
+}
+
 export type GraphLayout2 = {
-    locationBoxes: Rect[],
-    phoneticBoxes: Rect[],
-    translationBoxes: Rect[],
-    tokenBoxes: Rect[],
-    posTagBoxes: Rect[],
+    wordLayouts: WordLayout[],
     containerSize: Size
 }

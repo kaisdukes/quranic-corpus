@@ -2,12 +2,7 @@ import { RefObject } from 'react';
 import { Rect, Size } from '../layout/geometry';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SVGDom } from './svg-dom';
-import { GraphLayout2 } from './graph-layout2';
-
-export type WordElement = {
-    ref: RefObject<HTMLDivElement>,
-    posTagRefs: RefObject<HTMLDivElement>[]
-}
+import { GraphLayout2, WordLayout } from './graph-layout2';
 
 export class SyntaxGraphVisualizer2 {
 
@@ -25,59 +20,63 @@ export class SyntaxGraphVisualizer2 {
             tokenRefs,
             posTagRefs
         } = this.svgDom;
-        const locationBoxes: Rect[] = [];
-        const phoneticBoxes: Rect[] = [];
-        const translationBoxes: Rect[] = [];
-        const tokenBoxes: Rect[] = [];
-        const posTagBoxes: Rect[] = [];
         const wordGap = 40;
         const headerTextDeltaY = 25;
 
         // measure
-        const locationBounds = locationRefs.map(element => this.measureElement(element));
-        const phoneticBounds = phoneticRefs.map(element => this.measureElement(element));
-        const translationBounds = translationRefs.map(element => this.measureElement(element));
-        const tokenBounds = tokenRefs.map(element => this.measureElement(element));
-        const posTagBounds = posTagRefs.map(element => this.measureElement(element));
-        const wordWidths = words.map((_, i) => Math.max(
-            locationBounds[i].width,
-            phoneticBounds[i].width,
-            translationBounds[i].width,
-            tokenBounds[i].width));
+        const wordLayouts: WordLayout[] = words.map((word, i) => ({
+            location: this.createBox(locationRefs[i]),
+            phonetic: this.createBox(phoneticRefs[i]),
+            translation: this.createBox(translationRefs[i]),
+            token: this.createBox(tokenRefs[i]),
+            posTags: posTagRefs.slice(word.startNode, word.endNode + 1).map(this.createBox)
+        }));
+
+        const wordWidths = wordLayouts.map((layout) => Math.max(
+            layout.location.width,
+            layout.phonetic.width,
+            layout.translation.width,
+            layout.token.width
+        ));
+
         const containerWidth = wordWidths.reduce((width, wordWidth) => width + wordWidth, 0) + wordGap * (words.length - 1);
-        const tokenMaxY = headerTextDeltaY * 3 + Math.max(...tokenBounds.map(size => size.height));
+        const tokenMaxY = headerTextDeltaY * 3 + Math.max(...wordLayouts.map(layout => layout.token.height));
 
         // layout words
         let x = containerWidth;
-        for (let i = 0; i < words.length; i++) {
-            const width = wordWidths[i];
+        for (const layout of wordLayouts) {
+            const width = Math.max(
+                layout.location.width,
+                layout.phonetic.width,
+                layout.translation.width,
+                layout.token.width
+            );
             x -= width;
             let y = 0;
-            locationBoxes.push(this.centerHorizontal(x, y, width, locationBounds[i]));
+            this.centerHorizontal(layout.location, x, y, width);
             y += headerTextDeltaY;
-            phoneticBoxes.push(this.centerHorizontal(x, y, width, phoneticBounds[i]));
+            this.centerHorizontal(layout.phonetic, x, y, width);
             y += headerTextDeltaY;
-            translationBoxes.push(this.centerHorizontal(x, y, width, translationBounds[i]));
+            this.centerHorizontal(layout.translation, x, y, width);
             y += headerTextDeltaY;
-            tokenBoxes.push(this.centerHorizontal(x, y, width, tokenBounds[i]));
+            this.centerHorizontal(layout.token, x, y, width);
             x -= wordGap;
         }
 
         // layout POS tags
         x = containerWidth;
-        for (const posTag of posTagBounds) {
-            const width = posTag.width;
-            x -= width;
-            posTagBoxes.push({ x, y: 150, width, height: posTag.height });
-            x -= 25;
+        for (const layout of wordLayouts) {
+            for (const posTag of layout.posTags) {
+                const width = posTag.width;
+                x -= width;
+                posTag.x = x;
+                posTag.y = 150;
+                x -= 25;
+            }
         }
 
         return {
-            locationBoxes,
-            phoneticBoxes,
-            translationBoxes,
-            tokenBoxes,
-            posTagBoxes,
+            wordLayouts,
             containerSize: {
                 width: containerWidth,
                 height: tokenMaxY + 50
@@ -85,19 +84,14 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
-    private measureElement(element: RefObject<SVGGraphicsElement>): Size {
-        return element.current
-            ? element.current.getBBox()
-            : {
-                width: 0,
-                height: 0
-            }
+    private centerHorizontal(element: Rect, x: number, y: number, width: number) {
+        element.x = x + (width - element.width) / 2;
+        element.y = y;
     }
 
-    private centerHorizontal(x: number, y: number, width: number, element: Size): Rect {
-        return {
-            x: x + (width - element.width) / 2,
-            y, width: element.width, height: element.height
-        }
+    private createBox(ref: RefObject<SVGGraphicsElement>): Rect {
+        const element = ref.current;
+        const { x = 0, y = 0, width = 0, height = 0 } = element ? element.getBBox() : {};
+        return { x, y, width, height };
     }
 }

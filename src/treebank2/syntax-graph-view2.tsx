@@ -34,11 +34,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     }, [syntaxGraph]);
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
-        locationBoxes: [],
-        phoneticBoxes: [],
-        translationBoxes: [],
-        tokenBoxes: [],
-        posTagBoxes: [],
+        wordLayouts: [],
         containerSize: {
             width: 0,
             height: 0
@@ -46,11 +42,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     });
 
     const {
-        locationBoxes,
-        phoneticBoxes,
-        translationBoxes,
-        tokenBoxes,
-        posTagBoxes,
+        wordLayouts,
         containerSize
     } = graphLayout;
 
@@ -79,6 +71,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             {
                 words.map((word, i) => {
                     const fade = word.type === 'reference';
+                    const wordLayout = wordLayouts[i];
                     return (
                         <Fragment key={`word-${i}`}>
                             {
@@ -90,7 +83,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={wordFont}
                                             fontSize={wordFontSize}
                                             fontMetrics={wordFontMetrics}
-                                            box={locationBoxes[i]}
+                                            box={wordLayout && wordLayout.location}
                                             className={fade ? 'silver' : undefined} />
                                         <SVGText
                                             ref={svgDom.phoneticRefs[i]}
@@ -98,7 +91,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={wordFont}
                                             fontSize={wordFontSize}
                                             fontMetrics={wordFontMetrics}
-                                            box={phoneticBoxes[i]}
+                                            box={wordLayout && wordLayout.phonetic}
                                             className={fade ? 'silver' : 'phonetic'} />
                                         <SVGText
                                             ref={svgDom.translationRefs[i]}
@@ -106,7 +99,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={wordFont}
                                             fontSize={wordFontSize}
                                             fontMetrics={wordFontMetrics}
-                                            box={translationBoxes[i]}
+                                            box={wordLayout && wordLayout.translation}
                                             className={fade ? 'silver' : undefined} />
                                         <SVGArabicToken
                                             ref={svgDom.tokenRefs[i]}
@@ -114,11 +107,12 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={tokenFont}
                                             fontSize={tokenFontSize}
                                             fontMetrics={tokenFontMetrics}
-                                            box={tokenBoxes[i]}
+                                            box={wordLayout && wordLayout.token}
                                             fade={fade} />
                                         {
                                             word.token.segments.map((segment, j) => {
                                                 const segmentIndex = word.startNode + j;
+                                                const posTags = wordLayout?.posTags;
                                                 return (
                                                     <SVGText
                                                         key={`segment-${i}-${j}`}
@@ -127,7 +121,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                         font={wordFont}
                                                         fontSize={wordFontSize}
                                                         fontMetrics={wordFontMetrics}
-                                                        box={posTagBoxes[segmentIndex]}
+                                                        box={posTags && posTags[j]}
                                                         className={fade ? 'silver' : undefined} />
                                                 )
                                             })
@@ -141,7 +135,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={tokenFont}
                                             fontSize={tokenFontSize}
                                             fontMetrics={tokenFontMetrics}
-                                            box={tokenBoxes[i]}
+                                            box={wordLayout && wordLayout.token}
                                             className='silver' />
                                         <SVGText
                                             ref={svgDom.posTagRefs[word.startNode]}
@@ -149,7 +143,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             font={wordFont}
                                             fontSize={wordFontSize}
                                             fontMetrics={wordFontMetrics}
-                                            box={posTagBoxes[word.startNode]}
+                                            box={wordLayout && wordLayout.posTags[0]}
                                             className='silver' />
                                     </>
                                 )
