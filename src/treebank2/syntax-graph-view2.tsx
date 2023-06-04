@@ -1,100 +1,15 @@
-import { useEffect, useMemo, useState, createRef, RefObject } from 'react';
+import { useEffect, useMemo, useState, createRef } from 'react';
 import { SVGText } from './svg-text';
 import { SVGArabicToken } from './svg-arabic-token';
-import { Rect, Size } from '../layout/geometry';
 import { FontService } from '../typography/font-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
+import { SVGDom } from './svg-dom';
+import { GraphLayout2 } from './graph-layout2';
+import { SyntaxGraphVisualizer2 } from './syntax-graph-visualizer2';
 import { formatLocation } from '../corpus/orthography/location';
 import { theme } from '../theme/theme';
 import { container } from 'tsyringe';
 import './syntax-graph-view2.scss';
-
-export type SegmentedWord = {
-    segments: string[],
-    classNames: string[]
-}
-
-type SVGDom = {
-    locationRefs: RefObject<SVGTextElement>[],
-    phoneticRefs: RefObject<SVGTextElement>[],
-    translationRefs: RefObject<SVGTextElement>[],
-    tokenRefs: RefObject<SVGTextElement>[]
-};
-
-type GraphLayout = {
-    locationBoxes: Rect[],
-    phoneticBoxes: Rect[],
-    translationBoxes: Rect[],
-    tokenBoxes: Rect[],
-    containerSize: Size
-}
-
-const layoutGraph = (syntaxGraph: SyntaxGraph, svgDom: SVGDom): GraphLayout => {
-    const { words } = syntaxGraph;
-    const { locationRefs, phoneticRefs, translationRefs, tokenRefs } = svgDom;
-    const locationBoxes: Rect[] = [];
-    const phoneticBoxes: Rect[] = [];
-    const translationBoxes: Rect[] = [];
-    const tokenBoxes: Rect[] = [];
-    const wordGap = 40;
-    const headerTextDeltaY = 25;
-
-    // measure words
-    const locationBounds = locationRefs.map(element => measureElement(element));
-    const phoneticBounds = phoneticRefs.map(element => measureElement(element));
-    const translationBounds = translationRefs.map(element => measureElement(element));
-    const tokenBounds = tokenRefs.map(element => measureElement(element));
-    const wordWidths = words.map((_, i) => Math.max(
-        locationBounds[i].width,
-        phoneticBounds[i].width,
-        translationBounds[i].width,
-        tokenBounds[i].width));
-    const containerWidth = wordWidths.reduce((width, wordWidth) => width + wordWidth, 0) + wordGap * (words.length - 1);
-    const containerHeight = headerTextDeltaY * 3 + Math.max(...tokenBounds.map(size => size.height));
-
-    // layout words
-    let x = containerWidth;
-    for (let i = 0; i < words.length; i++) {
-        const width = wordWidths[i];
-        x -= width;
-        let y = 0;
-        locationBoxes.push(centerHorizontal(x, y, width, locationBounds[i]));
-        y += headerTextDeltaY;
-        phoneticBoxes.push(centerHorizontal(x, y, width, phoneticBounds[i]));
-        y += headerTextDeltaY;
-        translationBoxes.push(centerHorizontal(x, y, width, translationBounds[i]));
-        y += headerTextDeltaY;
-        tokenBoxes.push(centerHorizontal(x, y, width, tokenBounds[i]));
-        x -= wordGap;
-    }
-
-    return {
-        locationBoxes,
-        phoneticBoxes,
-        translationBoxes,
-        tokenBoxes,
-        containerSize: {
-            width: containerWidth,
-            height: containerHeight
-        }
-    }
-}
-
-const measureElement = (element: RefObject<SVGGraphicsElement>): Size => {
-    return element.current
-        ? element.current.getBBox()
-        : {
-            width: 0,
-            height: 0
-        }
-}
-
-const centerHorizontal = (x: number, y: number, width: number, element: Size): Rect => {
-    return {
-        x: x + (width - element.width) / 2,
-        y, width: element.width, height: element.height
-    };
-}
 
 type Props = {
     syntaxGraph: SyntaxGraph
@@ -117,7 +32,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         };
     }, [syntaxGraph]);
 
-    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
+    const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
         locationBoxes: [],
         phoneticBoxes: [],
         translationBoxes: [],
@@ -137,8 +52,11 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     } = graphLayout;
 
     useEffect(() => {
-        setGraphLayout(layoutGraph(syntaxGraph, svgDom));
-    }, [syntaxGraph]);
+        (async () => {
+            const syntaxGraphVisualizer = new SyntaxGraphVisualizer2(syntaxGraph, svgDom);
+            setGraphLayout(syntaxGraphVisualizer.layoutGraph());
+        })();
+    }, [syntaxGraph])
 
     const wordFontSize = theme.syntaxGraphHeaderFontSize;
     const wordFont = theme.fonts.defaultFont;
