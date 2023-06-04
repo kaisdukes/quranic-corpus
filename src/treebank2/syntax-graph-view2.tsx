@@ -31,12 +31,14 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             phoneticRefs: createTextRefs(wordCount),
             translationRefs: createTextRefs(wordCount),
             tokenRefs: createTextRefs(wordCount),
-            posTagRefs: createTextRefs(syntaxGraph.segmentNodeCount)
+            posTagRefs: createTextRefs(syntaxGraph.segmentNodeCount),
+            dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges?.length : 0)
         };
     }, [syntaxGraph]);
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
         wordLayouts: [],
+        edgeLabels: [],
         arcs: [],
         containerSize: {
             width: 0,
@@ -46,6 +48,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const {
         wordLayouts,
+        edgeLabels,
         arcs,
         containerSize
     } = graphLayout;
@@ -60,11 +63,18 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     // fonts
     const defaultFont = theme.fonts.defaultFont;
     const defaultArabicFont = theme.fonts.defaultArabicFont;
+    const edgeLabelFont = theme.fonts.edgeLabelFont;
 
     // metrics
     const defaultFontMetrics = fontService.getFontMetrics(defaultFont);
     const defaultArabicFontMetrics = fontService.getFontMetrics(defaultArabicFont);
-    const { syntaxGraphHeaderFontSize, syntaxGraphTokenFontSize, syntaxGraphPosTagFontSize } = theme;
+    const edgeLabelFontMetrics = fontService.getFontMetrics(edgeLabelFont);
+    const {
+        syntaxGraphHeaderFontSize,
+        syntaxGraphTokenFontSize,
+        syntaxGraphPosTagFontSize,
+        syntaxGraphEdgeLabelFontSize
+    } = theme;
 
     return (
         <svg
@@ -175,12 +185,25 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 })
             }
             {
-                arcs.map((arc, i) => {
+                syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
+                    const edgeLabel = edgeLabels[i];
+                    const arc = arcs[i];
                     return (
-                        <path
-                            key={`arc-${i}`}
-                            d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
-                            fill='none' />
+                        <Fragment key={`edge-${i}`}>
+                            <SVGText
+                                ref={svgDom.dependencyTagRefs[i]}
+                                text={syntaxGraph.edgeLabels[i]}
+                                font={edgeLabelFont}
+                                fontSize={syntaxGraphEdgeLabelFontSize}
+                                fontMetrics={edgeLabelFontMetrics}
+                                box={edgeLabel} />
+                            {
+                                arc &&
+                                <path
+                                    d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
+                                    fill='none' />
+                            }
+                        </Fragment>
                     )
                 })
             }

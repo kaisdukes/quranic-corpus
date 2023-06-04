@@ -27,6 +27,7 @@ export type Arc2 = {
 
 export type GraphLayout2 = {
     wordLayouts: WordLayout[],
+    edgeLabels: Rect[],
     arcs: Arc2[],
     containerSize: Size
 }

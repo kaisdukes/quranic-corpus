@@ -21,7 +21,8 @@ export class SyntaxGraphVisualizer2 {
             phoneticRefs,
             translationRefs,
             tokenRefs,
-            posTagRefs
+            posTagRefs,
+            dependencyTagRefs
         } = this.svgDom;
 
         // measure words
@@ -59,11 +60,13 @@ export class SyntaxGraphVisualizer2 {
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
+        const edgeLabels = dependencyTagRefs.map(this.createBox);
         const arcs: Arc2[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
-            for (const edge of edges) {
-                const { startNode, endNode } = edge;
+            console.log('creating arcs...');
+            for (let i = 0; i < edges.length; i++) {
+                const { startNode, endNode } = edges[i];
 
                 // skip phrase nodes for now
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
@@ -98,12 +101,21 @@ export class SyntaxGraphVisualizer2 {
                 const rx = boxWidth / (1 + Math.cos(theta));
                 arcs.push({ x1, y1, x2, y2, rx, ry });
                 y += boxHeight;
-                this.heightMap.addSpan(x1, x2, y);
+
+                const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
+
+                // layout edge label
+                const edgeLabel = edgeLabels[i];
+                y += 8;
+                edgeLabel.x = maximaX - edgeLabel.width * 0.5;
+                edgeLabel.y = y;
+                this.heightMap.addSpan(x1, x2, y + edgeLabel.height);
             }
         }
 
         return {
             wordLayouts,
+            edgeLabels,
             arcs,
             containerSize: {
                 width: containerWidth,

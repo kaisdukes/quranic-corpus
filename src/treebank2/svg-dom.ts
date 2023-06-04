@@ -5,5 +5,6 @@ export type SVGDom = {
     phoneticRefs: RefObject<SVGTextElement>[],
     translationRefs: RefObject<SVGTextElement>[],
     tokenRefs: RefObject<SVGTextElement>[],
-    posTagRefs: RefObject<SVGTextElement>[]
+    posTagRefs: RefObject<SVGTextElement>[],
+    dependencyTagRefs: RefObject<SVGTextElement>[]
 }
