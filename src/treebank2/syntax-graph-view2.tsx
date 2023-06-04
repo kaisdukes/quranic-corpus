@@ -94,31 +94,27 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     return (
         <svg className='syntax-graph-view2' width={600} height={300} viewBox='0 0 600 300'>
             {
-                words.map((word, i) => (
+                words.map((word, i) =>
                     word.token ?
-                        <SVGText
-                            key={`translation-${i}`}
-                            ref={svgDom.translationRefs[i]}
-                            text={word.token.translation}
-                            font={wordFont}
-                            fontSize={wordFontSize}
-                            fontMetrics={wordFontMetrics}
-                            box={layout.translationBoxes[i]} />
-                        : null
-                ))
-            }
-            {
-                words.map((word, i) => (
-                    word.token ?
-                        <SVGArabicToken
-                            key={`token-${i}`}
-                            ref={svgDom.tokenRefs[i]}
-                            segments={word.token ? word.token.segments : []}
-                            font={tokenFont}
-                            fontSize={tokenFontSize}
-                            fontMetrics={tokenFontMetrics}
-                            box={layout.tokenBoxes[i]}
-                            fade={word.type === 'reference'} />
+                        <>
+                            <SVGText
+                                key={`translation-${i}`}
+                                ref={svgDom.translationRefs[i]}
+                                text={word.token.translation}
+                                font={wordFont}
+                                fontSize={wordFontSize}
+                                fontMetrics={wordFontMetrics}
+                                box={layout.translationBoxes[i]} />
+                            <SVGArabicToken
+                                key={`token-${i}`}
+                                ref={svgDom.tokenRefs[i]}
+                                segments={word.token ? word.token.segments : []}
+                                font={tokenFont}
+                                fontSize={tokenFontSize}
+                                fontMetrics={tokenFontMetrics}
+                                box={layout.tokenBoxes[i]}
+                                fade={word.type === 'reference'} />
+                        </>
                         : <SVGText
                             key={`token-${i}`}
                             ref={svgDom.tokenRefs[i]}
@@ -128,7 +124,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                             fontMetrics={tokenFontMetrics}
                             box={layout.tokenBoxes[i]}
                             className='silver' />
-                ))
+                )
             }
         </svg>
     )
