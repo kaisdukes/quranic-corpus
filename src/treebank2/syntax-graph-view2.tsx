@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, createRef } from 'react';
+import { useEffect, useMemo, useState, createRef, Fragment } from 'react';
 import { SVGText } from './svg-text';
 import { SVGArabicToken } from './svg-arabic-token';
 import { FontService } from '../typography/font-service';
@@ -77,9 +77,8 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 words.map((word, i) => {
                     const fade = word.type === 'reference';
                     return word.token ?
-                        <>
+                        <Fragment key={`word-${i}`}>
                             <SVGText
-                                key={`location-${i}`}
                                 ref={svgDom.locationRefs[i]}
                                 text={formatLocation(word.token.location)}
                                 font={wordFont}
@@ -88,7 +87,6 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 box={locationBoxes[i]}
                                 className={fade ? 'silver' : undefined} />
                             <SVGText
-                                key={`phonetic-${i}`}
                                 ref={svgDom.phoneticRefs[i]}
                                 text={word.token.phonetic}
                                 font={wordFont}
@@ -97,7 +95,6 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 box={phoneticBoxes[i]}
                                 className={fade ? 'silver' : 'phonetic'} />
                             <SVGText
-                                key={`translation-${i}`}
                                 ref={svgDom.translationRefs[i]}
                                 text={word.token.translation}
                                 font={wordFont}
@@ -106,7 +103,6 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 box={translationBoxes[i]}
                                 className={fade ? 'silver' : undefined} />
                             <SVGArabicToken
-                                key={`token-${i}`}
                                 ref={svgDom.tokenRefs[i]}
                                 token={word.token}
                                 font={tokenFont}
@@ -114,9 +110,9 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 fontMetrics={tokenFontMetrics}
                                 box={tokenBoxes[i]}
                                 fade={fade} />
-                        </>
+                        </Fragment>
                         : <SVGText
-                            key={`token-${i}`}
+                            key={`word-${i}`}
                             ref={svgDom.tokenRefs[i]}
                             text={word.hiddenText ?? '*'}
                             font={tokenFont}
