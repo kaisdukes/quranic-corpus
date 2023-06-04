@@ -53,15 +53,15 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         })();
     }, [syntaxGraph])
 
-    const wordFontSize = theme.syntaxGraphHeaderFontSize;
-    const wordFont = theme.fonts.defaultFont;
-    const wordFontMetrics = fontService.getFontMetrics(wordFont);
+    // fonts
+    const defaultFont = theme.fonts.defaultFont;
+    const defaultArabicFont = theme.fonts.defaultArabicFont;
 
-    const tokenFontSize = theme.syntaxGraphArabicFontSize;
-    const tokenFont = theme.fonts.defaultArabicFont;
-    const tokenFontMetrics = fontService.getFontMetrics(tokenFont);
+    // metrics
+    const defaultFontMetrics = fontService.getFontMetrics(defaultFont);
+    const defaultArabicFontMetrics = fontService.getFontMetrics(defaultArabicFont);
+    const { syntaxGraphHeaderFontSize, syntaxGraphTokenFontSize, syntaxGraphPosTagFontSize } = theme;
 
-    const { words } = syntaxGraph;
     return (
         <svg
             className='syntax-graph-view2'
@@ -69,7 +69,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             height={containerSize.height}
             viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}>
             {
-                words.map((word, i) => {
+                syntaxGraph.words.map((word, i) => {
                     const fade = word.type === 'reference';
                     const wordLayout = wordLayouts[i];
                     return (
@@ -80,33 +80,33 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         <SVGText
                                             ref={svgDom.locationRefs[i]}
                                             text={formatLocation(word.token.location)}
-                                            font={wordFont}
-                                            fontSize={wordFontSize}
-                                            fontMetrics={wordFontMetrics}
+                                            font={defaultFont}
+                                            fontSize={syntaxGraphHeaderFontSize}
+                                            fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.location}
                                             className={fade ? 'silver' : undefined} />
                                         <SVGText
                                             ref={svgDom.phoneticRefs[i]}
                                             text={word.token.phonetic}
-                                            font={wordFont}
-                                            fontSize={wordFontSize}
-                                            fontMetrics={wordFontMetrics}
+                                            font={defaultFont}
+                                            fontSize={syntaxGraphHeaderFontSize}
+                                            fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.phonetic}
                                             className={fade ? 'silver' : 'phonetic'} />
                                         <SVGText
                                             ref={svgDom.translationRefs[i]}
                                             text={word.token.translation}
-                                            font={wordFont}
-                                            fontSize={wordFontSize}
-                                            fontMetrics={wordFontMetrics}
+                                            font={defaultFont}
+                                            fontSize={syntaxGraphHeaderFontSize}
+                                            fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.translation}
                                             className={fade ? 'silver' : undefined} />
                                         <SVGArabicToken
                                             ref={svgDom.tokenRefs[i]}
                                             token={word.token}
-                                            font={tokenFont}
-                                            fontSize={tokenFontSize}
-                                            fontMetrics={tokenFontMetrics}
+                                            font={defaultArabicFont}
+                                            fontSize={syntaxGraphTokenFontSize}
+                                            fontMetrics={defaultArabicFontMetrics}
                                             box={wordLayout && wordLayout.token}
                                             fade={fade} />
                                         {
@@ -121,9 +121,9 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                                 key={`segment-${j}`}
                                                                 ref={svgDom.posTagRefs[word.startNode + j]}
                                                                 text={segment.posTag}
-                                                                font={wordFont}
-                                                                fontSize={wordFontSize}
-                                                                fontMetrics={wordFontMetrics}
+                                                                font={defaultFont}
+                                                                fontSize={syntaxGraphPosTagFontSize}
+                                                                fontMetrics={defaultFontMetrics}
                                                                 box={wordLayout?.posTags && wordLayout.posTags[j]}
                                                                 className={fade ? 'silver' : undefined} />
                                                         );
@@ -139,17 +139,17 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         <SVGText
                                             ref={svgDom.tokenRefs[i]}
                                             text={word.hiddenText ?? '*'}
-                                            font={tokenFont}
-                                            fontSize={tokenFontSize}
-                                            fontMetrics={tokenFontMetrics}
+                                            font={defaultArabicFont}
+                                            fontSize={syntaxGraphTokenFontSize}
+                                            fontMetrics={defaultArabicFontMetrics}
                                             box={wordLayout && wordLayout.token}
                                             className='silver' />
                                         <SVGText
                                             ref={svgDom.posTagRefs[word.startNode]}
                                             text={word.hiddenPosTag!}
-                                            font={wordFont}
-                                            fontSize={wordFontSize}
-                                            fontMetrics={wordFontMetrics}
+                                            font={defaultFont}
+                                            fontSize={syntaxGraphHeaderFontSize}
+                                            fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.posTags[0]}
                                             className='silver' />
                                     </>
