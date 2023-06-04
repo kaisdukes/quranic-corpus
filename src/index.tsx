@@ -12,7 +12,7 @@ import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
-import { Treebank2 } from './renderer2/treebank2';
+import { Treebank2 } from './treebank2/treebank2';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
