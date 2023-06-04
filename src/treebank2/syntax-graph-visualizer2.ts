@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { Rect, Size } from '../layout/geometry';
+import { Rect } from '../layout/geometry';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SVGDom } from './svg-dom';
 import { GraphLayout2, WordLayout } from './graph-layout2';
