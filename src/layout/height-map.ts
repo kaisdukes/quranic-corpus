@@ -17,7 +17,7 @@ export class HeightMap {
 
     getHeight(x1: number, x2: number) {
         let max = 0;
-        for (let span of this.spans) {
+        for (const span of this.spans) {
 
             // Does the interval intersect this span?
             if (x1 <= span.x2 && x2 >= span.x1 && span.height > max) {

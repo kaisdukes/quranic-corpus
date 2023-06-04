@@ -33,7 +33,7 @@ export class SyntaxGraphVisualizer2 {
         }));
 
         // layout words
-        for (let layout of wordLayouts) {
+        for (const layout of wordLayouts) {
             this.layoutWord(layout);
         }
 
@@ -42,7 +42,7 @@ export class SyntaxGraphVisualizer2 {
 
         // position words
         let x = containerWidth;
-        for (let layout of wordLayouts) {
+        for (const layout of wordLayouts) {
             x -= layout.bounds.width;
             this.positionWord(layout, x, 0);
             x -= wordGap;

@@ -35,7 +35,7 @@ export class ArabicTextService {
     removeDiacritics(text: string) {
         let result = '';
         const n = text.length;
-        for (var i = 0; i < n; i++) {
+        for (let i = 0; i < n; i++) {
             const ch = text.charCodeAt(i)
             if (diacriticsSet.has(ch)) {
                 continue;

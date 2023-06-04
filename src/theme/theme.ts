@@ -35,9 +35,9 @@ const setThemeProperty = (name: string, value: string | number) => {
 }
 
 export const applyStyles = (theme: ITheme) => {
-    for (let [key, value] of Object.entries(theme)) {
+    for (const [key, value] of Object.entries(theme)) {
         if (key === 'fonts') {
-            for (let [fontKey, fontValue] of Object.entries(value)) {
+            for (const [fontKey, fontValue] of Object.entries(value)) {
                 setThemeProperty(`${fontKey}-family`, (fontValue as Font).family);
             }
         } else {
