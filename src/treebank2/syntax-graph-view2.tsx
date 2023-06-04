@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, createRef, RefObject } from 'react';
 import { SVGText } from './svg-text';
 import { SVGArabicToken } from './svg-arabic-token';
-import { Rect } from '../layout/geometry';
+import { Rect, Size } from '../layout/geometry';
 import { FontService } from '../typography/font-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { theme } from '../theme/theme';
@@ -18,40 +18,56 @@ type SVGDom = {
     tokenRefs: RefObject<SVGTextElement>[]
 };
 
-type Layout = {
+type GraphLayout = {
     translationBoxes: Rect[],
-    tokenBoxes: Rect[]
+    tokenBoxes: Rect[],
+    containerSize: Size
 }
 
-const layoutGraph = (svgDom: SVGDom): Layout => {
+const layoutGraph = (syntaxGraph: SyntaxGraph, svgDom: SVGDom): GraphLayout => {
+    const { words } = syntaxGraph;
     const { translationRefs, tokenRefs } = svgDom;
     const translationBoxes: Rect[] = [];
     const tokenBoxes: Rect[] = [];
+    const wordGap = 40;
+    const tokenY = 30;
 
-    let x = 0;
-    for (const translationRef of translationRefs) {
-        if (translationRef.current) {
-            const { width, height } = translationRef.current.getBBox();
-            const y = 0;
-            translationBoxes.push({ x, y, width, height });
-            x += width + 5;
-        } else {
-            translationBoxes.push({ x: 0, y: 0, width: 0, height: 0 });
-        }
+    // measure words
+    const translationBounds = translationRefs.map(element => measureElement(element));
+    const tokenBounds = tokenRefs.map(element => measureElement(element));
+    const wordWidths = words.map((_, i) => Math.max(translationBounds[i].width, tokenBounds[i].width));
+    const containerWidth = wordWidths.reduce((width, wordWidth) => width + wordWidth, 0) + wordGap * (words.length - 1);
+    const containerHeight = tokenY + Math.max(...tokenBounds.map(size => size.height));
+
+    // layout words
+    let x = containerWidth;
+    for (let i = 0; i < words.length; i++) {
+        const translation = translationBounds[i];
+        const token = tokenBounds[i];
+        const width = wordWidths[i];
+        x -= width;
+        translationBoxes.push({ x: x + (width - translation.width) / 2, y: 0, width: translation.width, height: translation.height });
+        tokenBoxes.push({ x: x + (width - token.width) / 2, y: tokenY, width: token.width, height: token.height });
+        x -= wordGap;
     }
 
-    x = 600;
-    for (const tokenRef of tokenRefs) {
-        if (tokenRef.current) {
-            const { width, height } = tokenRef.current.getBBox();
-            const y = 100;
-            x -= width;
-            tokenBoxes.push({ x, y, width, height });
-            x -= 5;
+    return {
+        translationBoxes,
+        tokenBoxes,
+        containerSize: {
+            width: containerWidth,
+            height: containerHeight
         }
     }
+}
 
-    return { translationBoxes, tokenBoxes };
+const measureElement = (element: RefObject<SVGGraphicsElement>): Size => {
+    return element.current
+        ? element.current.getBBox()
+        : {
+            width: 0,
+            height: 0
+        }
 }
 
 type Props = {
@@ -73,13 +89,23 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         };
     }, [syntaxGraph]);
 
-    const [layout, setLayout] = useState<Layout>({
+    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         translationBoxes: [],
-        tokenBoxes: []
+        tokenBoxes: [],
+        containerSize: {
+            width: 0,
+            height: 0
+        }
     });
 
+    const {
+        translationBoxes,
+        tokenBoxes,
+        containerSize
+    } = graphLayout;
+
     useEffect(() => {
-        setLayout(layoutGraph(svgDom));
+        setGraphLayout(layoutGraph(syntaxGraph, svgDom));
     }, [syntaxGraph]);
 
     const wordFontSize = theme.syntaxGraphHeaderFontSize;
@@ -92,7 +118,11 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const { words } = syntaxGraph;
     return (
-        <svg className='syntax-graph-view2' width={600} height={300} viewBox='0 0 600 300'>
+        <svg
+            className='syntax-graph-view2'
+            width={containerSize.width}
+            height={containerSize.height}
+            viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}>
             {
                 words.map((word, i) =>
                     word.token ?
@@ -104,7 +134,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 font={wordFont}
                                 fontSize={wordFontSize}
                                 fontMetrics={wordFontMetrics}
-                                box={layout.translationBoxes[i]} />
+                                box={translationBoxes[i]} />
                             <SVGArabicToken
                                 key={`token-${i}`}
                                 ref={svgDom.tokenRefs[i]}
@@ -112,7 +142,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 font={tokenFont}
                                 fontSize={tokenFontSize}
                                 fontMetrics={tokenFontMetrics}
-                                box={layout.tokenBoxes[i]}
+                                box={tokenBoxes[i]}
                                 fade={word.type === 'reference'} />
                         </>
                         : <SVGText
@@ -122,7 +152,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                             font={tokenFont}
                             fontSize={tokenFontSize}
                             fontMetrics={tokenFontMetrics}
-                            box={layout.tokenBoxes[i]}
+                            box={tokenBoxes[i]}
                             className='silver' />
                 )
             }
