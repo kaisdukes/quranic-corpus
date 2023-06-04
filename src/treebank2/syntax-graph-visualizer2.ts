@@ -28,6 +28,7 @@ export class SyntaxGraphVisualizer2 {
             phonetic: this.createBox(phoneticRefs[i]),
             translation: this.createBox(translationRefs[i]),
             token: this.createBox(tokenRefs[i]),
+            nodeCircles: [],
             posTags: posTagRefs.slice(word.startNode, word.endNode + 1).map(this.createBox),
             bounds: { x: 0, y: 0, width: 0, height: 0 }
         }));
@@ -57,8 +58,8 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
-    private layoutWord(_layout: WordLayout) {
-        const { bounds, location, phonetic, translation, token, posTags } = _layout;
+    private layoutWord(layout: WordLayout) {
+        const { bounds, location, phonetic, translation, token, nodeCircles, posTags } = layout;
         const headerTextDeltaY = 25;
         const posTagGap = 25;
         let y = 0;
@@ -88,6 +89,7 @@ export class SyntaxGraphVisualizer2 {
         let x = (width + posTagWidth) / 2;
         for (const posTag of posTags) {
             x -= posTag.width;
+            nodeCircles.push({ cx: x, cy: y, r: 3 })
             posTag.x = x;
             posTag.y = y;
             x -= posTagGap;
@@ -110,6 +112,12 @@ export class SyntaxGraphVisualizer2 {
         layout.translation.y += y;
         layout.token.x += x;
         layout.token.y += y;
+
+        for (const nodeCircle of layout.nodeCircles) {
+            nodeCircle.cx += x;
+            nodeCircle.cy += y;
+        }
+
         for (const posTag of layout.posTags) {
             posTag.x += x;
             posTag.y += y;

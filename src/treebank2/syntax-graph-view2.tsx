@@ -118,16 +118,23 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                 let j = 0;
                                                 for (const segment of segments) {
                                                     if (segment.posTag !== 'DET') {
+                                                        const nodeCircle = wordLayout && wordLayout.nodeCircles[j];
+                                                        const className = fade ? 'silver' : colorService.getSegmentColor(segment);
                                                         posTags.push(
-                                                            <SVGText
-                                                                key={`segment-${j}`}
-                                                                ref={svgDom.posTagRefs[word.startNode + j]}
-                                                                text={segment.posTag}
-                                                                font={defaultFont}
-                                                                fontSize={syntaxGraphPosTagFontSize}
-                                                                fontMetrics={defaultFontMetrics}
-                                                                box={wordLayout?.posTags && wordLayout.posTags[j]}
-                                                                className={fade ? 'silver' : colorService.getSegmentColor(segment)} />
+                                                            <Fragment key={`segment-${j}`}>
+                                                                {
+                                                                    nodeCircle &&
+                                                                    <circle key={`circle-${i}`} {...nodeCircle} className={className} />
+                                                                }
+                                                                <SVGText
+                                                                    ref={svgDom.posTagRefs[word.startNode + j]}
+                                                                    text={segment.posTag}
+                                                                    font={defaultFont}
+                                                                    fontSize={syntaxGraphPosTagFontSize}
+                                                                    fontMetrics={defaultFontMetrics}
+                                                                    box={wordLayout?.posTags && wordLayout.posTags[j]}
+                                                                    className={className} />
+                                                            </Fragment>
                                                         );
                                                         j++;
                                                     }
