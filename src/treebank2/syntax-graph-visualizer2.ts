@@ -81,7 +81,7 @@ export class SyntaxGraphVisualizer2 {
         this.centerHorizontal(phonetic, 0, y, width);
         y += headerTextDeltaY;
         this.centerHorizontal(translation, 0, y, width);
-        y += headerTextDeltaY + 6;
+        y += headerTextDeltaY + 7;
         this.centerHorizontal(token, 0, y, width);
         y += token.height + 5;
 
