@@ -44,8 +44,9 @@ export class SyntaxGraphVisualizer2 {
         // position words
         let x = containerWidth;
         for (let layout of wordLayouts) {
+            x -= layout.bounds.width;
             this.positionWord(layout, x, 0);
-            x -= layout.bounds.width + wordGap;
+            x -= wordGap;
         }
 
         return {
