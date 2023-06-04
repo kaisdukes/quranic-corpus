@@ -37,9 +37,8 @@ export class SyntaxGraphVisualizer2 {
             this.layoutWord(layout);
         }
 
-        const wordWidths = wordLayouts.map(layout => layout.bounds.width);
-        const containerWidth = wordWidths.reduce((width, wordWidth) => width + wordWidth, 0) + wordGap * (words.length - 1);
-        const containerHeight = Math.max(...wordLayouts.map(layout => layout.bounds.height)) + 100;
+        const containerWidth = this.measureWidths(wordLayouts.map(layout => layout.bounds), wordGap);
+        const containerHeight = Math.max(...wordLayouts.map(layout => layout.bounds.height));
 
         // position words
         let x = containerWidth;
@@ -60,17 +59,21 @@ export class SyntaxGraphVisualizer2 {
 
     private layoutWord(layout: WordLayout) {
         const headerTextDeltaY = 25;
-        const posTagGap = 10;
+        const posTagGap = 25;
         let y = 0;
+
+        // measure
+        const posTagWidth = this.measureWidths(layout.posTags, posTagGap);
+
         let width = Math.max(
             layout.location.width,
             layout.phonetic.width,
             layout.translation.width,
-            layout.token.width
+            layout.token.width,
+            posTagWidth
         );
-        let height = 0;
 
-        // header
+        // layout header
         this.centerHorizontal(layout.location, 0, y, width);
         y += headerTextDeltaY;
         this.centerHorizontal(layout.phonetic, 0, y, width);
@@ -78,22 +81,21 @@ export class SyntaxGraphVisualizer2 {
         this.centerHorizontal(layout.translation, 0, y, width);
         y += headerTextDeltaY;
         this.centerHorizontal(layout.token, 0, y, width);
-        y += headerTextDeltaY;
-        height = y;
+        y += layout.token.height + 5;
 
-        // POS tags
-        let posTagWidth = 0;
+        // layout POS tags
+        let x = (width - posTagWidth) / 2;
         for (const posTag of layout.posTags) {
-            posTag.x = posTagWidth;
+            posTag.x = x;
             posTag.y = y;
-            posTagWidth += posTag.width + posTagGap;
+            x += posTag.width + posTagGap;
         }
-        y += Math.max(...layout.posTags.map(tag => tag.height));
-        width = Math.max(width, posTagWidth - posTagGap);
-        height = y;
 
-        layout.bounds = { x: 0, y: 0, width, height };
+        y += Math.max(...layout.posTags.map(tag => tag.height));
+        layout.bounds.width = width;
+        layout.bounds.height = y;
     }
+
 
     private positionWord(layout: WordLayout, x: number, y: number) {
         layout.bounds.x = x;
@@ -121,5 +123,9 @@ export class SyntaxGraphVisualizer2 {
         const element = ref.current;
         const { x = 0, y = 0, width = 0, height = 0 } = element ? element.getBBox() : {};
         return { x, y, width, height };
+    }
+
+    private measureWidths(elements: Rect[], gap: number): number {
+        return elements.reduce((totalWidth, element) => totalWidth + element.width, 0) + gap * (elements.length - 1);
     }
 }
