@@ -28,7 +28,8 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             locationRefs: createTextRefs(wordCount),
             phoneticRefs: createTextRefs(wordCount),
             translationRefs: createTextRefs(wordCount),
-            tokenRefs: createTextRefs(wordCount)
+            tokenRefs: createTextRefs(wordCount),
+            segmentLabelRefs: createTextRefs(syntaxGraph.segmentNodeCount)
         };
     }, [syntaxGraph]);
 
@@ -37,6 +38,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         phoneticBoxes: [],
         translationBoxes: [],
         tokenBoxes: [],
+        segmentLabelBoxes: [],
         containerSize: {
             width: 0,
             height: 0

@@ -23,6 +23,7 @@ export class SyntaxGraphVisualizer2 {
         const phoneticBoxes: Rect[] = [];
         const translationBoxes: Rect[] = [];
         const tokenBoxes: Rect[] = [];
+        const segmentLabelBoxes: Rect[] = [];
         const wordGap = 40;
         const headerTextDeltaY = 25;
 
@@ -60,6 +61,7 @@ export class SyntaxGraphVisualizer2 {
             phoneticBoxes,
             translationBoxes,
             tokenBoxes,
+            segmentLabelBoxes,
             containerSize: {
                 width: containerWidth,
                 height: containerHeight
