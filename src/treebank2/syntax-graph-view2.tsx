@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState, createRef, Fragment } from 'react';
 import { SVGText } from './svg-text';
+import { SVGDom } from './svg-dom';
 import { SVGArabicToken } from './svg-arabic-token';
 import { FontService } from '../typography/font-service';
+import { ColorService } from '../theme/color-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
-import { SVGDom } from './svg-dom';
 import { GraphLayout2 } from './graph-layout2';
 import { SyntaxGraphVisualizer2 } from './syntax-graph-visualizer2';
 import { formatLocation } from '../corpus/orthography/location';
@@ -21,6 +22,7 @@ const createTextRefs = (count: number) => {
 
 export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const fontService = container.resolve(FontService);
+    const colorService = container.resolve(ColorService);
 
     const svgDom: SVGDom = useMemo(() => {
         const wordCount = syntaxGraph.words.length;
@@ -125,7 +127,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                                 fontSize={syntaxGraphPosTagFontSize}
                                                                 fontMetrics={defaultFontMetrics}
                                                                 box={wordLayout?.posTags && wordLayout.posTags[j]}
-                                                                className={fade ? 'silver' : undefined} />
+                                                                className={fade ? 'silver' : colorService.getSegmentColor(segment)} />
                                                         );
                                                         j++;
                                                     }
