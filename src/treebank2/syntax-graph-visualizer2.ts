@@ -109,7 +109,7 @@ export class SyntaxGraphVisualizer2 {
                 y += 8;
                 edgeLabel.x = maximaX - edgeLabel.width * 0.5;
                 edgeLabel.y = y;
-                this.heightMap.addSpan(x1, x2, y + edgeLabel.height);
+                this.heightMap.addSpan(x1, x2, y + 18);
             }
         }
 

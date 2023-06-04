@@ -10,15 +10,16 @@ type Props = {
     font: Font,
     fontMetrics: FontMetrics,
     box?: Rect,
-    className?: string
+    className?: string,
+    singleLineHeight?: boolean
 }
 
 export const SVGText = forwardRef((
-    { text, fontSize, font, fontMetrics, box, className }: Props,
+    { text, fontSize, font, fontMetrics, box, className, singleLineHeight }: Props,
     ref: Ref<SVGTextElement>) => {
 
     const { rtl } = font;
-    const position = getTextPosition(box, fontMetrics, fontSize, font.rtl);
+    const position = getTextPosition(box, fontMetrics, fontSize, font.rtl, singleLineHeight);
     return (
         <>
             <text
