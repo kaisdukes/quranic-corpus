@@ -57,43 +57,45 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
-    private layoutWord(layout: WordLayout) {
+    private layoutWord(_layout: WordLayout) {
+        const { bounds, location, phonetic, translation, token, posTags } = _layout;
         const headerTextDeltaY = 25;
         const posTagGap = 25;
         let y = 0;
 
         // measure
-        const posTagWidth = this.measureWidth(layout.posTags, posTagGap);
+        const posTagWidth = this.measureWidth(posTags, posTagGap);
 
         let width = Math.max(
-            layout.location.width,
-            layout.phonetic.width,
-            layout.translation.width,
-            layout.token.width,
+            location.width,
+            phonetic.width,
+            translation.width,
+            token.width,
             posTagWidth
         );
 
         // layout header
-        this.centerHorizontal(layout.location, 0, y, width);
+        this.centerHorizontal(location, 0, y, width);
         y += headerTextDeltaY;
-        this.centerHorizontal(layout.phonetic, 0, y, width);
+        this.centerHorizontal(phonetic, 0, y, width);
         y += headerTextDeltaY;
-        this.centerHorizontal(layout.translation, 0, y, width);
+        this.centerHorizontal(translation, 0, y, width);
         y += headerTextDeltaY;
-        this.centerHorizontal(layout.token, 0, y, width);
-        y += layout.token.height + 5;
+        this.centerHorizontal(token, 0, y, width);
+        y += token.height + 5;
 
         // layout POS tags
-        let x = (width - posTagWidth) / 2;
-        for (const posTag of layout.posTags) {
+        let x = (width + posTagWidth) / 2;
+        for (const posTag of posTags) {
+            x -= posTag.width;
             posTag.x = x;
             posTag.y = y;
-            x += posTag.width + posTagGap;
+            x -= posTagGap;
         }
 
-        y += Math.max(...layout.posTags.map(tag => tag.height));
-        layout.bounds.width = width;
-        layout.bounds.height = y;
+        y += Math.max(...posTags.map(tag => tag.height));
+        bounds.width = width;
+        bounds.height = y;
     }
 
 

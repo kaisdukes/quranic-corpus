@@ -110,21 +110,28 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             box={wordLayout && wordLayout.token}
                                             fade={fade} />
                                         {
-                                            word.token.segments.map((segment, j) => {
-                                                const segmentIndex = word.startNode + j;
-                                                const posTags = wordLayout?.posTags;
-                                                return (
-                                                    <SVGText
-                                                        key={`segment-${i}-${j}`}
-                                                        ref={svgDom.posTagRefs[segmentIndex]}
-                                                        text={segment.posTag}
-                                                        font={wordFont}
-                                                        fontSize={wordFontSize}
-                                                        fontMetrics={wordFontMetrics}
-                                                        box={posTags && posTags[j]}
-                                                        className={fade ? 'silver' : undefined} />
-                                                )
-                                            })
+                                            (() => {
+                                                const { segments } = word.token;
+                                                const posTags = [];
+                                                let j = 0;
+                                                for (const segment of segments) {
+                                                    if (segment.posTag !== 'DET') {
+                                                        posTags.push(
+                                                            <SVGText
+                                                                key={`segment-${j}`}
+                                                                ref={svgDom.posTagRefs[word.startNode + j]}
+                                                                text={segment.posTag}
+                                                                font={wordFont}
+                                                                fontSize={wordFontSize}
+                                                                fontMetrics={wordFontMetrics}
+                                                                box={wordLayout?.posTags && wordLayout.posTags[j]}
+                                                                className={fade ? 'silver' : undefined} />
+                                                        );
+                                                        j++;
+                                                    }
+                                                }
+                                                return posTags;
+                                            })()
                                         }
                                     </>
                                 ) : (
