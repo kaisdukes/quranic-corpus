@@ -37,7 +37,7 @@ export class SyntaxGraphVisualizer2 {
             this.layoutWord(layout);
         }
 
-        const containerWidth = this.measureWidths(wordLayouts.map(layout => layout.bounds), wordGap);
+        const containerWidth = this.measureWidth(wordLayouts.map(layout => layout.bounds), wordGap);
         const containerHeight = Math.max(...wordLayouts.map(layout => layout.bounds.height));
 
         // position words
@@ -63,7 +63,7 @@ export class SyntaxGraphVisualizer2 {
         let y = 0;
 
         // measure
-        const posTagWidth = this.measureWidths(layout.posTags, posTagGap);
+        const posTagWidth = this.measureWidth(layout.posTags, posTagGap);
 
         let width = Math.max(
             layout.location.width,
@@ -125,7 +125,7 @@ export class SyntaxGraphVisualizer2 {
         return { x, y, width, height };
     }
 
-    private measureWidths(elements: Rect[], gap: number): number {
+    private measureWidth(elements: Rect[], gap: number): number {
         return elements.reduce((totalWidth, element) => totalWidth + element.width, 0) + gap * (elements.length - 1);
     }
 }
