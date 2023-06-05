@@ -2,6 +2,7 @@ import { RefObject, createRef, useEffect, useMemo, useState } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { FontService } from '../typography/font-service';
 import { Rect } from '../layout/geometry';
+import { GraphLayout } from './graph-layout';
 import { SVGArabicToken } from './svg-arabic-token';
 import { formatLocation } from '../corpus/orthography/location';
 import { theme } from '../theme/theme';
@@ -12,21 +13,35 @@ type Props = {
     syntaxGraph: SyntaxGraph
 }
 
-type Layout = {
-    box?: Rect
-}
-
 const createBox = (ref: RefObject<SVGGraphicsElement>): Rect => {
     const element = ref.current;
     const { x = 0, y = 0, width = 0, height = 0 } = element ? element.getBBox() : {};
     return { x, y, width, height };
 }
 
-const generateLayout = (tokenRef: RefObject<SVGTextElement>): Layout => {
+const layoutGraph = (syntaxGraph: SyntaxGraph, tokenRef: RefObject<SVGTextElement>): GraphLayout => {
     const box = createBox(tokenRef);
     box.x = 0;
     box.y = 0;
-    return { box }
+    return {
+        wordLayouts: syntaxGraph.words.map(_ => ({
+            bounds: { x: 0, y: 0, width: 0, height: 0 },
+            location: { x: 0, y: 0, width: 0, height: 0 },
+            phonetic: { x: 0, y: 0, width: 0, height: 0 },
+            translation: { x: 0, y: 0, width: 0, height: 0 },
+            token: box,
+            nodeCircles: [],
+            posTags: []
+        })),
+        phraseLayouts: [],
+        edgeLabels: [],
+        arcs: [],
+        arrows: [],
+        containerSize: {
+            width: 0,
+            height: 0
+        }
+    };
 }
 
 export const TestView = ({ syntaxGraph }: Props) => {
@@ -34,7 +49,18 @@ export const TestView = ({ syntaxGraph }: Props) => {
 
     const tokenRef = useMemo(() => createRef<SVGTextElement>(), [syntaxGraph]);
 
-    const [layout, setLayout] = useState<Layout>({});
+    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
+        wordLayouts: [],
+        phraseLayouts: [],
+        edgeLabels: [],
+        arcs: [],
+        arrows: [],
+        containerSize: {
+            width: 0,
+            height: 0
+        }
+    });
+
 
     const word = syntaxGraph.words[syntaxGraph.words.length - 2];
     const token = word.token!;
@@ -45,7 +71,7 @@ export const TestView = ({ syntaxGraph }: Props) => {
 
     useEffect(() => {
         (async () => {
-            setLayout(generateLayout(tokenRef));
+            setGraphLayout(layoutGraph(syntaxGraph, tokenRef));
         })();
     }, [syntaxGraph])
 
@@ -59,7 +85,7 @@ export const TestView = ({ syntaxGraph }: Props) => {
                     font={defaultArabicFont}
                     fontSize={syntaxGraphTokenFontSize}
                     fontMetrics={defaultArabicFontMetrics}
-                    box={layout.box}
+                    box={graphLayout.wordLayouts.length > 0 ? graphLayout.wordLayouts[graphLayout.wordLayouts.length - 2].token : undefined}
                     fade={false} />
             </svg>
         </div>
