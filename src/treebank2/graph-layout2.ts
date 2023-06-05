@@ -33,8 +33,9 @@ export type WordLayout = {
 }
 
 export type PhraseLayout = {
-    phraseTag: Rect,
-    line: Line2
+    line: Line2,
+    nodeCircle: Circle,
+    phraseTag: Rect
 }
 
 export type GraphLayout2 = {

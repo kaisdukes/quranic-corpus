@@ -63,8 +63,9 @@ export class SyntaxGraphVisualizer2 {
         // measure phrase tags
         for (const phraseTag of phraseTagRefs) {
             this.phraseLayouts.push({
+                line: { x1: 0, y1: 0, x2: 0, y2: 0 },
+                nodeCircle: { cx: 0, cy: 0, r: 0 },
                 phraseTag: this.createBox(phraseTag),
-                line: { x1: 0, y1: 0, x2: 0, y2: 0 }
             })
         }
 
@@ -213,13 +214,16 @@ export class SyntaxGraphVisualizer2 {
         // line
         const phraseIndex = node - this.syntaxGraph.segmentNodeCount;
         const layout = this.phraseLayouts[phraseIndex];
-        const phraseTag = layout.phraseTag;
         layout.line = { x1, y1: y, x2, y2: y };
+        y += 13;
+
+        // node
+        layout.nodeCircle = { cx: x, cy: y, r: 3 }
         y += 10;
 
         // phrase
-        const phraseX = x - phraseTag.width / 2;
-        phraseTag.x = phraseX;
+        const phraseTag = layout.phraseTag;
+        phraseTag.x = x - phraseTag.width / 2;
         phraseTag.y = y;
 
         // node
