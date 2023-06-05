@@ -1,18 +1,30 @@
 .syntax-graph-view {
-    position: relative;
 
-    svg {
-        width: 100%;
-        height: 100%;
+    text,
+    tspan {
+        fill: currentColor;
 
-        polygon {
-            fill: currentColor;
+        &.location {
+            color: #787878;
         }
 
-        line,
-        path {
-            stroke: currentColor;
-            stroke-width: 2px;
+        &.phonetic {
+            color: #4886d0;
         }
+    }
+
+    line,
+    path {
+        stroke: currentColor;
+        stroke-width: 2px;
+    }
+
+    circle,
+    polygon {
+        fill: currentColor;
+    }
+
+    .edge-label {
+        fill: rgba(255, 255, 255, 0.6);
     }
 }

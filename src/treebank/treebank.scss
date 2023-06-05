@@ -19,5 +19,15 @@
         align-items: center;
         gap: 25px;
         margin-top: 25px;
+
+        .syntax-graph-view {
+            max-width: 100%;
+            height: auto;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     }
 }

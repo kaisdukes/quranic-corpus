@@ -1,70 +1,89 @@
 import { RefObject } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
-import { Position, Rect } from './geometry';
-import { HeightMap } from './height-map';
-import { Arc, Arrow, GraphLayout, Line } from './graph-layout';
-
-export type WordElement = {
-    ref: RefObject<HTMLDivElement>,
-    posTagRefs: RefObject<HTMLDivElement>[]
-}
+import { Word } from '../corpus/syntax/word';
+import { Position, Rect } from '../layout/geometry';
+import { HeightMap } from '../layout/height-map';
+import { Arc, Arrow, GraphLayout, PhraseLayout, WordLayout } from './graph-layout';
+import { SVGDom } from './svg-dom';
+import { theme } from '../theme/theme';
 
 export class SyntaxGraphVisualizer {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
-    private readonly phrasePositions: Position[] = [];
-    private phraseBounds: Rect[] = [];
-    private lines: Line[] = [];
+    private readonly phraseLayouts: PhraseLayout[] = [];
 
     constructor(
         private readonly syntaxGraph: SyntaxGraph,
-        private readonly words: WordElement[],
-        private readonly phrasesRef: RefObject<HTMLDivElement>[],
-        private readonly labelRefs: RefObject<HTMLDivElement>[]) {
+        private readonly svgDom: SVGDom) {
     }
 
-    layoutSyntaxGraph(): GraphLayout {
+    layoutGraph(): GraphLayout {
+        const { words } = this.syntaxGraph;
+        const {
+            wordElements,
+            phraseTagRefs,
+            dependencyTagRefs
+        } = this.svgDom;
 
         // measure words
-        const wordGap = 40;
-        const wordBounds = this.words.map(word => this.measureElement(word.ref));
-        const containerWidth = wordBounds.reduce((width, rect) => width + rect.width, 0) + wordGap * (this.words.length - 1);
-        const wordHeight = Math.max(...wordBounds.map(rect => rect.height));
-        const segmentNodeY = wordHeight + 5;
+        const wordLayouts: WordLayout[] = words.map((word, i) => {
+            const wordElement = wordElements[i];
+            const brackets = this.syntaxGraph.brackets(word);
+            return {
+                location: this.createBox(wordElement.locationRef),
+                phonetic: this.createBox(wordElement.phoneticRef),
+                translation: this.createBox(wordElement.translationRef),
+                bra: brackets ? this.createBox(wordElement.braRef!) : undefined,
+                token: this.createBox(wordElement.tokenRef),
+                ket: brackets ? this.createBox(wordElement.ketRef!) : undefined,
+                nodeCircles: [],
+                posTags: wordElement.posTagRefs.map(this.createBox),
+                bounds: { x: 0, y: 0, width: 0, height: 0 }
+            }
+        });
 
         // layout words
-        const wordPositions: Position[] = [];
-        let x = containerWidth;
-        for (let i = 0; i < this.words.length; i++) {
-            const wordRect = wordBounds[i];
-            x -= wordRect.width;
-            wordPositions[i] = { x, y: 0 };
-
-            // POS tags
-            for (const posTag of this.words[i].posTagRefs) {
-                const posTagBounds = this.measureElement(posTag);
-                const cx = posTagBounds.x + 0.5 * posTagBounds.width - wordRect.x + x;
-                this.nodePositions.push({ x: cx, y: segmentNodeY });
-            }
-            x -= wordGap;
+        for (let i = 0; i < words.length; i++) {
+            this.layoutWord(words[i], wordLayouts[i]);
         }
+
+        const wordGap = 40;
+        const containerWidth = this.getTotalWidth(wordLayouts.map(layout => layout.bounds), wordGap);
+        const segmentNodeY = Math.max(...wordLayouts.map(layout => layout.bounds.height)) + 5;
         this.heightMap.addSpan(0, containerWidth, segmentNodeY);
 
-        // measure phrase nodes
-        this.phraseBounds = this.phrasesRef.map(phrase => this.measureElement(phrase));
+        // position words
+        let x = containerWidth;
+        for (const layout of wordLayouts) {
+            x -= layout.bounds.width;
+            this.positionWord(layout, x, 0);
+            x -= wordGap;
+
+            for (const nodeCircle of layout.nodeCircles) {
+                this.nodePositions.push({ x: nodeCircle.cx, y: segmentNodeY });
+            }
+        }
+
+        // measure phrase tags
+        for (const phraseTag of phraseTagRefs) {
+            this.phraseLayouts.push({
+                line: { x1: 0, y1: 0, x2: 0, y2: 0 },
+                nodeCircle: { cx: 0, cy: 0, r: 0 },
+                phraseTag: this.createBox(phraseTag),
+            })
+        }
 
         // measure edge labels
-        const labelBounds = this.labelRefs.map(label => this.measureElement(label));
+        const edgeLabels = dependencyTagRefs.map(this.createBox);
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc[] = [];
         const arrows: Arrow[] = [];
-        const labelPositions: Position[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
-            for (const edge of edges) {
-                const { startNode, endNode, dependencyTag } = edge;
+            for (let i = 0; i < edges.length; i++) {
+                const { startNode, endNode } = edges[i];
 
                 // layout phrase nodes
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
@@ -97,35 +116,127 @@ export class SyntaxGraphVisualizer {
                 const ry = boxHeight;
                 const theta = Math.asin(deltaY / ry);
                 const rx = boxWidth / (1 + Math.cos(theta));
-                arcs.push({ x1, y1, x2, y2, rx, ry, dependencyTag });
+                arcs.push({ x1, y1, x2, y2, rx, ry });
                 y += boxHeight;
 
                 const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
                 arrows.push({ x: maximaX - 3, y: y - 5, right });
 
                 // layout edge label
-                const { width: labelWidth, height: labelHeight } = labelBounds[labelPositions.length];
+                const edgeLabel = edgeLabels[i];
                 y += 8;
-                const labelPosition = {
-                    x: maximaX - labelWidth * 0.5,
-                    y
-                };
-                labelPositions.push(labelPosition)
-                this.heightMap.addSpan(x1, x2, y + labelHeight);
+                edgeLabel.x = maximaX - edgeLabel.width * 0.5;
+                edgeLabel.y = y;
+                edgeLabel.height = theme.syntaxGraphEdgeLabelFontSize;
+                this.heightMap.addSpan(x1, x2, y + edgeLabel.height);
             }
         }
 
         return {
-            wordPositions,
-            phrasePositions: this.phrasePositions,
-            lines: this.lines,
+            wordLayouts,
+            phraseLayouts: this.phraseLayouts,
+            edgeLabels,
             arcs,
             arrows,
-            labelPositions,
             containerSize: {
-                width: containerWidth,
-                height: this.heightMap.height
+                width: Math.ceil(containerWidth),
+                height: Math.ceil(this.heightMap.height)
             }
+        }
+    }
+
+    private layoutWord(word: Word, layout: WordLayout) {
+        const { bounds, location, phonetic, translation, bra, token, ket, nodeCircles, posTags } = layout;
+        const headerTextDeltaY = 23;
+        const posTagGap = 25;
+        const bracketDeltaY = 16;
+        let y = 0;
+
+        // measure
+        const posTagWidth = this.getTotalWidth(posTags, posTagGap);
+        const brackets = this.syntaxGraph.brackets(word);
+        const tokenWidth = brackets ? bra!.width + token.width + ket!.width : token.width;
+        const width = Math.max(
+            location.width,
+            phonetic.width,
+            translation.width,
+            tokenWidth,
+            posTagWidth
+        );
+
+        // header
+        this.centerHorizontal(location, width, y);
+        y += headerTextDeltaY;
+        this.centerHorizontal(phonetic, width, y);
+        y += headerTextDeltaY;
+        this.centerHorizontal(translation, width, y);
+        y += headerTextDeltaY + 7;
+
+        // token
+        let x = (width + tokenWidth) / 2;
+        if (brackets) {
+            x -= ket!.width;
+            ket!.x = x;
+            ket!.y = y + bracketDeltaY;
+        }
+        x -= token.width;
+        token.x = x;
+        token.y = y;
+        if (brackets) {
+            x -= bra!.width;
+            bra!.x = x;
+            bra!.y = y + bracketDeltaY;
+        }
+
+        // ellipsis
+        if (!word.token && !word.hiddenText) {
+            token.y += bracketDeltaY;
+        }
+        y += 65;
+
+        // POS tags
+        let tagX = (width + posTagWidth) / 2;
+        const r = 3;
+        for (const posTag of posTags) {
+            tagX -= posTag.width;
+            nodeCircles.push({ cx: tagX + posTag.width / 2, cy: y, r })
+            posTag.x = tagX;
+            posTag.y = y + 10;
+            tagX -= posTagGap;
+        }
+
+        bounds.width = width;
+        bounds.height = Math.max(...posTags.map(tag => tag.y + tag.height));
+    }
+
+    private positionWord(layout: WordLayout, x: number, y: number) {
+        layout.bounds.x = x;
+        layout.bounds.y = y;
+        layout.location.x += x;
+        layout.location.y += y;
+        layout.phonetic.x += x;
+        layout.phonetic.y += y;
+        layout.translation.x += x;
+        layout.translation.y += y;
+        if (layout.bra) {
+            layout.bra.x += x;
+            layout.bra.y += y;
+        }
+        layout.token.x += x;
+        layout.token.y += y;
+        if (layout.ket) {
+            layout.ket.x += x;
+            layout.ket.y += y;
+        }
+
+        for (const nodeCircle of layout.nodeCircles) {
+            nodeCircle.cx += x;
+            nodeCircle.cy += y;
+        }
+
+        for (const posTag of layout.posTags) {
+            posTag.x += x;
+            posTag.y += y;
         }
     }
 
@@ -139,29 +250,39 @@ export class SyntaxGraphVisualizer {
         const x = (x1 + x2) / 2;
 
         // line
-        this.lines.push({ x1, y1: y, x2, y2: y });
+        const phraseIndex = node - this.syntaxGraph.segmentNodeCount;
+        const layout = this.phraseLayouts[phraseIndex];
+        layout.line = { x1, y1: y, x2, y2: y };
+        y += 13;
+
+        // node
+        layout.nodeCircle = { cx: x, cy: y, r: 3 }
         y += 10;
 
         // phrase
-        const phraseIndex = node - this.syntaxGraph.segmentNodeCount;
-        const phraseRect = this.phraseBounds[phraseIndex];
-        const phraseX = x - phraseRect.width / 2;
-        this.phrasePositions[phraseIndex] = { x: phraseX, y };
+        const phraseTag = layout.phraseTag;
+        phraseTag.x = x - phraseTag.width / 2;
+        phraseTag.y = y;
 
         // node
-        y += phraseRect.height + 4;
+        y += phraseTag.height + 4;
         this.nodePositions[node] = { x, y };
         this.heightMap.addSpan(x1, x2, y);
     }
 
-    private measureElement(element: RefObject<HTMLElement>): Rect {
-        return element.current
-            ? element.current.getBoundingClientRect()
-            : {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0
-            };
+    private getTotalWidth(elements: Rect[], gap: number): number {
+        return elements.reduce((totalWidth, element) => totalWidth + element.width, 0)
+            + gap * (elements.length - 1);
+    }
+
+    private centerHorizontal(element: Rect, width: number, y: number) {
+        element.x = (width - element.width) / 2;
+        element.y = y;
+    }
+
+    private createBox(ref: RefObject<SVGGraphicsElement>): Rect {
+        const element = ref.current;
+        const { x = 0, y = 0, width = 0, height = 0 } = element ? element.getBBox() : {};
+        return { x, y, width, height };
     }
 }

@@ -1,4 +1,4 @@
-import { Arrow } from './graph-layout';
+import { Arrow } from '../layout/graph-layout';
 
 type Props = {
     arrow: Arrow,
