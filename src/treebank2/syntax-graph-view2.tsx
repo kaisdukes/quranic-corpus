@@ -190,6 +190,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             {
                 syntaxGraph.phraseNodes && syntaxGraph.phraseNodes.map((phraseNode, i) => {
                     const phraseLayout = phraseLayouts[i];
+                    const className = colorService.getPhraseColor(phraseNode.phraseTag);
                     return (
                         <Fragment key={`pharse-${i}`}>
                             <SVGText
@@ -198,7 +199,8 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 font={defaultFont}
                                 fontSize={syntaxGraphTagFontSize}
                                 fontMetrics={defaultFontMetrics}
-                                box={phraseLayout && phraseLayout.phraseTag} />
+                                box={phraseLayout && phraseLayout.phraseTag}
+                                className={className} />
                             {
                                 phraseLayout &&
                                 <line {...phraseLayout.line} className='sky-light' />
@@ -206,7 +208,8 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                         </Fragment>
                     )
                 })
-            }            {
+            }
+            {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
                     const edgeLabel = edgeLabels[i];
                     const arc = arcs[i];
