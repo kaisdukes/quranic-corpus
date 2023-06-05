@@ -86,16 +86,10 @@ export class SyntaxGraphVisualizer {
                 const { startNode, endNode } = edges[i];
 
                 // layout phrase nodes
-                if (this.syntaxGraph.isPhraseNode(startNode)) {
-                    this.layoutPhraseNode(startNode);
-                }
-                if (this.syntaxGraph.isPhraseNode(endNode)) {
-                    this.layoutPhraseNode(endNode);
-                }
+                const start = this.nodePositions[startNode] ?? this.layoutPhrase(startNode);
+                const end = this.nodePositions[endNode] ?? this.layoutPhrase(endNode);
 
                 // node coordinates
-                const start = this.nodePositions[startNode];
-                const end = this.nodePositions[endNode];
                 const right = start.x < end.x;
                 const { x: x1, y: y1 } = right ? start : end;
                 const { x: x2, y: y2 } = right ? end : start;
@@ -240,7 +234,7 @@ export class SyntaxGraphVisualizer {
         }
     }
 
-    private layoutPhraseNode(node: number) {
+    private layoutPhrase(node: number): Position {
 
         // position
         const { startNode, endNode } = this.syntaxGraph.getPhraseNode(node);
@@ -266,8 +260,10 @@ export class SyntaxGraphVisualizer {
 
         // node
         y += phraseTag.height + 4;
-        this.nodePositions[node] = { x, y };
+        const position = { x, y };
+        this.nodePositions[node] = position;
         this.heightMap.addSpan(x1, x2, y);
+        return position;
     }
 
     private getTotalWidth(elements: Rect[], gap: number): number {
