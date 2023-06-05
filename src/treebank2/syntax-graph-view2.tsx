@@ -27,13 +27,18 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const svgDom: SVGDom = useMemo(() => {
         return {
-            wordElements: syntaxGraph.words.map(word => ({
-                locationRef: createRef<SVGTextElement>(),
-                phoneticRef: createRef<SVGTextElement>(),
-                translationRef: createRef<SVGTextElement>(),
-                tokenRef: createRef<SVGTextElement>(),
-                posTagRefs: createTextRefs(word.endNode - word.startNode + 1)
-            })),
+            wordElements: syntaxGraph.words.map(word => {
+                const brackets = syntaxGraph.brackets(word);
+                return {
+                    locationRef: createRef<SVGTextElement>(),
+                    phoneticRef: createRef<SVGTextElement>(),
+                    translationRef: createRef<SVGTextElement>(),
+                    braRef: brackets ? createRef<SVGTextElement>() : undefined,
+                    tokenRef: createRef<SVGTextElement>(),
+                    ketRef: brackets ? createRef<SVGTextElement>() : undefined,
+                    posTagRefs: createTextRefs(word.endNode - word.startNode + 1)
+                }
+            }),
             phraseTagRefs: createTextRefs(syntaxGraph.phraseNodes ? syntaxGraph.phraseNodes.length : 0),
             dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges.length : 0)
         };
@@ -97,6 +102,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                     const wordElement = svgDom.wordElements[i];
                     const fade = word.type === 'reference';
                     const wordLayout = wordLayouts[i];
+                    const brackets = syntaxGraph.brackets(word);
                     return (
                         <Fragment key={`word-${i}`}>
                             {
@@ -126,6 +132,17 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.translation}
                                             className={fade ? 'silver' : undefined} />
+                                        {
+                                            brackets &&
+                                            <SVGText
+                                                ref={wordElement.braRef}
+                                                text={'('}
+                                                font={hiddenWordFont}
+                                                fontSize={syntaxGraphHiddenWordFontSize}
+                                                fontMetrics={hiddenWordFontMetrics}
+                                                box={wordLayout && wordLayout.bra}
+                                                className='silver' />
+                                        }
                                         <SVGArabicToken
                                             ref={wordElement.tokenRef}
                                             token={word.token}
@@ -134,6 +151,17 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             fontMetrics={defaultArabicFontMetrics}
                                             box={wordLayout && wordLayout.token}
                                             fade={fade} />
+                                        {
+                                            brackets &&
+                                            <SVGText
+                                                ref={wordElement.ketRef}
+                                                text={')'}
+                                                font={hiddenWordFont}
+                                                fontSize={syntaxGraphHiddenWordFontSize}
+                                                fontMetrics={hiddenWordFontMetrics}
+                                                box={wordLayout && wordLayout.ket}
+                                                className='silver' />
+                                        }
                                         {
                                             (() => {
                                                 const { segments } = word.token;
@@ -170,14 +198,38 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                     <>
                                         {
                                             word.hiddenText ?
-                                                <SVGText
-                                                    ref={wordElement.tokenRef}
-                                                    text={word.hiddenText}
-                                                    font={defaultArabicFont}
-                                                    fontSize={syntaxGraphTokenFontSize}
-                                                    fontMetrics={defaultArabicFontMetrics}
-                                                    box={wordLayout && wordLayout.token}
-                                                    className='silver' />
+                                                <>
+                                                    {
+                                                        brackets &&
+                                                        <SVGText
+                                                            ref={wordElement.braRef}
+                                                            text={'('}
+                                                            font={hiddenWordFont}
+                                                            fontSize={syntaxGraphHiddenWordFontSize}
+                                                            fontMetrics={hiddenWordFontMetrics}
+                                                            box={wordLayout && wordLayout.bra}
+                                                            className='silver' />
+                                                    }
+                                                    <SVGText
+                                                        ref={wordElement.tokenRef}
+                                                        text={word.hiddenText}
+                                                        font={defaultArabicFont}
+                                                        fontSize={syntaxGraphTokenFontSize}
+                                                        fontMetrics={defaultArabicFontMetrics}
+                                                        box={wordLayout && wordLayout.token}
+                                                        className='silver' />
+                                                    {
+                                                        brackets &&
+                                                        <SVGText
+                                                            ref={wordElement.ketRef}
+                                                            text={')'}
+                                                            font={hiddenWordFont}
+                                                            fontSize={syntaxGraphHiddenWordFontSize}
+                                                            fontMetrics={hiddenWordFontMetrics}
+                                                            box={wordLayout && wordLayout.ket}
+                                                            className='silver' />
+                                                    }
+                                                </>
                                                 : <SVGText
                                                     ref={wordElement.tokenRef}
                                                     text={'(*)'}
@@ -201,10 +253,6 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         }
                                     </>
                                 )
-                            }
-                            {
-                                wordLayout && wordLayout.bounds &&
-                                <rect {...wordLayout.bounds} fill='none' stroke='red' />
                             }
                         </Fragment>
                     )

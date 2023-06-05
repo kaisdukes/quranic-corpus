@@ -33,7 +33,9 @@ export type WordLayout = {
     location: Rect,
     phonetic: Rect,
     translation: Rect,
+    bra?: Rect,
     token: Rect,
+    ket?: Rect,
     nodeCircles: Circle[],
     posTags: Rect[]
 }

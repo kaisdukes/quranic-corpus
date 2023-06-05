@@ -25,15 +25,21 @@ export class SyntaxGraphVisualizer2 {
         } = this.svgDom;
 
         // measure words
-        const wordLayouts: WordLayout[] = wordElements.map(wordElement => ({
-            location: this.createBox(wordElement.locationRef),
-            phonetic: this.createBox(wordElement.phoneticRef),
-            translation: this.createBox(wordElement.translationRef),
-            token: this.createBox(wordElement.tokenRef),
-            nodeCircles: [],
-            posTags: wordElement.posTagRefs.map(this.createBox),
-            bounds: { x: 0, y: 0, width: 0, height: 0 }
-        }));
+        const wordLayouts: WordLayout[] = words.map((word, i) => {
+            const wordElement = wordElements[i];
+            const brackets = this.syntaxGraph.brackets(word);
+            return {
+                location: this.createBox(wordElement.locationRef),
+                phonetic: this.createBox(wordElement.phoneticRef),
+                translation: this.createBox(wordElement.translationRef),
+                bra: brackets ? this.createBox(wordElement.braRef!) : undefined,
+                token: this.createBox(wordElement.tokenRef),
+                ket: brackets ? this.createBox(wordElement.ketRef!) : undefined,
+                nodeCircles: [],
+                posTags: wordElement.posTagRefs.map(this.createBox),
+                bounds: { x: 0, y: 0, width: 0, height: 0 }
+            }
+        });
 
         // layout words
         for (let i = 0; i < words.length; i++) {
@@ -138,38 +144,55 @@ export class SyntaxGraphVisualizer2 {
     }
 
     private layoutWord(word: Word, layout: WordLayout) {
-        const { bounds, location, phonetic, translation, token, nodeCircles, posTags } = layout;
+        const { bounds, location, phonetic, translation, bra, token, ket, nodeCircles, posTags } = layout;
         const headerTextDeltaY = 23;
         const posTagGap = 25;
+        const bracketDeltaY = 16;
         let y = 0;
 
         // measure
         const posTagWidth = this.getTotalWidth(posTags, posTagGap);
-
-        let width = Math.max(
+        const brackets = this.syntaxGraph.brackets(word);
+        const tokenWidth = brackets ? bra!.width + token.width + ket!.width : token.width;
+        const width = Math.max(
             location.width,
             phonetic.width,
             translation.width,
-            token.width,
+            tokenWidth,
             posTagWidth
         );
 
-        // layout header
-        this.centerHorizontal(location, 0, y, width);
+        // header
+        this.centerHorizontal(location, width, y);
         y += headerTextDeltaY;
-        this.centerHorizontal(phonetic, 0, y, width);
+        this.centerHorizontal(phonetic, width, y);
         y += headerTextDeltaY;
-        this.centerHorizontal(translation, 0, y, width);
+        this.centerHorizontal(translation, width, y);
         y += headerTextDeltaY + 7;
-        this.centerHorizontal(token, 0, y, width);
+
+        // token
+        let x = (width + tokenWidth) / 2;
+        if (brackets) {
+            x -= ket!.width;
+            ket!.x = x;
+            ket!.y = y + bracketDeltaY;
+        }
+        x -= token.width;
+        token.x = x;
+        token.y = y;
+        if (brackets) {
+            x -= bra!.width;
+            bra!.x = x;
+            bra!.y = y + bracketDeltaY;
+        }
 
         // ellipsis
         if (!word.token && !word.hiddenText) {
-            token.y += 20;
+            token.y += bracketDeltaY;
         }
         y += 65;
 
-        // layout POS tags
+        // POS tags
         let tagX = (width + posTagWidth) / 2;
         const r = 3;
         for (const posTag of posTags) {
@@ -193,8 +216,16 @@ export class SyntaxGraphVisualizer2 {
         layout.phonetic.y += y;
         layout.translation.x += x;
         layout.translation.y += y;
+        if (layout.bra) {
+            layout.bra.x += x;
+            layout.bra.y += y;
+        }
         layout.token.x += x;
         layout.token.y += y;
+        if (layout.ket) {
+            layout.ket.x += x;
+            layout.ket.y += y;
+        }
 
         for (const nodeCircle of layout.nodeCircles) {
             nodeCircle.cx += x;
@@ -242,8 +273,8 @@ export class SyntaxGraphVisualizer2 {
             + gap * (elements.length - 1);
     }
 
-    private centerHorizontal(element: Rect, x: number, y: number, width: number) {
-        element.x = x + (width - element.width) / 2;
+    private centerHorizontal(element: Rect, width: number, y: number) {
+        element.x = (width - element.width) / 2;
         element.y = y;
     }
 

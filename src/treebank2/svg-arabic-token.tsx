@@ -34,27 +34,21 @@ export const SVGArabicToken = forwardRef((
     const { rtl } = font;
     const position = getTextPosition(box, fontMetrics, fontSize, rtl);
     return (
-        <>
-            <text
-                ref={ref}
-                x={position?.x}
-                y={position?.y}
-                fontSize={fontSize}
-                fontFamily={font.family}
-                direction={rtl ? 'rtl' : undefined}>
-                {
-                    segments.map((segment, i) => (
-                        <tspan
-                            key={i}
-                            className={fade ? 'silver' : colorService.getSegmentColor(segment)}
-                            dangerouslySetInnerHTML={{ __html: joinedSegments[i]! }} />
-                    ))
-                }
-            </text>
+        <text
+            ref={ref}
+            x={position?.x}
+            y={position?.y}
+            fontSize={fontSize}
+            fontFamily={font.family}
+            direction={rtl ? 'rtl' : undefined}>
             {
-                box &&
-                <rect {...box} fill='none' stroke='red' />
+                segments.map((segment, i) => (
+                    <tspan
+                        key={i}
+                        className={fade ? 'silver' : colorService.getSegmentColor(segment)}
+                        dangerouslySetInnerHTML={{ __html: joinedSegments[i]! }} />
+                ))
             }
-        </>
+        </text>
     )
 })

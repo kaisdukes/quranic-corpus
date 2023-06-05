@@ -39,6 +39,10 @@ export class SyntaxGraph {
         this.phraseNodes = phraseNodes;
     }
 
+    brackets(word: Word) {
+        return word.type === 'reference' || (word.type === 'hidden' && word.hiddenText);
+    }
+
     isPhraseNode(node: number) {
         return node >= this.segmentNodeCount;
     }
