@@ -32,7 +32,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 phoneticRef: createRef<SVGTextElement>(),
                 translationRef: createRef<SVGTextElement>(),
                 tokenRef: createRef<SVGTextElement>(),
-                posTagRefs: createTextRefs(word.endNode - word.startNode + 1),
+                posTagRefs: createTextRefs(word.endNode - word.startNode + 1)
             })),
             phraseTagRefs: createTextRefs(syntaxGraph.phraseNodes ? syntaxGraph.phraseNodes.length : 0),
             dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges.length : 0)
