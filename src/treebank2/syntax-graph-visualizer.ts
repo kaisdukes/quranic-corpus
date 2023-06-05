@@ -139,8 +139,8 @@ export class SyntaxGraphVisualizer {
             arcs,
             arrows,
             containerSize: {
-                width: containerWidth,
-                height: this.heightMap.height
+                width: Math.ceil(containerWidth),
+                height: Math.ceil(this.heightMap.height)
             }
         }
     }
