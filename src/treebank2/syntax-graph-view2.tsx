@@ -69,15 +69,18 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     // fonts
     const defaultFont = theme.fonts.defaultFont;
     const defaultArabicFont = theme.fonts.defaultArabicFont;
+    const hiddenWordFont = theme.fonts.hiddenWordFont;
     const edgeLabelFont = theme.fonts.edgeLabelFont;
 
     // metrics
     const defaultFontMetrics = fontService.getFontMetrics(defaultFont);
     const defaultArabicFontMetrics = fontService.getFontMetrics(defaultArabicFont);
+    const hiddenWordFontMetrics = fontService.getFontMetrics(hiddenWordFont);
     const edgeLabelFontMetrics = fontService.getFontMetrics(edgeLabelFont);
     const {
         syntaxGraphHeaderFontSize,
         syntaxGraphTokenFontSize,
+        syntaxGraphHiddenWordFontSize,
         syntaxGraphTagFontSize,
         syntaxGraphEdgeLabelFontSize
     } = theme;
@@ -163,14 +166,25 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                     </>
                                 ) : (
                                     <>
-                                        <SVGText
-                                            ref={svgDom.tokenRefs[i]}
-                                            text={word.hiddenText ?? '*'}
-                                            font={defaultArabicFont}
-                                            fontSize={syntaxGraphTokenFontSize}
-                                            fontMetrics={defaultArabicFontMetrics}
-                                            box={wordLayout && wordLayout.token}
-                                            className='silver' />
+                                        {
+                                            word.hiddenText ?
+                                                <SVGText
+                                                    ref={svgDom.tokenRefs[i]}
+                                                    text={word.hiddenText}
+                                                    font={defaultArabicFont}
+                                                    fontSize={syntaxGraphTokenFontSize}
+                                                    fontMetrics={defaultArabicFontMetrics}
+                                                    box={wordLayout && wordLayout.token}
+                                                    className='silver' />
+                                                : <SVGText
+                                                    ref={svgDom.tokenRefs[i]}
+                                                    text={'(*)'}
+                                                    font={hiddenWordFont}
+                                                    fontSize={syntaxGraphHiddenWordFontSize}
+                                                    fontMetrics={hiddenWordFontMetrics}
+                                                    box={wordLayout && wordLayout.token}
+                                                    className='silver' />
+                                        }
                                         <SVGText
                                             ref={svgDom.posTagRefs[word.startNode]}
                                             text={word.hiddenPosTag!}
@@ -185,6 +199,10 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         }
                                     </>
                                 )
+                            }
+                            {
+                                wordLayout && wordLayout.bounds &&
+                                <rect {...wordLayout.bounds} fill='none' stroke='red' />
                             }
                         </Fragment>
                     )

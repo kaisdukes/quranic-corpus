@@ -1,5 +1,6 @@
 import { RefObject } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
+import { Word } from '../corpus/syntax/word';
 import { Position, Rect } from '../layout/geometry';
 import { HeightMap } from '../layout/height-map';
 import { Arc2, Arrow2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
@@ -39,8 +40,8 @@ export class SyntaxGraphVisualizer2 {
         }));
 
         // layout words
-        for (const layout of wordLayouts) {
-            this.layoutWord(layout);
+        for (let i = 0; i < words.length; i++) {
+            this.layoutWord(words[i], wordLayouts[i]);
         }
 
         const wordGap = 40;
@@ -140,7 +141,7 @@ export class SyntaxGraphVisualizer2 {
         }
     }
 
-    private layoutWord(layout: WordLayout) {
+    private layoutWord(word: Word, layout: WordLayout) {
         const { bounds, location, phonetic, translation, token, nodeCircles, posTags } = layout;
         const headerTextDeltaY = 23;
         const posTagGap = 25;
@@ -165,7 +166,12 @@ export class SyntaxGraphVisualizer2 {
         this.centerHorizontal(translation, 0, y, width);
         y += headerTextDeltaY + 7;
         this.centerHorizontal(token, 0, y, width);
-        y += token.height + 5;
+
+        // ellipsis
+        if (!word.token && !word.hiddenText) {
+            token.y += 20;
+        }
+        y += 65;
 
         // layout POS tags
         let tagX = (width + posTagWidth) / 2;

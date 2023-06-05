@@ -8,6 +8,7 @@ interface ITheme {
     arabicFontSizeMedium: string,
     syntaxGraphHeaderFontSize: number,
     syntaxGraphTokenFontSize: number,
+    syntaxGraphHiddenWordFontSize: number,
     syntaxGraphTagFontSize: number,
     syntaxGraphEdgeLabelFontSize: number,
     popupMenuHeight: string,
@@ -27,6 +28,7 @@ export const theme: ITheme = {
     arabicFontSizeMedium: '30px',
     syntaxGraphHeaderFontSize: 14.4, // TODO: 14!!
     syntaxGraphTokenFontSize: 34,
+    syntaxGraphHiddenWordFontSize: 24,
     syntaxGraphTagFontSize: 18,
     syntaxGraphEdgeLabelFontSize: 24,
     popupMenuHeight: '250px',

@@ -21,15 +21,21 @@ export const SVGText = forwardRef((
     const { rtl } = font;
     const position = getTextPosition(box, fontMetrics, fontSize, rtl, singleLineHeight);
     return (
-        <text
-            ref={ref}
-            x={position?.x}
-            y={position?.y}
-            fontSize={fontSize}
-            fontFamily={font.family}
-            direction={rtl ? 'rtl' : undefined}
-            className={className}>
-            {text}
-        </text>
+        <>
+            <text
+                ref={ref}
+                x={position?.x}
+                y={position?.y}
+                fontSize={fontSize}
+                fontFamily={font.family}
+                direction={rtl ? 'rtl' : undefined}
+                className={className}>
+                {text}
+            </text>
+            {
+                box &&
+                <rect {...box} fill='none' stroke='red' />
+            }
+        </>
     )
 })
