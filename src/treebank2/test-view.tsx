@@ -1,7 +1,7 @@
 import { RefObject, createRef, useEffect, useMemo, useState } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { FontService } from '../typography/font-service';
-import { Rect } from '../layout/geometry';
+import { Rect, Size } from '../layout/geometry';
 import { GraphLayout } from './graph-layout';
 import { SVGArabicToken } from './svg-arabic-token';
 import { formatLocation } from '../corpus/orthography/location';
@@ -75,10 +75,15 @@ export const TestView = ({ syntaxGraph }: Props) => {
         })();
     }, [syntaxGraph])
 
+    const containerSize: Size = { width: 150, height: 150 };
+
     return (
         <div className='test-view'>
             {formatLocation(token.location)}
-            <svg width={150} height={150}>
+            <svg
+                width={containerSize.width}
+                height={containerSize.height}
+                viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}>
                 <SVGArabicToken
                     ref={tokenRef}
                     token={token}
