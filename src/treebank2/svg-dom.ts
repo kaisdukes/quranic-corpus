@@ -6,5 +6,6 @@ export type SVGDom = {
     translationRefs: RefObject<SVGTextElement>[],
     tokenRefs: RefObject<SVGTextElement>[],
     posTagRefs: RefObject<SVGTextElement>[],
+    phraseTagRefs: RefObject<SVGTextElement>[],
     dependencyTagRefs: RefObject<SVGTextElement>[]
 }

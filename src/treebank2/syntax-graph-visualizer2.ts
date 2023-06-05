@@ -2,12 +2,13 @@ import { RefObject } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { Position, Rect } from '../layout/geometry';
 import { HeightMap } from '../layout/height-map';
-import { Arc2, GraphLayout2, WordLayout } from './graph-layout2';
+import { Arc2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
 import { SVGDom } from './svg-dom';
 
 export class SyntaxGraphVisualizer2 {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
+    private readonly phraseLayouts: PhraseLayout[] = [];
 
     constructor(
         private readonly syntaxGraph: SyntaxGraph,
@@ -22,6 +23,7 @@ export class SyntaxGraphVisualizer2 {
             translationRefs,
             tokenRefs,
             posTagRefs,
+            phraseTagRefs,
             dependencyTagRefs
         } = this.svgDom;
 
@@ -58,22 +60,28 @@ export class SyntaxGraphVisualizer2 {
             }
         }
 
+        // measure phrase tags
+        for (const phraseTag of phraseTagRefs) {
+            this.phraseLayouts.push({ phraseTag: this.createBox(phraseTag) });
+        }
+
+        // measure edge labels
+        const edgeLabels = dependencyTagRefs.map(this.createBox);
+
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
-        const edgeLabels = dependencyTagRefs.map(this.createBox);
         const arcs: Arc2[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
-            console.log('creating arcs...');
             for (let i = 0; i < edges.length; i++) {
                 const { startNode, endNode } = edges[i];
 
                 // skip phrase nodes for now
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
-                    continue;
+                    this.layoutPhraseNode(startNode);
                 }
                 if (this.syntaxGraph.isPhraseNode(endNode)) {
-                    continue;
+                    this.layoutPhraseNode(endNode);
                 }
 
                 // node coordinates
@@ -115,6 +123,7 @@ export class SyntaxGraphVisualizer2 {
 
         return {
             wordLayouts,
+            phraseLayouts: this.phraseLayouts,
             edgeLabels,
             arcs,
             containerSize: {
@@ -187,6 +196,28 @@ export class SyntaxGraphVisualizer2 {
             posTag.x += x;
             posTag.y += y;
         }
+    }
+
+    private layoutPhraseNode(node: number) {
+
+        // position
+        const { startNode, endNode } = this.syntaxGraph.getPhraseNode(node);
+        const x1 = this.nodePositions[endNode].x;
+        const x2 = this.nodePositions[startNode].x;
+        let y = this.heightMap.getHeight(x1, x2) + 25;
+        const x = (x1 + x2) / 2;
+
+        // phrase
+        const phraseIndex = node - this.syntaxGraph.segmentNodeCount;
+        const phraseTag = this.phraseLayouts[phraseIndex].phraseTag;
+        const phraseX = x - phraseTag.width / 2;
+        phraseTag.x = phraseX;
+        phraseTag.y = y;
+
+        // node
+        y += phraseTag.height + 4;
+        this.nodePositions[node] = { x, y };
+        this.heightMap.addSpan(x1, x2, y);
     }
 
     private getTotalWidth(elements: Rect[], gap: number): number {

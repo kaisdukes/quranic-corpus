@@ -16,6 +16,10 @@ export type WordLayout = {
     posTags: Rect[]
 }
 
+export type PhraseLayout = {
+    phraseTag: Rect
+}
+
 export type Arc2 = {
     x1: number,
     y1: number,
@@ -27,6 +31,7 @@ export type Arc2 = {
 
 export type GraphLayout2 = {
     wordLayouts: WordLayout[],
+    phraseLayouts: PhraseLayout[],
     edgeLabels: Rect[],
     arcs: Arc2[],
     containerSize: Size

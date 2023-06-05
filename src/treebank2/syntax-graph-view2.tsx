@@ -32,12 +32,14 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             translationRefs: createTextRefs(wordCount),
             tokenRefs: createTextRefs(wordCount),
             posTagRefs: createTextRefs(syntaxGraph.segmentNodeCount),
-            dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges?.length : 0)
+            phraseTagRefs: createTextRefs(syntaxGraph.phraseNodes ? syntaxGraph.phraseNodes.length : 0),
+            dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges.length : 0)
         };
     }, [syntaxGraph]);
 
     const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
         wordLayouts: [],
+        phraseLayouts: [],
         edgeLabels: [],
         arcs: [],
         containerSize: {
@@ -48,6 +50,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     const {
         wordLayouts,
+        phraseLayouts,
         edgeLabels,
         arcs,
         containerSize
@@ -72,7 +75,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const {
         syntaxGraphHeaderFontSize,
         syntaxGraphTokenFontSize,
-        syntaxGraphPosTagFontSize,
+        syntaxGraphTagFontSize,
         syntaxGraphEdgeLabelFontSize
     } = theme;
 
@@ -142,7 +145,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                                     ref={svgDom.posTagRefs[word.startNode + j]}
                                                                     text={segment.posTag}
                                                                     font={defaultFont}
-                                                                    fontSize={syntaxGraphPosTagFontSize}
+                                                                    fontSize={syntaxGraphTagFontSize}
                                                                     fontMetrics={defaultFontMetrics}
                                                                     box={wordLayout?.posTags && wordLayout.posTags[j]}
                                                                     className={className} />
@@ -169,7 +172,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             ref={svgDom.posTagRefs[word.startNode]}
                                             text={word.hiddenPosTag!}
                                             font={defaultFont}
-                                            fontSize={syntaxGraphPosTagFontSize}
+                                            fontSize={syntaxGraphTagFontSize}
                                             fontMetrics={defaultFontMetrics}
                                             box={wordLayout && wordLayout.posTags[0]}
                                             className='silver' />
@@ -185,6 +188,20 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 })
             }
             {
+                syntaxGraph.phraseNodes && syntaxGraph.phraseNodes.map((phraseNode, i) => {
+                    const phraseLayout = phraseLayouts[i];
+                    return (
+                        <SVGText
+                            key={`pharse-${i}`}
+                            ref={svgDom.phraseTagRefs[i]}
+                            text={phraseNode.phraseTag}
+                            font={defaultFont}
+                            fontSize={syntaxGraphTagFontSize}
+                            fontMetrics={defaultFontMetrics}
+                            box={phraseLayout && phraseLayout.phraseTag} />
+                    )
+                })
+            }            {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
                     const edgeLabel = edgeLabels[i];
                     const arc = arcs[i];
