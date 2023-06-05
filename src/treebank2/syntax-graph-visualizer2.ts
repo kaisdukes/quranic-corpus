@@ -81,7 +81,7 @@ export class SyntaxGraphVisualizer2 {
             for (let i = 0; i < edges.length; i++) {
                 const { startNode, endNode } = edges[i];
 
-                // skip phrase nodes for now
+                // layout phrase nodes
                 if (this.syntaxGraph.isPhraseNode(startNode)) {
                     this.layoutPhraseNode(startNode);
                 }
@@ -120,7 +120,7 @@ export class SyntaxGraphVisualizer2 {
 
                 // layout edge label
                 const edgeLabel = edgeLabels[i];
-                y += 8;
+                y += 12;
                 edgeLabel.x = maximaX - edgeLabel.width * 0.5;
                 edgeLabel.y = y;
                 this.heightMap.addSpan(x1, x2, y + 18);

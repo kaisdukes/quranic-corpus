@@ -7,6 +7,7 @@ import { ColorService } from '../theme/color-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { GraphLayout2 } from './graph-layout2';
 import { SyntaxGraphVisualizer2 } from './syntax-graph-visualizer2';
+import { ArcArrow } from './arc-arrow';
 import { formatLocation } from '../corpus/orthography/location';
 import { theme } from '../theme/theme';
 import { container } from 'tsyringe';
@@ -218,8 +219,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
                     const edgeLabel = edgeLabels[i];
                     const arc = arcs[i];
-                    const { x: ax, y: ay, right } = arrows[i];
-                    const className = colorService.getDependencyColor(edge.dependencyTag);
+                    const className = `${colorService.getDependencyColor(edge.dependencyTag)}-light`;
                     return (
                         <Fragment key={`edge-${i}`}>
                             <SVGText
@@ -238,13 +238,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
                                         fill='none'
                                         className={className} />
-                                    <polygon
-                                        points={
-                                            right
-                                                ? `${ax},${ay} ${ax},${ay + 10} ${ax + 6},${ay + 5}`
-                                                : `${ax + 6},${ay} ${ax + 6},${ay + 10} ${ax},${ay + 5}`
-                                        }
-                                        className={className} />
+                                    <ArcArrow arrow={arrows[i]} className={className} />
                                 </>
                             }
                         </Fragment>
