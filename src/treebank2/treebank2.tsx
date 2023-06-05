@@ -11,6 +11,7 @@ import { container } from 'tsyringe';
 import { AxiosError } from 'axios';
 import { useOverlay } from '../overlay-context';
 import './treebank2.scss';
+import { TestView } from './test-view';
 
 export const Treebank2 = () => {
     const graphLocation = useLoaderData() as GraphLocation;
@@ -68,6 +69,7 @@ export const Treebank2 = () => {
                             prevUrl={getGraphUrl(syntaxGraph.prev)}
                             nextUrl={getGraphUrl(syntaxGraph.next)} />
                     </nav>
+                    <TestView syntaxGraph={syntaxGraph} />
                     <div className='compare'>
                         <SyntaxGraphView syntaxGraph={syntaxGraph} />
                         {
