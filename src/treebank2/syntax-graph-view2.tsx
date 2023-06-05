@@ -191,14 +191,19 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 syntaxGraph.phraseNodes && syntaxGraph.phraseNodes.map((phraseNode, i) => {
                     const phraseLayout = phraseLayouts[i];
                     return (
-                        <SVGText
-                            key={`pharse-${i}`}
-                            ref={svgDom.phraseTagRefs[i]}
-                            text={phraseNode.phraseTag}
-                            font={defaultFont}
-                            fontSize={syntaxGraphTagFontSize}
-                            fontMetrics={defaultFontMetrics}
-                            box={phraseLayout && phraseLayout.phraseTag} />
+                        <Fragment key={`pharse-${i}`}>
+                            <SVGText
+                                ref={svgDom.phraseTagRefs[i]}
+                                text={phraseNode.phraseTag}
+                                font={defaultFont}
+                                fontSize={syntaxGraphTagFontSize}
+                                fontMetrics={defaultFontMetrics}
+                                box={phraseLayout && phraseLayout.phraseTag} />
+                            {
+                                phraseLayout &&
+                                <line {...phraseLayout.line} className='sky-light' />
+                            }
+                        </Fragment>
                     )
                 })
             }            {

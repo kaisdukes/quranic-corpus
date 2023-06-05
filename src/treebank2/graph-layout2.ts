@@ -1,9 +1,25 @@
 import { Rect, Size } from '../layout/geometry';
 
+export type Line2 = {
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+}
+
 export type Circle = {
     cx: number,
     cy: number,
     r: number
+}
+
+export type Arc2 = {
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number
+    rx: number,
+    ry: number
 }
 
 export type WordLayout = {
@@ -17,16 +33,8 @@ export type WordLayout = {
 }
 
 export type PhraseLayout = {
-    phraseTag: Rect
-}
-
-export type Arc2 = {
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number
-    rx: number,
-    ry: number
+    phraseTag: Rect,
+    line: Line2
 }
 
 export type GraphLayout2 = {
