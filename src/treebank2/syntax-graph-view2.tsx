@@ -284,12 +284,29 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 })
             }
             {
+                arcs && arcs.map((arc, i) => {
+                    const className = `${colorService.getDependencyColor(syntaxGraph.edges![i].dependencyTag)}-light`;
+                    return (
+                        <Fragment key={`arc-${i}`}>
+                            <path
+                                d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0 ${arc.x2} ${arc.y2}`}
+                                fill='none'
+                                className={className} />
+                            <ArcArrow arrow={arrows[i]} className={className} />
+                        </Fragment>
+                    )
+                })
+            }
+            {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
                     const edgeLabel = edgeLabels[i];
-                    const arc = arcs[i];
                     const className = `${colorService.getDependencyColor(edge.dependencyTag)}-light`;
                     return (
                         <Fragment key={`edge-${i}`}>
+                            {
+                                edgeLabel &&
+                                <rect {...edgeLabel} className='edge-label' />
+                            }
                             <SVGText
                                 ref={svgDom.dependencyTagRefs[i]}
                                 text={syntaxGraph.edgeLabels[i]}
@@ -299,16 +316,6 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 box={edgeLabel}
                                 singleLineHeight={true}
                                 className={className} />
-                            {
-                                arc &&
-                                <>
-                                    <path
-                                        d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
-                                        fill='none'
-                                        className={className} />
-                                    <ArcArrow arrow={arrows[i]} className={className} />
-                                </>
-                            }
                         </Fragment>
                     )
                 })

@@ -5,6 +5,7 @@ import { Position, Rect } from '../layout/geometry';
 import { HeightMap } from '../layout/height-map';
 import { Arc2, Arrow2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
 import { SVGDom } from './svg-dom';
+import { theme } from '../theme/theme';
 
 export class SyntaxGraphVisualizer2 {
     private readonly heightMap = new HeightMap();
@@ -123,10 +124,11 @@ export class SyntaxGraphVisualizer2 {
 
                 // layout edge label
                 const edgeLabel = edgeLabels[i];
-                y += 12;
+                y += 8;
                 edgeLabel.x = maximaX - edgeLabel.width * 0.5;
                 edgeLabel.y = y;
-                this.heightMap.addSpan(x1, x2, y + 18);
+                edgeLabel.height = theme.syntaxGraphEdgeLabelFontSize;
+                this.heightMap.addSpan(x1, x2, y + edgeLabel.height);
             }
         }
 

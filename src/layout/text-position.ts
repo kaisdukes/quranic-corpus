@@ -12,7 +12,7 @@ export const getTextPosition = (
     return rtl ? {
         x: box.x + box.width,
         y: singleLineHeight
-            ? box.y + box.height - fontMetrics.ascenderHeight * fontSize
+            ? box.y + box.height - fontSize / 3
             : box.y + box.height + (fontMetrics.descenderHeight - fontMetrics.ascenderHeight) * fontSize
     } : {
         x: box.x,
