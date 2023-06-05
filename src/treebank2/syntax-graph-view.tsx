@@ -5,13 +5,13 @@ import { SVGArabicToken } from './svg-arabic-token';
 import { FontService } from '../typography/font-service';
 import { ColorService } from '../theme/color-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
-import { GraphLayout2 } from './graph-layout2';
-import { SyntaxGraphVisualizer2 } from './syntax-graph-visualizer2';
+import { GraphLayout } from './graph-layout';
+import { SyntaxGraphVisualizer } from './syntax-graph-visualizer';
 import { ArcArrow } from './arc-arrow';
 import { formatLocation } from '../corpus/orthography/location';
 import { theme } from '../theme/theme';
 import { container } from 'tsyringe';
-import './syntax-graph-view2.scss';
+import './syntax-graph-view.scss';
 
 type Props = {
     syntaxGraph: SyntaxGraph
@@ -21,7 +21,7 @@ const createTextRefs = (count: number) => {
     return Array.from({ length: count }, () => createRef<SVGTextElement>());
 }
 
-export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
+export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const fontService = container.resolve(FontService);
     const colorService = container.resolve(ColorService);
 
@@ -44,7 +44,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         };
     }, [syntaxGraph]);
 
-    const [graphLayout, setGraphLayout] = useState<GraphLayout2>({
+    const [graphLayout, setGraphLayout] = useState<GraphLayout>({
         wordLayouts: [],
         phraseLayouts: [],
         edgeLabels: [],
@@ -67,7 +67,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     useEffect(() => {
         (async () => {
-            const syntaxGraphVisualizer = new SyntaxGraphVisualizer2(syntaxGraph, svgDom);
+            const syntaxGraphVisualizer = new SyntaxGraphVisualizer(syntaxGraph, svgDom);
             setGraphLayout(syntaxGraphVisualizer.layoutGraph());
         })();
     }, [syntaxGraph])
@@ -93,7 +93,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
 
     return (
         <svg
-            className='syntax-graph-view2'
+            className='syntax-graph-view'
             width={containerSize.width}
             height={containerSize.height}
             viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}>
@@ -284,8 +284,10 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 })
             }
             {
-                arcs && arcs.map((arc, i) => {
-                    const className = `${colorService.getDependencyColor(syntaxGraph.edges![i].dependencyTag)}-light`;
+                syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
+                    const arc = arcs[i];
+                    if (!arc) return null;
+                    const className = `${colorService.getDependencyColor(edge.dependencyTag)}-light`;
                     return (
                         <Fragment key={`arc-${i}`}>
                             <path
@@ -295,7 +297,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                             <ArcArrow arrow={arrows[i]} className={className} />
                         </Fragment>
                     )
-                })
+                }).filter(Boolean)
             }
             {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {

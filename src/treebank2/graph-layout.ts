@@ -1,6 +1,6 @@
 import { Rect, Size } from '../layout/geometry';
 
-export type Line2 = {
+export type Line = {
     x1: number,
     y1: number,
     x2: number,
@@ -13,7 +13,7 @@ export type Circle = {
     r: number
 }
 
-export type Arc2 = {
+export type Arc = {
     x1: number,
     y1: number,
     x2: number,
@@ -22,7 +22,7 @@ export type Arc2 = {
     ry: number
 }
 
-export type Arrow2 = {
+export type Arrow = {
     x: number,
     y: number,
     right: boolean
@@ -41,16 +41,16 @@ export type WordLayout = {
 }
 
 export type PhraseLayout = {
-    line: Line2,
+    line: Line,
     nodeCircle: Circle,
     phraseTag: Rect
 }
 
-export type GraphLayout2 = {
+export type GraphLayout = {
     wordLayouts: WordLayout[],
     phraseLayouts: PhraseLayout[],
     edgeLabels: Rect[],
-    arcs: Arc2[],
-    arrows: Arrow2[],
+    arcs: Arc[],
+    arrows: Arrow[],
     containerSize: Size
 }

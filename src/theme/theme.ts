@@ -26,7 +26,7 @@ export const theme: ITheme = {
     },
     arabicFontSizeLarge: '50px',
     arabicFontSizeMedium: '30px',
-    syntaxGraphHeaderFontSize: 14.4, // TODO: 14!!
+    syntaxGraphHeaderFontSize: 14,
     syntaxGraphTokenFontSize: 34,
     syntaxGraphHiddenWordFontSize: 24,
     syntaxGraphTagFontSize: 18,

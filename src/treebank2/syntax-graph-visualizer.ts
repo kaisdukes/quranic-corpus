@@ -3,11 +3,11 @@ import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { Word } from '../corpus/syntax/word';
 import { Position, Rect } from '../layout/geometry';
 import { HeightMap } from '../layout/height-map';
-import { Arc2, Arrow2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
+import { Arc, Arrow, GraphLayout, PhraseLayout, WordLayout } from './graph-layout';
 import { SVGDom } from './svg-dom';
 import { theme } from '../theme/theme';
 
-export class SyntaxGraphVisualizer2 {
+export class SyntaxGraphVisualizer {
     private readonly heightMap = new HeightMap();
     private readonly nodePositions: Position[] = [];
     private readonly phraseLayouts: PhraseLayout[] = [];
@@ -17,7 +17,7 @@ export class SyntaxGraphVisualizer2 {
         private readonly svgDom: SVGDom) {
     }
 
-    layoutGraph(): GraphLayout2 {
+    layoutGraph(): GraphLayout {
         const { words } = this.syntaxGraph;
         const {
             wordElements,
@@ -78,8 +78,8 @@ export class SyntaxGraphVisualizer2 {
 
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
-        const arcs: Arc2[] = [];
-        const arrows: Arrow2[] = [];
+        const arcs: Arc[] = [];
+        const arrows: Arrow[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
             for (let i = 0; i < edges.length; i++) {

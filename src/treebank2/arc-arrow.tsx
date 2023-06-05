@@ -1,7 +1,7 @@
-import { Arrow2 } from './graph-layout2';
+import { Arrow } from './graph-layout';
 
 type Props = {
-    arrow: Arrow2,
+    arrow: Arrow,
     className: string
 }
 
