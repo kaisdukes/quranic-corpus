@@ -1,11 +1,15 @@
 import { RefObject } from 'react';
 
+export type SVGWordElement = {
+    locationRef: RefObject<SVGTextElement>,
+    phoneticRef: RefObject<SVGTextElement>,
+    translationRef: RefObject<SVGTextElement>,
+    tokenRef: RefObject<SVGTextElement>,
+    posTagRefs: RefObject<SVGTextElement>[]
+}
+
 export type SVGDom = {
-    locationRefs: RefObject<SVGTextElement>[],
-    phoneticRefs: RefObject<SVGTextElement>[],
-    translationRefs: RefObject<SVGTextElement>[],
-    tokenRefs: RefObject<SVGTextElement>[],
-    posTagRefs: RefObject<SVGTextElement>[],
+    wordElements: SVGWordElement[],
     phraseTagRefs: RefObject<SVGTextElement>[],
     dependencyTagRefs: RefObject<SVGTextElement>[]
 }

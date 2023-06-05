@@ -26,13 +26,14 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
     const colorService = container.resolve(ColorService);
 
     const svgDom: SVGDom = useMemo(() => {
-        const wordCount = syntaxGraph.words.length;
         return {
-            locationRefs: createTextRefs(wordCount),
-            phoneticRefs: createTextRefs(wordCount),
-            translationRefs: createTextRefs(wordCount),
-            tokenRefs: createTextRefs(wordCount),
-            posTagRefs: createTextRefs(syntaxGraph.segmentNodeCount),
+            wordElements: syntaxGraph.words.map(word => ({
+                locationRef: createRef<SVGTextElement>(),
+                phoneticRef: createRef<SVGTextElement>(),
+                translationRef: createRef<SVGTextElement>(),
+                tokenRef: createRef<SVGTextElement>(),
+                posTagRefs: createTextRefs(word.endNode - word.startNode + 1),
+            })),
             phraseTagRefs: createTextRefs(syntaxGraph.phraseNodes ? syntaxGraph.phraseNodes.length : 0),
             dependencyTagRefs: createTextRefs(syntaxGraph.edges ? syntaxGraph.edges.length : 0)
         };
@@ -93,6 +94,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
             viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}>
             {
                 syntaxGraph.words.map((word, i) => {
+                    const wordElement = svgDom.wordElements[i];
                     const fade = word.type === 'reference';
                     const wordLayout = wordLayouts[i];
                     return (
@@ -101,7 +103,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 word.token ? (
                                     <>
                                         <SVGText
-                                            ref={svgDom.locationRefs[i]}
+                                            ref={wordElement.locationRef}
                                             text={formatLocation(word.token.location)}
                                             font={defaultFont}
                                             fontSize={syntaxGraphHeaderFontSize}
@@ -109,7 +111,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             box={wordLayout && wordLayout.location}
                                             className={fade ? 'silver' : 'location'} />
                                         <SVGText
-                                            ref={svgDom.phoneticRefs[i]}
+                                            ref={wordElement.phoneticRef}
                                             text={word.token.phonetic}
                                             font={defaultFont}
                                             fontSize={syntaxGraphHeaderFontSize}
@@ -117,7 +119,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             box={wordLayout && wordLayout.phonetic}
                                             className={fade ? 'silver' : 'phonetic'} />
                                         <SVGText
-                                            ref={svgDom.translationRefs[i]}
+                                            ref={wordElement.translationRef}
                                             text={word.token.translation}
                                             font={defaultFont}
                                             fontSize={syntaxGraphHeaderFontSize}
@@ -125,7 +127,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                             box={wordLayout && wordLayout.translation}
                                             className={fade ? 'silver' : undefined} />
                                         <SVGArabicToken
-                                            ref={svgDom.tokenRefs[i]}
+                                            ref={wordElement.tokenRef}
                                             token={word.token}
                                             font={defaultArabicFont}
                                             fontSize={syntaxGraphTokenFontSize}
@@ -148,7 +150,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                                     <circle key={`circle-${i}`} {...nodeCircle} className={className} />
                                                                 }
                                                                 <SVGText
-                                                                    ref={svgDom.posTagRefs[word.startNode + j]}
+                                                                    ref={wordElement.posTagRefs[j]}
                                                                     text={segment.posTag}
                                                                     font={defaultFont}
                                                                     fontSize={syntaxGraphTagFontSize}
@@ -169,7 +171,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                         {
                                             word.hiddenText ?
                                                 <SVGText
-                                                    ref={svgDom.tokenRefs[i]}
+                                                    ref={wordElement.tokenRef}
                                                     text={word.hiddenText}
                                                     font={defaultArabicFont}
                                                     fontSize={syntaxGraphTokenFontSize}
@@ -177,7 +179,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                     box={wordLayout && wordLayout.token}
                                                     className='silver' />
                                                 : <SVGText
-                                                    ref={svgDom.tokenRefs[i]}
+                                                    ref={wordElement.tokenRef}
                                                     text={'(*)'}
                                                     font={hiddenWordFont}
                                                     fontSize={syntaxGraphHiddenWordFontSize}
@@ -186,7 +188,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                                     className='silver' />
                                         }
                                         <SVGText
-                                            ref={svgDom.posTagRefs[word.startNode]}
+                                            ref={wordElement.posTagRefs[0]}
                                             text={word.hiddenPosTag!}
                                             font={defaultFont}
                                             fontSize={syntaxGraphTagFontSize}

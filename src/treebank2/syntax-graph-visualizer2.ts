@@ -19,23 +19,19 @@ export class SyntaxGraphVisualizer2 {
     layoutGraph(): GraphLayout2 {
         const { words } = this.syntaxGraph;
         const {
-            locationRefs,
-            phoneticRefs,
-            translationRefs,
-            tokenRefs,
-            posTagRefs,
+            wordElements,
             phraseTagRefs,
             dependencyTagRefs
         } = this.svgDom;
 
         // measure words
-        const wordLayouts: WordLayout[] = words.map((word, i) => ({
-            location: this.createBox(locationRefs[i]),
-            phonetic: this.createBox(phoneticRefs[i]),
-            translation: this.createBox(translationRefs[i]),
-            token: this.createBox(tokenRefs[i]),
+        const wordLayouts: WordLayout[] = wordElements.map(wordElement => ({
+            location: this.createBox(wordElement.locationRef),
+            phonetic: this.createBox(wordElement.phoneticRef),
+            translation: this.createBox(wordElement.translationRef),
+            token: this.createBox(wordElement.tokenRef),
             nodeCircles: [],
-            posTags: posTagRefs.slice(word.startNode, word.endNode + 1).map(this.createBox),
+            posTags: wordElement.posTagRefs.map(this.createBox),
             bounds: { x: 0, y: 0, width: 0, height: 0 }
         }));
 
