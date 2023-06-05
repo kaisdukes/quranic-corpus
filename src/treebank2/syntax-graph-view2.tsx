@@ -42,6 +42,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         phraseLayouts: [],
         edgeLabels: [],
         arcs: [],
+        arrows: [],
         containerSize: {
             width: 0,
             height: 0
@@ -53,6 +54,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
         phraseLayouts,
         edgeLabels,
         arcs,
+        arrows,
         containerSize
     } = graphLayout;
 
@@ -216,6 +218,7 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                 syntaxGraph.edges && syntaxGraph.edges.map((edge, i) => {
                     const edgeLabel = edgeLabels[i];
                     const arc = arcs[i];
+                    const { x: ax, y: ay, right } = arrows[i];
                     const className = colorService.getDependencyColor(edge.dependencyTag);
                     return (
                         <Fragment key={`edge-${i}`}>
@@ -230,10 +233,19 @@ export const SyntaxGraphView2 = ({ syntaxGraph }: Props) => {
                                 className={className} />
                             {
                                 arc &&
-                                <path
-                                    d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
-                                    fill='none'
-                                    className={className} />
+                                <>
+                                    <path
+                                        d={`M ${arc.x1} ${arc.y1} A ${arc.rx} ${arc.ry} 0 0 0  ${arc.x2} ${arc.y2}`}
+                                        fill='none'
+                                        className={className} />
+                                    <polygon
+                                        points={
+                                            right
+                                                ? `${ax},${ay} ${ax},${ay + 10} ${ax + 6},${ay + 5}`
+                                                : `${ax + 6},${ay} ${ax + 6},${ay + 10} ${ax},${ay + 5}`
+                                        }
+                                        className={className} />
+                                </>
                             }
                         </Fragment>
                     )

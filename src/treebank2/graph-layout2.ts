@@ -22,6 +22,12 @@ export type Arc2 = {
     ry: number
 }
 
+export type Arrow2 = {
+    x: number,
+    y: number,
+    right: boolean
+}
+
 export type WordLayout = {
     bounds: Rect,
     location: Rect,
@@ -43,5 +49,6 @@ export type GraphLayout2 = {
     phraseLayouts: PhraseLayout[],
     edgeLabels: Rect[],
     arcs: Arc2[],
+    arrows: Arrow2[],
     containerSize: Size
 }

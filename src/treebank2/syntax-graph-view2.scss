@@ -13,13 +13,14 @@
         }
     }
 
-    circle {
-        fill: currentColor;
-    }
-
     line,
     path {
         stroke: currentColor;
         stroke-width: 2px;
+    }
+
+    circle,
+    polygon {
+        fill: currentColor;
     }
 }

@@ -2,7 +2,7 @@ import { RefObject } from 'react';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { Position, Rect } from '../layout/geometry';
 import { HeightMap } from '../layout/height-map';
-import { Arc2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
+import { Arc2, Arrow2, GraphLayout2, PhraseLayout, WordLayout } from './graph-layout2';
 import { SVGDom } from './svg-dom';
 
 export class SyntaxGraphVisualizer2 {
@@ -75,6 +75,7 @@ export class SyntaxGraphVisualizer2 {
         // For an explanation of the geometry of arc rendering in the Quranic Corpus, see
         // https://github.com/kaisdukes/quranic-corpus/blob/main/docs/arcs/arc-rendering.md
         const arcs: Arc2[] = [];
+        const arrows: Arrow2[] = [];
         const { edges } = this.syntaxGraph;
         if (edges) {
             for (let i = 0; i < edges.length; i++) {
@@ -115,6 +116,7 @@ export class SyntaxGraphVisualizer2 {
                 y += boxHeight;
 
                 const maximaX = y2 > y1 ? x1 + rx : x2 - rx;
+                arrows.push({ x: maximaX - 3, y: y - 5, right });
 
                 // layout edge label
                 const edgeLabel = edgeLabels[i];
@@ -130,6 +132,7 @@ export class SyntaxGraphVisualizer2 {
             phraseLayouts: this.phraseLayouts,
             edgeLabels,
             arcs,
+            arrows,
             containerSize: {
                 width: containerWidth,
                 height: this.heightMap.height
