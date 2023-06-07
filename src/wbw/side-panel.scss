@@ -1,0 +1,52 @@
+.sidepanel {
+
+    &:not(.visible) {
+        display: none;
+    }
+    
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vvh;
+    width: 20%;
+    //sborder: 2px solid;
+    box-sizing: border-box;
+    background-color: grey;
+
+    .button {
+        margin: 2px;
+    }
+
+    .navigation-bar {
+        visibility: hidden;
+        .hamburger{
+            display: none;
+        }
+        .qaf {
+            display: none;
+        }
+        .chapter-name {
+            .down {
+                display: none;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+
+        .navigation-bar {
+            display: none;
+        }
+        padding: 20px;
+        top: 60vh;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 40vh;
+        width: 100vw;
+        z-index: 10;
+    }
+
+
+}
