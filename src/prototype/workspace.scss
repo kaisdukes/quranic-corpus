@@ -1,9 +1,10 @@
 .workspace {
     display: flex;
-    border: 5px solid purple;
+    height: 100vh;
 
-    .main-content {
+    >.content {
         background: yellow;
         flex-grow: 1;
+        overflow-y: auto;
     }
 }
