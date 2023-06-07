@@ -19,7 +19,14 @@ export const SidePanel = ({ children, right, splitterPosition, onSplitterPositio
             if (!isDragging || !containerRef.current) return;
 
             const containerRect = containerRef.current.getBoundingClientRect();
-            const newSplitterPosition = e.clientX - containerRect.left;
+            let newSplitterPosition;
+
+            if (right) {
+                newSplitterPosition = containerRect.right - e.clientX;
+            } else {
+                newSplitterPosition = e.clientX - containerRect.left;
+            }
+
             onSplitterPositionChanged(newSplitterPosition);
         };
 
