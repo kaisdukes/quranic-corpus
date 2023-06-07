@@ -13,6 +13,7 @@ import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
 import { ErrorPage } from './errors/error-page';
+import { EditorMockup } from './prototype/editor-mockup';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
 
@@ -33,7 +34,12 @@ const router = createBrowserRouter([
         loader: wordByWordLoader,
         element: <WordByWord />,
         errorElement: <ErrorPage />
-    }
+    },
+    {
+        path: '/mockup',
+        element: <EditorMockup />,
+        errorElement: <ErrorPage />
+    },
 ]);
 
 const Root = () => {
