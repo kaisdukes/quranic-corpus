@@ -7,10 +7,11 @@ import { SyntaxService } from '../corpus/syntax/syntax-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from './syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
-import { container } from 'tsyringe';
+import { Footer } from '../components/footer';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { AxiosError } from 'axios';
 import { useOverlay } from '../overlay-context';
+import { container } from 'tsyringe';
 import './treebank.scss';
 
 export const treebankLoader = ({ params, request }: LoaderFunctionArgs): GraphLocation => {
@@ -91,6 +92,7 @@ export const Treebank = () => {
                     </div>
                 </>
             }
+            <Footer />
         </ContentPage>
     )
 }

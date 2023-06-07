@@ -60,7 +60,9 @@ export const SidePanel = ({ children, right, splitterPosition, onSplitterPositio
             <div className='content' style={{ width: `${splitterPosition}px` }}>
                 {children}
             </div>
-            <div ref={splitterRef} className='splitter' />
+            <div ref={splitterRef} className='splitter'>
+                <div className='line' />
+            </div>
         </div>
     );
 }

@@ -36,7 +36,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
     },
     {
-        path: '/mockup',
+        path: '/mockup/:location',
+        loader: treebankLoader,
         element: <Workspace />,
         errorElement: <ErrorPage />
     },

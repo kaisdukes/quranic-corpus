@@ -14,6 +14,7 @@ import { CorpusHeader } from '../components/corpus-header';
 import { CorpusError } from '../errors/corpus-error';
 import { LoadingBanner } from '../components/loading-banner';
 import { Token } from '../corpus/orthography/token';
+import { Footer } from '../components/footer';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import './word-by-word.scss';
@@ -197,7 +198,7 @@ export const WordByWord = () => {
 
     return (
         <ContentPage className='word-by-word' navigation={{ chapterNumber, url: '/wordbyword' }}>
-            <CorpusHeader/>
+            <CorpusHeader />
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
             {
@@ -214,6 +215,7 @@ export const WordByWord = () => {
             }
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
+            <Footer />
         </ContentPage>
     )
 }

@@ -1,12 +1,10 @@
 .side-panel {
     display: flex;
     flex-direction: row;
-    border: 1px solid red;
 
     .content {
         flex: 1;
         overflow-y: auto;
-        background: pink;
     }
 
     .splitter {
@@ -14,7 +12,16 @@
         width: 10px;
         cursor: col-resize;
         user-select: none;
-        border: 1px solid blue;
+        position: relative;
+
+        .line {
+            position: absolute;
+            width: 2px;
+            background: #e0e0e0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+        }
     }
 
     &.right {

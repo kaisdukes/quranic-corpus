@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { NavigationProps } from './navigation/navigation';
 import { NavigationBar } from './navigation/navigation-bar';
-import { Footer } from './components/footer';
 
 type Props = {
     className: string,
@@ -16,7 +15,6 @@ export const ContentPage = ({ className, navigation, children }: Props) => {
             <main className={className}>
                 {children}
             </main>
-            <Footer />
         </>
     )
 }

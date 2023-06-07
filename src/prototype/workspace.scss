@@ -2,9 +2,30 @@
     display: flex;
     height: 100vh;
 
-    >.content {
-        background: yellow;
+    >.dependency-graph {
+        display: flex;
+        flex-direction: column;
         flex-grow: 1;
         overflow-y: auto;
+        margin: 25px;
+
+        .navigation {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+
+            .location {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        .syntax-graph-view {
+            align-self: center;
+            margin-top: 50px;
+            max-width: 100%;
+            height: auto;
+        }
     }
 }
