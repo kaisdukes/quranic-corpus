@@ -16,6 +16,11 @@ export class HeightMap {
     }
 
     getHeight(x1: number, x2: number) {
+
+		// soft boundary
+		x1 += 5;
+		x2 -= 5;
+
         let max = 0;
         for (const span of this.spans) {
 
