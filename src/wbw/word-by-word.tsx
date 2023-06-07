@@ -17,6 +17,7 @@ import { Token } from '../corpus/orthography/token';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import './word-by-word.scss';
+import { SidePanel } from './side-panel';
 
 export const wordByWordLoader = ({ params }: LoaderFunctionArgs) => {
     const location = parseLocation(params.location!);
@@ -70,6 +71,7 @@ export const WordByWord = () => {
     const { settings } = useSettings();
     const { readerMode, translations } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
+    const [panelVisible, setPanelVisible] = useState(false);
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {
         if (isLoadingRef.current) return;
@@ -188,15 +190,18 @@ export const WordByWord = () => {
     }, []);
 
     const handleTokenClick = (token: Token) => {
+        setPanelVisible(true);
         const root = token.root;
         if (!root) return;
         const location = formatLocationWithBrackets(token.location);
         const url = `https://corpus.quran.com/qurandictionary.jsp?q=${root}#${location}`;
-        window.open(url, '_blank');
+        //window.open(url, '_blank');
     }
 
     return (
-        <ContentPage className='word-by-word' navigation={{ chapterNumber, url: '/wordbyword' }}>
+        <ContentPage className={panelVisible ? 'word-by-word panel' : 'word-by-word'}
+            navigation={{ chapterNumber, url: '/wordbyword' }}>
+            <div className={'content'}>
             <CorpusHeader/>
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
@@ -214,6 +219,9 @@ export const WordByWord = () => {
             }
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
+            </div>
+            <SidePanel className={panelVisible ? 'sidePanel visible' : 'sidePanel'} 
+                whenClick={setPanelVisible} navigation={{ chapterNumber: 114, url: '/wordbyword' }}/>
         </ContentPage>
     )
 }

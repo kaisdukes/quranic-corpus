@@ -1,6 +1,33 @@
 .word-by-word {
-    display: flex;
-    flex-direction: column;
+
+
+&.panel {
+        display: flex;
+        flex-direction: column;
+        //border: 2px solid red;
+        width: 80%;
+        //background-color: blanchedalmond;
+        box-sizing: border-box;
+        @media only screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        //border: 2px solid blue;
+        width: 100%;
+
+        @media only screen and (min-width: 1100px) {
+            margin: auto;
+            max-width: 1100px;
+            //margin: 0;
+        }
+    }
+
+
+
 
     .bismillah {
         margin-top: 10px;
@@ -38,10 +65,12 @@
         .bismillah {
             height: 60px;
         }
+        width: 100%;
     }
 
     @media only screen and (min-width: 1100px) {
-        margin: auto;
-        max-width: 1100px;
+        //margin: auto;
+        //max-width: 1100px;
+        //margin: 0;
     }
 }
