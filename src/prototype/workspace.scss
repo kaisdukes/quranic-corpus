@@ -1,0 +1,9 @@
+.workspace {
+    display: flex;
+    border: 5px solid purple;
+
+    .main-content {
+        background: yellow;
+        flex-grow: 1;
+    }
+}

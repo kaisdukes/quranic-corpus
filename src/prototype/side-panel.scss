@@ -1,0 +1,21 @@
+.side-panel {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid red;
+
+    .content {
+        flex: 1;
+    }
+
+    .splitter {
+        flex: 0 0 auto;
+        width: 10px;
+        cursor: col-resize;
+        user-select: none;
+        border: 1px solid blue;
+    }
+
+    &.right {
+        flex-direction: row-reverse;
+    }
+}

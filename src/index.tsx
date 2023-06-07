@@ -13,7 +13,7 @@ import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
 import { ErrorPage } from './errors/error-page';
-import { EditorMockup } from './prototype/editor-mockup';
+import { Workspace } from './prototype/workspace';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
 
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/mockup',
-        element: <EditorMockup />,
+        element: <Workspace />,
         errorElement: <ErrorPage />
     },
 ]);
