@@ -1,6 +1,6 @@
 # Getting Started - AI 
 
-**TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in getting the background knowledge required to work on Quranic AI.
+**TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in getting the background knowledge required to work on the Quranic AI.
 
 The notes below are designed for volunteers who may not be experts in machine learning or NLP, but still want to learn and contribute. For this reason, we have tried to keep AI jargon and technical terms to a minimum.
 
