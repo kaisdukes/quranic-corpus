@@ -37,6 +37,6 @@ We understand that this is a significant commitment, possibly requiring one or t
 
 ### Next Steps
 
-Once you are feeling more comfortable with the NLP background to the project, we would love to invite you for a series of 1-1 sessions where we can make a plan for supporting you to gain the required expertise to start working on the Quranic AI.
+Once you are feeling more comfortable with the NLP background to the project, we would love to invite you for a series of 1-1 sessions where we can make a plan for supporting you to gain the required expertise to start working on the parser.
 
 For a deeper understanding of the existing 2011 parser, we recommend Chapters 9 and 10 of Dr. Dukes’ PhD thesis: *[Statistical Parsing by Machine Learning from a Classical Arabic Treebank](https://arxiv.org/pdf/1510.07193.pdf)*.
