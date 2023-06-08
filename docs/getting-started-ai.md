@@ -25,7 +25,7 @@ Our mission is to first match the success using the old model based on Support V
 
 ### Understanding the Goal
 
-We encourage new joiners to gain enough NLP knowledge to replicate the 2011 Quran parsing paper:. As this will require a lot of background knowledge, we would like those interested in the mentorship program to start by taking the Stanford NLP course:
+As this goal requires a lot of background knowledge, we would like those interested in the mentorship program to start by taking the Stanford NLP course:
 
 Stanford CS224N: Natural Language Processing with Deep Learning
 
