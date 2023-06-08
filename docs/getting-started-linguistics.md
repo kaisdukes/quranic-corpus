@@ -2,6 +2,8 @@
 
 **TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in identifying inconsistencies in the linguistic treebank and understanding the tagging scheme.
 
+*This note is designed for volunteers who may not be experts in linguistics, but still want to learn and contribute to the Corpus 2.0 project. For this reason, we have tried to keep linguistic jargon and technical terms to a minimum.*
+
 ### Linguistics Background
 
 The Linguistics Team for the corpus 2.0 project has made significant progress, completing around 50% of the Quran's grammar diagrams, also known as the treebank. This treebank follows the linguistic analysis found in *al-i’rāb al-mufassal*, maintaining a consistent reference throughout the project.
