@@ -10,7 +10,7 @@ The Linguistics Team for the corpus 2.0 project has made significant progress, c
 
 Our immediate goal is to finish the remaining half of the treebank, for which we need your invaluable assistance. However, this is just the beginning. Once we accomplish this task, our future projects include extending our work into multiple analyses per verse, semantic analysis, linking with Hadith and other corpora, and developing the ontology.
 
-Before we can complete the remaining 50% of the grammar diagrams, we're in the process of developing an online annotation tool. This tool is being designed specifically for the unique syntactic representation used in the treebank, which uses a hybrid of both dependency and constituency grammar. This representation improves alignment with traditional *i'rab*. While our software engineers are working on this tool, there are plenty of ways you can assist us right now, mainly by helping to review the existing treebank.
+Before we can complete the remaining 50% of the grammar diagrams, we're in the process of developing an online annotation tool. This tool is being designed specifically for the unique syntactic representation used in the treebank, which uses a hybrid of both dependency and constituency grammar. This representation improves alignment with traditional *i'rab*. While our software engineers are working on this, there are plenty of ways you can assist us right now, mainly by helping to review the existing treebank.
 
 ### Step 1: Understand the Goal
 
