@@ -1,6 +1,6 @@
 # Getting Started - Tech 
 
-**TL;DR**: The highly valuable Quranic Arabic Corpus site needs modernization. We've chosen React for the front end because of its popularity, which attracts more volunteers. The biggest issue we're facing is a bug in the infinite scroll feature. Even if you're new to our tech stack, tackling bugs is a fantastic way to learn.
+**TL;DR**: The highly valuable Quranic Arabic Corpus site needs modernization. We've chosen React for the front end because of its popularity, which attracts more volunteers. The biggest issue we're facing is a bug in the infinite scroll feature. Even if you're new to the tech stack, tackling bugs is a fantastic way to learn.
 
 ### Tech Background
 
@@ -18,7 +18,7 @@ The bug prevents the direct navigation to a specific verse, a feature currently 
 
 ### Background Knowledge
 
-While this might seem daunting if you're unfamiliar with our tech stack, diving into bug fixing is an effective way to familiarize yourself with a new codebase. It also paves the way for new features on our site.
+While this might seem daunting if you're unfamiliar with the tech stack, diving into bug fixing is an effective way to familiarize yourself with a new codebase. It also paves the way for new features on the site.
 
 The codebase is constructed following the best software engineering practices for the front end. We use a service-oriented architecture in combination with React and TSyringe for dependency injection. 
 
