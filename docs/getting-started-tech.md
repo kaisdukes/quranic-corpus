@@ -35,4 +35,4 @@ For background reading to help you fix the bug, consider Googling these topics:
 * Understanding Dependency Injection
 * Getting started with TSyringe
 
-We have a supportive community on Slack. Feel free to ask your questions in the #coding-help channel. This way, the entire team can assist you, and everyone can learn from the answers provided.
+We have a supportive community on Slack. Feel free to ask your questions on the #coding-help channel. This way, the entire team can assist you, and everyone can learn from the answers provided.
