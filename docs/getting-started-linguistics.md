@@ -20,7 +20,7 @@ The main aim of our linguistic efforts in this phase of the project is to comple
 
 The treebank we have so far is based on the linguistic analysis in *al-i’rāb al-mufassal*. We need your help to find any inconsistencies in it. Here's how:
 
-* Choose a chapter from the Quran, preferably a large one like Surat Al-Māidah.
+* Choose a chapter from the Quran, preferably a large one like *surat al-māidah*.
 * Review the chapter on the corpus prototype site: https://qurancorpus.app/treebank/5
 * Compare this with *al-i’rāb al-mufassal*, available online, for example, here: https://motivatedsisters.com/2018/08/08/irab-al-mufassal
 * Let us know on the #linguistics-help Slack channel which chapter you're reviewing for better coordination.
