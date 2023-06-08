@@ -19,9 +19,9 @@ We want to repeat this process. However, we first need to update the parser’s 
 
 We are offering free mentorship to individuals ready to explore AI and NLP. We'll aim to replicate the groundbreaking results of the 2011 study by [Dr. Kais Dukes](https://www.linkedin.com/in/kaisdukes) and [Nizar Habash](https://nyuad.nyu.edu/en/academics/divisions/science/faculty/nizar-habash.html), which used AI to parse the Quran.
 
-The 2011 SVM paper: https://aclanthology.org/W11-2912.pdf
+Our mission is to first match the success using the old model based on Support Vector Machines (SVMs), then transition to a modern deep learning approach using the latest advances in AI and NLP. The plan is to evaluate different machine learning models to find the best approach given the unique nature of the Quranic text. Models could include (but are not limited to) sequence to sequence models and transformers.
 
-Our mission is to first match the success using the old model based on Support Vector Machines, then transition to a modern deep learning approach.
+The 2011 SVM paper: https://aclanthology.org/W11-2912.pdf
 
 ### Understanding the Goal
 
