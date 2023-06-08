@@ -12,7 +12,7 @@ Before we can complete the remaining 50% of the grammar diagrams, we're in the p
 
 ### Step 1: Understand the Goal
 
-The main aim of our linguistic efforts in this phase of the project is to complete the remaining 50% of the Quran's grammar diagrams or treebank. Once this is done, we plan to expand into multiple analyses per verse, semantic analysis, and connections to Hadith, among others.
+The main aim of our linguistic efforts in this phase of the project is to complete the remaining 50% of the Quran's grammar diagrams (or treebank). Once this is done, we plan to expand into multiple analyses per verse, semantic analysis, and connections to Hadith, among others.
 
 ### Step 2: Help Find Inconsistencies in the Treebank
 
