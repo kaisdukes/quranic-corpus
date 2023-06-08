@@ -13,7 +13,7 @@ The process used to construct the existing treebank was as follows:
 1. A statistical parser, trained by machine learning, generated draft grammar diagrams with an accuracy rate of around 89-90%.
 2. Linguistic experts reviewed and corrected the AI’s output to ensure close to 100% gold-standard accuracy.
 
-We want to repeat this process, however, we first need to update the parser’s code, written around 2011 before the advent of deep learning.
+We want to repeat this process. However, we first need to update the parser’s code, written around 2011 before the advent of deep learning.
 
 ### Mentorship
 
