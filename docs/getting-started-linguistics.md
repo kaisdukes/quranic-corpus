@@ -2,7 +2,7 @@
 
 **TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in identifying inconsistencies in the linguistic treebank and understanding the tagging scheme.
 
-*This note is designed for volunteers who may not be experts in linguistics, but still want to learn and contribute to the Corpus 2.0 project. For this reason, we have tried to keep linguistic jargon and technical terms to a minimum.*
+This note is designed for volunteers who may not be experts in linguistics, but still want to learn and contribute to the Corpus 2.0 project. For this reason, we have tried to keep linguistic jargon and technical terms to a minimum.
 
 ### Linguistics Background
 
