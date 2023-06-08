@@ -2,8 +2,6 @@
 
 **TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in identifying inconsistencies in the linguistic treebank and understanding the tagging scheme.
 
----
-
 ## Step 1: Understand Our Goal
 
 The main aim of our linguistic efforts in this project is to complete the remaining 50% of the Quran's grammar diagrams or treebank. Once this is done, we plan to expand into multiple analyses per verse, semantic analysis, and connections to Hadith, among others.
