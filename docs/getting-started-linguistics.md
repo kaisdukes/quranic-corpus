@@ -10,7 +10,7 @@ Our immediate goal is to finish the remaining half of the treebank, for which we
 
 Before we can complete the remaining 50% of the grammar diagrams, we're in the process of developing an online annotation tool. This tool is being designed specifically for the unique syntactic representation used in the treebank, which uses a hybrid of both dependency and constituency grammar. This representation improves alignment with traditional *i'rab*. While our software engineers are working on this tool, there are plenty of ways you can assist us right now, mainly by helping to review the existing treebank.
 
-### Step 1: Understand Our Goal
+### Step 1: Understand the Goal
 
 The main aim of our linguistic efforts in this project is to complete the remaining 50% of the Quran's grammar diagrams or treebank. Once this is done, we plan to expand into multiple analyses per verse, semantic analysis, and connections to Hadith, among others.
 
