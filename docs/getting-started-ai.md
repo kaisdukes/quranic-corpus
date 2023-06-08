@@ -27,7 +27,7 @@ You can find the original 2011 SVM paper here: https://aclanthology.org/W11-2912
 
 As this goal requires a lot of background knowledge, we would like those interested in the mentorship program to start by taking the Stanford NLP course:
 
-Stanford CS224N: Natural Language Processing with Deep Learning
+*Stanford CS224N: Natural Language Processing with Deep Learning*
 
 https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z
 
