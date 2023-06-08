@@ -90,3 +90,7 @@ At the moment, we are concentrating our efforts on two main areas: enhancing the
 1. **Next-Generation Word-by-Word Prototype**: The prototype focuses on revamping the highly visited word-by-word section of the Quranic Corpus. Our goal is to create a Quran reader that is familiar and intuitive, mirroring the layout of a physical Quran. This new prototype aims to offer quick access to word-by-word translation, roots, transliteration, and audio without compromising simplicity and responsiveness across various devices. This clean, user-friendly interface will facilitate the exploration of the rich data in the Quranic Corpus, catering to both seasoned users and newcomers alike. Drawing inspiration from eLearning platforms, we're striving to create an unparalleled, interactive platform for learning the Quran.
 
 2. **Grammar Diagram Completion**: The Grammar Diagram Editor is a tool designed to aid in the completion of the remaining half of the corpus' grammar diagrams. Through a collaboration of our technical and linguistic teams, this work is of paramount importance as it supports the completion of our syntactic treebank, a crucial resource for understanding the Quran's grammatical structure. The new tool will be developed with linguists in mind, ensuring its ease of use and effectiveness in facilitating the completion of the treebank.
+
+## Getting Started Guides
+
+* [Getting Started - Linguistics](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/getting-started-linguistics.md)
