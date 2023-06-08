@@ -22,7 +22,7 @@ While this might seem daunting if you're unfamiliar with our tech stack, diving 
 
 The codebase is constructed following the best software engineering practices for the front end. We use a service-oriented architecture in combination with React and TSyringe for dependency injection. 
 
-To become more familiar with our codebase:
+To become more familiar with the codebase:
 
 * Download, build, and run the UI locally from our repo: https://github.com/kaisdukes/quranic-corpus
 * Review the code and understand our design patterns.
