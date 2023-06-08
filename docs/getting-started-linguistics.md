@@ -33,8 +33,8 @@ Your contributions in this step will help improve the quality of the Quranic Tre
 
 Please take time to understand the tagging scheme used in the treebank. You can find more information at the following links:
 
-https://corpus.quran.com/documentation/dependencygraph.jsp
-https://corpus.quran.com/documentation/syntaxrelation.jsp
-https://corpus.quran.com/documentation/phrasetags.jsp
+* https://corpus.quran.com/documentation/dependencygraph.jsp
+* https://corpus.quran.com/documentation/syntaxrelation.jsp
+* https://corpus.quran.com/documentation/phrasetags.jsp
 
 For a deeper understanding, we recommend Chapter 6 of Dr. Dukes’ PhD thesis: *[Statistical Parsing by Machine Learning from a Classical Arabic Treebank](https://arxiv.org/pdf/1510.07193.pdf)*.
