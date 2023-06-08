@@ -95,3 +95,4 @@ At the moment, we are concentrating our efforts on two main areas: enhancing the
 
 * [Getting Started - AI](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/getting-started-ai.md)
 * [Getting Started - Linguistics](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/getting-started-linguistics.md)
+* [Getting Started - Tech](https://github.com/kaisdukes/quranic-corpus/blob/main/docs/getting-started-tech.md)
