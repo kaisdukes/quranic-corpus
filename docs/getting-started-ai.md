@@ -21,7 +21,7 @@ We are offering free mentorship to individuals ready to explore AI and NLP. We'l
 
 Our mission is to first match the success using the old model based on Support Vector Machines (SVMs), then transition to a modern deep learning approach using the latest advances in AI and NLP. The plan is to evaluate different machine learning models to find the best approach given the unique nature of the Quranic text. Models could include (but are not limited to) sequence to sequence models and transformers.
 
-The 2011 SVM paper: https://aclanthology.org/W11-2912.pdf
+You can find the original 2011 SVM paper here: https://aclanthology.org/W11-2912.pdf
 
 ### Understanding the Goal
 
