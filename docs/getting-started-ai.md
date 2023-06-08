@@ -17,13 +17,15 @@ We want to repeat this process. However, we first need to update the parser’s 
 
 ### Mentorship
 
-We are offering free mentorship to individuals ready to explore AI and NLP. We'll aim to replicate the groundbreaking results of the 2011 study by [Dr. Kais Dukes](https://www.linkedin.com/in/kaisdukes) and [Nizar Habash](https://nyuad.nyu.edu/en/academics/divisions/science/faculty/nizar-habash.html), which used AI to parse the Quran. Our mission is to first match the success using the old model based on Support Vector Machines, then transition to a modern deep learning approach.
+We are offering free mentorship to individuals ready to explore AI and NLP. We'll aim to replicate the groundbreaking results of the 2011 study by [Dr. Kais Dukes](https://www.linkedin.com/in/kaisdukes) and [Nizar Habash](https://nyuad.nyu.edu/en/academics/divisions/science/faculty/nizar-habash.html), which used AI to parse the Quran.
+
+The 2011 SVM paper: https://aclanthology.org/W11-2912.pdf
+
+Our mission is to first match the success using the old model based on Support Vector Machines, then transition to a modern deep learning approach.
 
 ### Understanding the Goal
 
-This isn't a general AI training program, as we have a specific goal. The mentorship has a specific goal: to gain enough NLP knowledge to replicate the 2011 Quran parsing paper: https://aclanthology.org/W11-2912.pdf
-
-As this will require a lot of background knowledge, we would like those interested in the mentorship program to start by taking the Stanford NLP course:
+We encourage new joiners to gain enough NLP knowledge to replicate the 2011 Quran parsing paper:. As this will require a lot of background knowledge, we would like those interested in the mentorship program to start by taking the Stanford NLP course:
 
 Stanford CS224N: Natural Language Processing with Deep Learning
 
