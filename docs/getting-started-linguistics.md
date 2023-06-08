@@ -6,7 +6,7 @@ The notes below are designed for volunteers who may not be experts in linguistic
 
 ### Linguistics Background
 
-The Linguistics Team for the corpus 2.0 project has made significant progress, completing around 50% of the Quran's grammar diagrams, also known as the treebank. This treebank follows the linguistic analysis found in *al-i’rāb al-mufassal*, maintaining a consistent reference throughout the project.
+The Linguistics Team for the corpus 2.0 project has made significant progress, completing around 50% of the Quran's grammar diagrams, also known as the treebank. The Quranic Treebank follows the linguistic analysis found in *al-i’rāb al-mufassal*, maintaining a consistent reference throughout the project.
 
 Our immediate goal is to finish the remaining half of the treebank, for which we need your invaluable assistance. However, this is just the beginning. Once we accomplish this task, our future projects include extending our work into multiple analyses per verse, semantic analysis, linking with Hadith and other corpora, and developing the ontology.
 
