@@ -2,11 +2,11 @@
 
 **TL;DR**: This guide assists you in participating in the Quranic Arabic Corpus 2.0 project, specifically in identifying inconsistencies in the linguistic treebank and understanding the tagging scheme.
 
-## Step 1: Understand Our Goal
+### Step 1: Understand Our Goal
 
 The main aim of our linguistic efforts in this project is to complete the remaining 50% of the Quran's grammar diagrams or treebank. Once this is done, we plan to expand into multiple analyses per verse, semantic analysis, and connections to Hadith, among others.
 
-## Step 2: Help Find Inconsistencies in the Treebank
+### Step 2: Help Find Inconsistencies in the Treebank
 
 The treebank we have so far is based on the linguistic analysis in *al-I’rāb al-Mufassal*. We need your help to find any inconsistencies in it. Here's how:
 
@@ -19,7 +19,7 @@ The treebank we have so far is based on the linguistic analysis in *al-I’rāb 
 
 Your contributions in this step will help improve the quality of the Quranic Treebank, familiarize you with *al-I’rāb al-Mufassal* style, and give you a better understanding of the Quranic Treebank's visualization.
 
-## Step 3: Understand the Treebank Linguistic Tagging Scheme
+### Step 3: Understand the Treebank Linguistic Tagging Scheme
 
 Please take time to understand the tagging scheme used in the treebank. You can find more information at the following links:
 
