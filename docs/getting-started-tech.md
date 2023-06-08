@@ -24,8 +24,8 @@ The codebase is constructed following the best software engineering practices fo
 
 To become more familiar with the codebase:
 
-* Download, build, and run the UI locally from our repo: https://github.com/kaisdukes/quranic-corpus
-* Review the code and understand our design patterns.
+* Download, build, and run the UI locally from the repo: https://github.com/kaisdukes/quranic-corpus
+* Review the code and understand the design patterns.
 * Understand how we separate text processing logic from React components using the services layer to maintain code simplicity as the codebase expands.
 
 For background reading to help you fix the bug, consider Googling these topics:
