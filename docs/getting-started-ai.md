@@ -10,7 +10,7 @@ The Linguistics Team for the corpus 2.0 project has made significant progress, c
 
 The process used to construct the existing treebank was as follows:
 
-1. A statistical parser trained by machine learning generated draft grammar diagrams that are around 89-90% accurate.
+1. A statistical parser, trained by machine learning, generated draft grammar diagrams that are around 89-90% accurate.
 2. Linguistic experts reviewed and corrected the AI’s output ensuring close to 100% gold-standard accuracy
 
 We want to repeat this process, however, we first need to update the parser’s code, written around 2011 before the advent of deep learning.
