@@ -92,9 +92,8 @@ export const WordByWord = () => {
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         debugger;
-        debugger;
         setScrollTarget(
-            directLink && verseNumber > 1 && verseNumber <= newVerses[newVerses.length - 1].location[1]
+            directLink && verseNumber > 1 && newVerses.length> 0 && verseNumber <= newVerses[newVerses.length - 1].location[1]
                 ? { verseNumber }
                 :
                 up
