@@ -30,8 +30,11 @@ export const wordByWordLoader = ({ params }: LoaderFunctionArgs) => {
 const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse[]) => {
     let verseCount = 10;
     let start: number;
+    let directLink = false;
+
     if (verses.length === 0) {
-        start = urlVerseNumber;
+        start = Math.max(1, urlVerseNumber - 5);
+        directLink = true;
     } else if (up) {
         const first = verses[0].location[1];
         start = Math.max(1, first - verseCount);
@@ -41,7 +44,7 @@ const buildMorphologyQuery = (up: boolean, urlVerseNumber: number, verses: Verse
     } else {
         start = verses[verses.length - 1].location[1] + 1;
     }
-    return { start, verseCount };
+    return { start, verseCount, directLink };
 }
 
 const intersectionOptions = {
@@ -83,12 +86,13 @@ export const WordByWord = () => {
             setLoadingBottom(true);
         }
 
-        const { start, verseCount } = buildMorphologyQuery(up, verseNumber, verses);
+        const { start, verseCount, directLink } = buildMorphologyQuery(up, verseNumber, verses);
         console.log(`    loading verse ${chapterNumber}:${start} (n = ${verseCount})`);
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount, translations);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
+            directLink  && verseNumber > 1 ? { verseNumber }:
             up
                 ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
                 : undefined
