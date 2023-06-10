@@ -22,7 +22,7 @@ The treebank we have so far is based on the linguistic analysis in *al-i’rāb 
 
 * Choose a chapter from the Quran, preferably a large one like *surat al-māidah*.
 * Review the chapter on the corpus prototype site: https://qurancorpus.app/treebank/5
-* Compare this with *al-i’rāb al-mufassal*, available online, for example, here: https://motivatedsisters.com/2018/08/08/irab-al-mufassal or here: https://shamela.ws/book/150578
+* Compare this with *al-i’rāb al-mufassal*, available online, for example here: https://motivatedsisters.com/2018/08/08/irab-al-mufassal or here: https://shamela.ws/book/150578
 * Let us know on the #linguistics-help Slack channel which chapter you're reviewing for better coordination.
 * Please take your time during the review process; accuracy is preferred over speed.
 * Share any useful insights with the team on Slack.
