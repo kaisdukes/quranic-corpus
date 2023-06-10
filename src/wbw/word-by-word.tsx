@@ -91,8 +91,12 @@ export const WordByWord = () => {
         const loadedVerses = await morphologyService.getMorphology([chapterNumber, start], verseCount, translations);
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
+        debugger;
+        debugger;
         setScrollTarget(
-            directLink && verseNumber > 1 ? { verseNumber: verseNumber > newVerses.length ? newVerses[newVerses.length - 1].location[1] : verseNumber } :
+            directLink && verseNumber > 1 && verseNumber <= newVerses[newVerses.length - 1].location[1]
+                ? { verseNumber }
+                :
                 up
                     ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
                     : undefined
