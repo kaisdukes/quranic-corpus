@@ -94,8 +94,7 @@ export const WordByWord = () => {
         setScrollTarget(
             directLink && verseNumber > 1 && verseNumber <= chapter.verseCount
                 ? { verseNumber }
-                :
-                up
+                : up
                     ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
                     : undefined
         );
