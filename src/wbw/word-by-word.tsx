@@ -92,10 +92,10 @@ export const WordByWord = () => {
         const newVerses = up ? [...loadedVerses, ...verses] : [...verses, ...loadedVerses];
         setVerses(newVerses);
         setScrollTarget(
-            directLink  && verseNumber > 1 ? { verseNumber }:
-            up
-                ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
-                : undefined
+            directLink && verseNumber > 1 ? { verseNumber: verseNumber > newVerses.length ? newVerses[newVerses.length - 1].location[1] : verseNumber } :
+                up
+                    ? verses.length > 0 ? { verseNumber: verses[0].location[1] - 1 } : undefined
+                    : undefined
         );
 
         if (newVerses[0].location[1] === 1) {
