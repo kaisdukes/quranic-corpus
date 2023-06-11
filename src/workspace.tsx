@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { combineClassNames } from './theme/class-names';
 import './workspace.scss';
 
@@ -43,7 +43,7 @@ export const Workspace = () => {
 
     // Desktop Layout:
     // - Configured as a two-column layout with each column scrolling independently.
-    // - Info pane is positioned as a side panel on the right.
+    // - Info pane is positioned as a side panel on the right that can be resized with a splitter.
 
     // Popup Info Pane:
     // - Activated only in focus mode and exclusively on mobile devices.
@@ -54,6 +54,11 @@ export const Workspace = () => {
     const [infoContent, setInfoContent] = useState(['Info']);
     const [focusMode, setFocusMode] = useState(false);
     const [showInfo, setShowInfo] = useState(true);
+
+    const [infoPaneWidth, setInfoPaneWidth] = useState(300);
+    const workspaceRef = useRef<HTMLDivElement | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const splitterRef = useRef<HTMLDivElement | null>(null);
 
     const addContent = () => {
         setMainContent(mainContent => [...mainContent, ...Array(10).fill('Main')]);
@@ -71,10 +76,43 @@ export const Workspace = () => {
         }
     }, [focusMode, showInfo]);
 
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isDragging || !workspaceRef.current) return;
+            const containerRect = workspaceRef.current.getBoundingClientRect();
+            const newSplitterPosition = containerRect.right - e.clientX;
+            setInfoPaneWidth(newSplitterPosition);
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+        };
+
+        const handleMouseDown = (e: MouseEvent) => {
+            setIsDragging(true);
+            e.preventDefault();
+        };
+
+        if (splitterRef.current) {
+            splitterRef.current.addEventListener('mousedown', handleMouseDown);
+        }
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            if (splitterRef.current) {
+                splitterRef.current.removeEventListener('mousedown', handleMouseDown);
+            }
+        };
+    }, [isDragging, workspaceRef, splitterRef]);
+
     return (
         <>
             <div className='app-header'>HEADER</div>
-            <div className='workspace'>
+            <div ref={workspaceRef} className='workspace' style={{ gridTemplateColumns: `1fr 10px ${infoPaneWidth}px` }}>
                 <div className='main-pane'>
                     <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
                     {
@@ -86,10 +124,15 @@ export const Workspace = () => {
                 </div>
                 {
                     showInfo &&
-                    <div className={combineClassNames('info-pane', focusMode && showInfo ? 'popup' : undefined)}>
-                        <button onClick={addContent}>Add</button><br />
-                        <TestView content={infoContent} />
-                    </div>
+                    <>
+                        <div ref={splitterRef} className='splitter'>
+                            <div className='line' />
+                        </div>
+                        <div className={combineClassNames('info-pane', focusMode && showInfo ? 'popup' : undefined)}>
+                            <button onClick={addContent}>Add</button><br />
+                            <TestView content={infoContent} />
+                        </div>
+                    </>
                 }
                 <Footer mobile={true} />
             </div>
