@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { ContentPage } from '../app/content-page';
+import { Workspace } from '../app/workspace';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { Verse } from '../corpus/orthography/verse';
@@ -14,7 +14,6 @@ import { CorpusHeader } from '../components/corpus-header';
 import { CorpusError } from '../errors/corpus-error';
 import { LoadingBanner } from '../components/loading-banner';
 import { Token } from '../corpus/orthography/token';
-import { Footer } from '../components/footer';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import './word-by-word.scss';
@@ -197,7 +196,10 @@ export const WordByWord = () => {
     }
 
     return (
-        <ContentPage className='word-by-word' navigation={{ chapterNumber, url: '/wordbyword' }}>
+        <Workspace
+            className='word-by-word'
+            navigation={{ chapterNumber, url: '/wordbyword' }}
+            focusMode={true}>
             <CorpusHeader />
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
@@ -215,7 +217,6 @@ export const WordByWord = () => {
             }
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
-            <Footer />
-        </ContentPage>
+        </Workspace>
     )
 }

@@ -1,11 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
-import { NavigationBar2 } from './navigation-bar2';
-import { TestView } from './test-view';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { NavigationBar } from '../navigation/navigation-bar';
+import { NavigationProps } from '../navigation/navigation';
 import { Footer } from '../components/footer';
 import { combineClassNames } from '../theme/class-names';
 import './workspace.scss';
 
-export const Workspace = () => {
+type Props = {
+    className: string,
+    navigation: NavigationProps,
+    focusMode: boolean,
+    children: ReactNode,
+    info?: ReactNode
+}
+
+export const Workspace = ({ className, navigation, focusMode, children, info }: Props) => {
 
     // Layout Overview:
     // - In this component "mobile" refers to a window size less than 600 pixels.
@@ -24,31 +32,18 @@ export const Workspace = () => {
     // - Covers the bottom 2/3rds of the screen when displayed.
     // - It's independently scrollable, without affecting the scroll position of the main content.
 
-    const [mainContent, setMainContent] = useState(['Main']);
-    const [infoContent, setInfoContent] = useState(['Info']);
-    const [focusMode, setFocusMode] = useState(false);
-    const [showInfo, setShowInfo] = useState(true);
-
     const [infoPaneWidth, setInfoPaneWidth] = useState(300);
     const workspaceRef = useRef<HTMLDivElement | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const splitterRef = useRef<HTMLDivElement | null>(null);
 
-    const addContent = () => {
-        setMainContent(mainContent => [...mainContent, ...Array(10).fill('Main')]);
-        setInfoContent(infoContent => [...infoContent, ...Array(5).fill('Info')]);
-    }
-
-    const toggleFocusMode = () => setFocusMode(focusMode => !focusMode);
-    const toggleInfo = () => setShowInfo(showInfo => !showInfo);
-
     useEffect(() => {
-        if (focusMode && showInfo) {
+        if (focusMode && info) {
             document.body.classList.add('no-scroll');
         } else {
             document.body.classList.remove('no-scroll');
         }
-    }, [focusMode, showInfo]);
+    }, [focusMode, info]);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -85,25 +80,22 @@ export const Workspace = () => {
 
     return (
         <>
-            <NavigationBar2 chapterNumber={1} url={'/workspace'} />
-            <div ref={workspaceRef} className='workspace' style={{ gridTemplateColumns: `1fr 10px ${infoPaneWidth}px` }}>
-                <main>
-                    <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
-                    {
-                        focusMode &&
-                        <><button onClick={toggleInfo}>{showInfo ? 'Info On' : 'Info Off'}</button><br /></>
-                    }
-                    <TestView content={mainContent} />
+            <NavigationBar {...navigation} />
+            <div
+                ref={workspaceRef}
+                className='workspace'
+                style={{ gridTemplateColumns: info ? `1fr 10px ${infoPaneWidth}px` : `1fr` }}>
+                <main className={className}>
+                    {children}
                     <Footer type='desktop' />
                 </main>
-                <div ref={splitterRef} className={combineClassNames('splitter', !showInfo ? 'hide' : undefined)}>
+                <div ref={splitterRef} className={combineClassNames('splitter', !info ? 'hide' : undefined)}>
                     <div className='line' />
                 </div>
                 {
-                    showInfo &&
-                    <div className={combineClassNames('info-pane', focusMode && showInfo ? 'popup' : undefined)}>
-                        <button onClick={addContent}>Add</button><br />
-                        <TestView content={infoContent} />
+                    info &&
+                    <div className={combineClassNames('info-pane', focusMode ? 'popup' : undefined)}>
+                        {info}
                     </div>
                 }
                 <Footer type='mobile' />

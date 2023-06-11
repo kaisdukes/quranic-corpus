@@ -1,7 +1,7 @@
 .navigation-bar {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 2;
+    width: 100%;
     background: #343540;
     box-shadow: 0 5px 20px -10px #000;
 
@@ -9,6 +9,7 @@
         display: flex;
         justify-content: center;
         position: relative;
+        height: var(--app-header-height);
 
         .qaf {
             position: absolute;

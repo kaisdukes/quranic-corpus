@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { ContentPage } from '../app/content-page';
+import { Workspace } from '../app/workspace';
 import { GraphLocation } from '../corpus/syntax/graph-location';
 import { formatLocation, parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
@@ -8,9 +8,7 @@ import { IrabService } from '../corpus/irab/irab-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from './syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
-import { Footer } from '../components/footer';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
-import { SidePanel } from '../components/side-panel';
 import { IrabView } from './irab-view';
 import { AxiosError } from 'axios';
 import { useOverlay } from '../app/overlay-context';
@@ -74,41 +72,39 @@ export const Treebank = () => {
     }
 
     return (
-        <ContentPage className='treebank' navigation={{ chapterNumber, url: baseUrl }}>
-            <SidePanel splitterPosition={leftSplitterPosition} onSplitterPositionChanged={setLeftSplitterPosition}>
-                {irab && <IrabView irab={irab} />}
-            </SidePanel>
-            <div className='dependency-graph'>
-                <h1>Corpus 2.0: Renderer Test</h1>
-                <p>
-                    This page tests a new vector renderer for Quranic Arabic Corpus 2.0 We're comparing the
-                    under-development vector-rendered image (first) with the existing bitmap-rendered image
-                    (second). The vector image may not fully replicate the dependency graph yet.
-                </p>
-                {
-                    syntaxGraph &&
-                    <>
-                        <nav className='navigation'>
-                            <div className='location'>
-                                <div>Verse {verseNumber}</div>
-                                {
-                                    syntaxGraph.graphCount > 1 &&
-                                    <div>Graph <strong>{graphNumber} / {syntaxGraph.graphCount}</strong></div>
-                                }
-                            </div>
-                            <PrevNextNavigation
-                                prevUrl={getGraphUrl(syntaxGraph.prev)}
-                                nextUrl={getGraphUrl(syntaxGraph.next)} />
-                        </nav>
-                        <SyntaxGraphView syntaxGraph={syntaxGraph} />
-                        {
-                            syntaxGraph.legacyCorpusGraphNumber > 0 &&
-                            <img className='legacy-graph' src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
-                        }
-                    </>
-                }
-                <Footer />
-            </div>
-        </ContentPage>
+        <Workspace
+            className='treebank'
+            navigation={{ chapterNumber, url: baseUrl }}
+            focusMode={false}
+            info={irab && <IrabView irab={irab} />}>
+            <h1>Corpus 2.0: Renderer Test</h1>
+            <p>
+                This page tests a new vector renderer for Quranic Arabic Corpus 2.0 We're comparing the
+                under-development vector-rendered image (first) with the existing bitmap-rendered image
+                (second). The vector image may not fully replicate the dependency graph yet.
+            </p>
+            {
+                syntaxGraph &&
+                <>
+                    <nav className='navigation'>
+                        <div className='location'>
+                            <div>Verse {verseNumber}</div>
+                            {
+                                syntaxGraph.graphCount > 1 &&
+                                <div>Graph <strong>{graphNumber} / {syntaxGraph.graphCount}</strong></div>
+                            }
+                        </div>
+                        <PrevNextNavigation
+                            prevUrl={getGraphUrl(syntaxGraph.prev)}
+                            nextUrl={getGraphUrl(syntaxGraph.next)} />
+                    </nav>
+                    <SyntaxGraphView syntaxGraph={syntaxGraph} />
+                    {
+                        syntaxGraph.legacyCorpusGraphNumber > 0 &&
+                        <img className='legacy-graph' src={`https://corpus.quran.com/graphimage?id=${syntaxGraph.legacyCorpusGraphNumber}`} />
+                    }
+                </>
+            }
+        </Workspace>
     )
 }
