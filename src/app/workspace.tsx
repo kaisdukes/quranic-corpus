@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { AppHeader } from './app-header';
 import { combineClassNames } from '../theme/class-names';
 import './workspace.scss';
 
@@ -111,7 +112,7 @@ export const Workspace = () => {
 
     return (
         <>
-            <div className='app-header'>HEADER</div>
+            <AppHeader />
             <div ref={workspaceRef} className='workspace' style={{ gridTemplateColumns: `1fr 10px ${infoPaneWidth}px` }}>
                 <div className='main-pane'>
                     <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
