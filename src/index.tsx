@@ -12,6 +12,7 @@ import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
 import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
+import { Workspace } from './workspace';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
 import './theme/styles.scss';
@@ -33,7 +34,12 @@ const router = createBrowserRouter([
         loader: wordByWordLoader,
         element: <WordByWord />,
         errorElement: <ErrorPage />
-    }
+    },
+    {
+        path: '/workspace',
+        element: <Workspace />,
+        errorElement: <ErrorPage />
+    },
 ]);
 
 const Root = () => {

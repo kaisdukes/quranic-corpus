@@ -4,6 +4,7 @@ interface ITheme {
     fonts: {
         [key: string]: Font
     },
+    appHeaderHeight: string,
     arabicFontSizeLarge: string,
     arabicFontSizeMedium: string,
     syntaxGraphHeaderFontSize: number,
@@ -24,6 +25,7 @@ export const theme: ITheme = {
         edgeLabelFont: { family: 'Traditional Arabic', rtl: true },
         hiddenWordFont: { family: 'Times New Roman' },
     },
+    appHeaderHeight: '50px',
     arabicFontSizeLarge: '50px',
     arabicFontSizeMedium: '30px',
     syntaxGraphHeaderFontSize: 14,

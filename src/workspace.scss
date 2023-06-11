@@ -1,0 +1,52 @@
+.app-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    color: white;
+    box-shadow: 0 5px 20px -10px #000;
+    height: var(--app-header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #343540;
+}
+
+.workspace {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--app-header-height);
+
+    .footer {
+        &.desktop {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 600px) {
+        display: grid;
+        grid-template-areas: "main info";
+        grid-template-columns: 1fr 300px;
+        height: calc(100vh - var(--app-header-height));
+
+        .main {
+            grid-area: main;
+            overflow-y: scroll;
+        }
+
+        .info-panel {
+            grid-area: info;
+            overflow-y: scroll;
+            border-left: 1px solid skyblue;
+        }
+
+        .footer {
+            &.desktop {
+                display: block;
+            }
+
+            &.mobile {
+                display: none;
+            }
+        }
+    }
+}
