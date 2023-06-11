@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { combineClassNames } from './theme/class-names';
+import { combineClassNames } from '../theme/class-names';
 import './workspace.scss';
 
 type TestProps = {

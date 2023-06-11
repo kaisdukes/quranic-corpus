@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { ContentPage } from '../content-page';
+import { ContentPage } from '../app/content-page';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
 import { Verse } from '../corpus/orthography/verse';

@@ -1,4 +1,4 @@
-import { ApiBase } from '../../api-base';
+import { ApiBase } from '../../app/api-base';
 import { ArabicTextService } from '../../arabic/arabic-text-service';
 import { Graph, SyntaxGraph } from './syntax-graph';
 import { Edge } from './edge';

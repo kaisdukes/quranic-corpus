@@ -1,4 +1,4 @@
-import { ApiBase } from '../../api-base';
+import { ApiBase } from '../../app/api-base';
 import { Verse } from '../orthography/verse';
 import { formatLocation, Location } from '../orthography/location';
 import { singleton } from 'tsyringe';

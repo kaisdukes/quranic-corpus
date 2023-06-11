@@ -1,8 +1,8 @@
 import { ApiBase } from './api-base';
-import { Chapter } from './corpus/orthography/chapter';
-import { ChapterService } from './corpus/orthography/chapter-service';
-import { Translation } from './corpus/translation/translation';
-import { TranslationService } from './corpus/translation/translation-service';
+import { Chapter } from '../corpus/orthography/chapter';
+import { ChapterService } from '../corpus/orthography/chapter-service';
+import { Translation } from '../corpus/translation/translation';
+import { TranslationService } from '../corpus/translation/translation-service';
 import { singleton } from 'tsyringe';
 import axios from 'axios';
 

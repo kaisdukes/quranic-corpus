@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { ContentPage } from '../content-page';
+import { ContentPage } from '../app/content-page';
 import { GraphLocation } from '../corpus/syntax/graph-location';
 import { formatLocation, parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
@@ -13,7 +13,7 @@ import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { SidePanel } from '../components/side-panel';
 import { IrabView } from './irab-view';
 import { AxiosError } from 'axios';
-import { useOverlay } from '../overlay-context';
+import { useOverlay } from '../app/overlay-context';
 import { container } from 'tsyringe';
 import './treebank.scss';
 
