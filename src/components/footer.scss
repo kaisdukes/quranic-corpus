@@ -3,4 +3,18 @@ footer {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 50px;
+
+    &.desktop {
+        display: none;
+    }
+
+    @media only screen and (min-width: 600px) {
+        &.desktop {
+            display: block;
+        }
+
+        &.mobile {
+            display: none;
+        }
+    }
 }

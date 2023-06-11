@@ -1,36 +1,9 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AppHeader } from './app-header';
+import { TestView } from './test-view';
+import { Footer } from '../components/footer';
 import { combineClassNames } from '../theme/class-names';
 import './workspace.scss';
-
-type TestProps = {
-    content: string[]
-}
-
-const TestView = ({ content }: TestProps) => {
-    return (
-        <>
-            {content.map((line, index) => (
-                <Fragment key={index}>
-                    {line}
-                    <br />
-                </Fragment>
-            ))}
-        </>
-    );
-}
-
-type FooterProps = {
-    mobile?: boolean
-}
-
-const Footer = ({ mobile }: FooterProps) => {
-    return (
-        <div className={combineClassNames('footer', mobile ? 'mobile' : 'desktop')}>
-            Copyright &copy; 2009-2023.
-        </div>
-    )
-}
 
 export const Workspace = () => {
 
@@ -114,15 +87,15 @@ export const Workspace = () => {
         <>
             <AppHeader />
             <div ref={workspaceRef} className='workspace' style={{ gridTemplateColumns: `1fr 10px ${infoPaneWidth}px` }}>
-                <div className='main-pane'>
+                <main>
                     <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
                     {
                         focusMode &&
                         <><button onClick={toggleInfo}>{showInfo ? 'Info On' : 'Info Off'}</button><br /></>
                     }
                     <TestView content={mainContent} />
-                    <Footer />
-                </div>
+                    <Footer type='desktop' />
+                </main>
                 <div ref={splitterRef} className={combineClassNames('splitter', !showInfo ? 'hide' : undefined)}>
                     <div className='line' />
                 </div>
@@ -133,7 +106,7 @@ export const Workspace = () => {
                         <TestView content={infoContent} />
                     </div>
                 }
-                <Footer mobile={true} />
+                <Footer type='mobile' />
             </div>
         </>
     )

@@ -3,12 +3,6 @@
     flex-direction: column;
     margin-top: var(--app-header-height);
 
-    .footer {
-        &.desktop {
-            display: none;
-        }
-    }
-
     @media only screen and (max-width: 599px) {
         .info-pane {
             &.popup {
@@ -28,7 +22,7 @@
         grid-template-areas: "main splitter info";
         height: calc(100vh - var(--app-header-height));
 
-        .main-pane {
+        main {
             grid-area: main;
             overflow-y: scroll;
         }
@@ -55,16 +49,6 @@
         .info-pane {
             grid-area: info;
             overflow-y: scroll;
-        }
-
-        .footer {
-            &.desktop {
-                display: block;
-            }
-
-            &.mobile {
-                display: none;
-            }
         }
     }
 }
