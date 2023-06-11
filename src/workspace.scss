@@ -28,12 +28,12 @@
         grid-template-columns: 1fr 300px;
         height: calc(100vh - var(--app-header-height));
 
-        .main {
+        .main-pane {
             grid-area: main;
             overflow-y: scroll;
         }
 
-        .info-panel {
+        .info-pane {
             grid-area: info;
             overflow-y: scroll;
             border-left: 1px solid skyblue;

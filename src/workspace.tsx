@@ -49,7 +49,7 @@ export const Workspace = () => {
         <>
             <div className='app-header'>HEADER</div>
             <div className='workspace'>
-                <div className='main'>
+                <div className='main-pane'>
                     <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
                     {
                         focusMode &&
@@ -60,7 +60,7 @@ export const Workspace = () => {
                 </div>
                 {
                     showInfo &&
-                    <div className='info-panel'>
+                    <div className='info-pane'>
                         <button onClick={addContent}>Add</button><br />
                         <TestView content={infoContent} />
                     </div>
