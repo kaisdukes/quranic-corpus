@@ -37,4 +37,13 @@
             height: auto;
         }
     }
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        height: auto;
+
+        >.dependency-graph {
+            overflow-y: visible;
+        }
+    }
 }

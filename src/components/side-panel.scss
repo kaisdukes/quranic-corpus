@@ -27,4 +27,16 @@
     &.right {
         flex-direction: row-reverse;
     }
+
+    @media (max-width: 600px) {
+
+        .content {
+            overflow-y: visible;
+            margin-right: 10px;
+        }
+
+        .splitter {
+            display: none;
+        }
+    }
 }
