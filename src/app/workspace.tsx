@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AppHeader } from './app-header';
+import { NavigationBar2 } from './navigation-bar2';
 import { TestView } from './test-view';
 import { Footer } from '../components/footer';
 import { combineClassNames } from '../theme/class-names';
@@ -85,7 +85,7 @@ export const Workspace = () => {
 
     return (
         <>
-            <AppHeader />
+            <NavigationBar2 chapterNumber={1} url={'/workspace'} />
             <div ref={workspaceRef} className='workspace' style={{ gridTemplateColumns: `1fr 10px ${infoPaneWidth}px` }}>
                 <main>
                     <button onClick={toggleFocusMode}>{focusMode ? 'Focus Mode' : 'Normal Mode'}</button><br />
