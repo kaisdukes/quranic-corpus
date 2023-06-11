@@ -11,6 +11,7 @@ import { CorpusError } from '../errors/corpus-error';
 import { Footer } from '../components/footer';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { SidePanel } from '../components/side-panel';
+import { IrabView } from './irab-view';
 import { AxiosError } from 'axios';
 import { useOverlay } from '../overlay-context';
 import { container } from 'tsyringe';
@@ -75,7 +76,7 @@ export const Treebank = () => {
     return (
         <ContentPage className='treebank' navigation={{ chapterNumber, url: baseUrl }}>
             <SidePanel splitterPosition={leftSplitterPosition} onSplitterPositionChanged={setLeftSplitterPosition}>
-                {irab}
+                {irab && <IrabView irab={irab} />}
             </SidePanel>
             <div className='dependency-graph'>
                 <h1>Corpus 2.0: Renderer Test</h1>

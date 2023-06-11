@@ -240,7 +240,7 @@ export class SyntaxGraphVisualizer {
         const { startNode, endNode } = this.syntaxGraph.getPhraseNode(node);
         const x1 = this.nodePositions[endNode].x;
         const x2 = this.nodePositions[startNode].x;
-        let y = this.heightMap.getHeight(x1, x2) + 25;
+        let y = this.heightMap.getHeight(x1, x2) + 20;
         const x = (x1 + x2) / 2;
 
         // line

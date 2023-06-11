@@ -1,0 +1,30 @@
+.irab-view {
+
+    h3 {
+        text-align: right;
+        padding-right: 25px;
+        margin-top: 35px;
+    }
+
+    ul {
+        direction: rtl;
+        font-family: var(--edge-label-font-family);
+        font-size: var(--syntax-graph-edge-label-font-size);
+        list-style: none;
+        padding-right: 25px;
+        padding-left: 20px;
+
+        li {
+            margin-top: 20px;
+
+            &::before {
+                content: "\2022";
+                color: red;
+                font-weight: bold;
+                display: inline-block;
+                width: 18px;
+                margin-right: -18px;
+            }
+        }
+    }
+}
