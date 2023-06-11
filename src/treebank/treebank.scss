@@ -1,31 +1,38 @@
 .treebank {
-    margin: 25px;
+    display: flex;
+    height: 100vh;
 
-    .navigation {
-        display: inline-flex;
-        align-items: center;
-        gap: 20px;
-
-        .location {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-    }
-
-    .compare {
+    >.dependency-graph {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 25px;
-        margin-top: 25px;
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 25px;
 
-        .syntax-graph-view {
-            max-width: 100%;
-            height: auto;
+        h1 {
+            margin: 0;
         }
 
-        img {
+        .navigation {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+
+            .location {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        .syntax-graph-view {
+            flex-shrink: 0;
+        }
+
+        .syntax-graph-view,
+        .legacy-graph {
+            align-self: center;
+            margin-top: 50px;
             max-width: 100%;
             height: auto;
         }
