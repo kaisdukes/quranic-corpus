@@ -22,6 +22,20 @@
         }
     }
 
+    @media only screen and (max-width: 559px) {
+        .info-pane {
+            &.popup {
+                position: fixed;
+                bottom: 0;
+                height: 66.67%;
+                width: 100%;
+                z-index: 1;
+                background: beige;
+                overflow-y: scroll;
+            }
+        }
+    }
+
     @media only screen and (min-width: 600px) {
         display: grid;
         grid-template-areas: "main info";
