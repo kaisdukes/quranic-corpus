@@ -4,6 +4,7 @@ import { ContentPage } from '../content-page';
 import { GraphLocation } from '../corpus/syntax/graph-location';
 import { formatLocation, parseLocation } from '../corpus/orthography/location';
 import { SyntaxService } from '../corpus/syntax/syntax-service';
+import { IrabService } from '../corpus/irab/irab-service';
 import { SyntaxGraph } from '../corpus/syntax/syntax-graph';
 import { SyntaxGraphView } from './syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
@@ -34,17 +35,26 @@ export const Treebank = () => {
     const [chapterNumber, verseNumber] = location;
     const { setOverlay } = useOverlay();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
+    const [irab, setIrab] = useState<string[] | null>(null);
     const syntaxService = container.resolve(SyntaxService);
+    const irabService = container.resolve(IrabService);
     const baseUrl = '/treebank';
 
     useEffect(() => {
         (async () => {
             setOverlay(true);
             try {
-                setSyntaxGraph(await syntaxService.getSyntax(graphLocation));
+                var syntaxGraph = await syntaxService.getSyntax(graphLocation);
+                var tokenRange = syntaxGraph.getTokenRange();
+                var irab = tokenRange ? await irabService.getIrab(tokenRange.from, tokenRange.to) : null;
+
+                setSyntaxGraph(syntaxGraph);
+                setIrab(irab);
+
             } catch (e) {
                 if (e instanceof AxiosError && e.response?.status === 404) {
                     setSyntaxGraph(null);
+                    setIrab(null);
                 } else {
                     throw e;
                 }
@@ -68,6 +78,12 @@ export const Treebank = () => {
                 under-development vector-rendered image (first) with the existing bitmap-rendered image
                 (second). The vector image may not fully replicate the dependency graph yet.
             </p>
+            {
+                irab &&
+                <div className='irab'>
+                    {irab}
+                </div>
+            }
             {
                 syntaxGraph &&
                 <>

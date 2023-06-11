@@ -1,4 +1,5 @@
 import { Edge } from './edge';
+import { Location } from '../orthography/location'
 import { GraphLocation } from './graph-location';
 import { PhraseNode } from './phrase-node';
 import { Word } from './word';
@@ -49,5 +50,22 @@ export class SyntaxGraph {
 
     getPhraseNode(node: number): PhraseNode {
         return this.phraseNodes![node - this.segmentNodeCount];
+    }
+
+    getTokenRange(): { from: Location; to: Location } | undefined {
+        let from: Location | undefined = undefined;
+        let to: Location | undefined = undefined;
+
+        for (const word of this.words) {
+            const token = word.token;
+            if (token && word.type !== 'reference') {
+                to = token.location;
+                if (!from) {
+                    from = token.location;
+                }
+            }
+        }
+
+        return from && to ? { from, to } : undefined;
     }
 }
