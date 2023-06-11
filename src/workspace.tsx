@@ -122,17 +122,15 @@ export const Workspace = () => {
                     <TestView content={mainContent} />
                     <Footer />
                 </div>
+                <div ref={splitterRef} className={combineClassNames('splitter', !showInfo ? 'hide' : undefined)}>
+                    <div className='line' />
+                </div>
                 {
                     showInfo &&
-                    <>
-                        <div ref={splitterRef} className='splitter'>
-                            <div className='line' />
-                        </div>
-                        <div className={combineClassNames('info-pane', focusMode && showInfo ? 'popup' : undefined)}>
-                            <button onClick={addContent}>Add</button><br />
-                            <TestView content={infoContent} />
-                        </div>
-                    </>
+                    <div className={combineClassNames('info-pane', focusMode && showInfo ? 'popup' : undefined)}>
+                        <button onClick={addContent}>Add</button><br />
+                        <TestView content={infoContent} />
+                    </div>
                 }
                 <Footer mobile={true} />
             </div>
