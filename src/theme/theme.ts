@@ -14,15 +14,13 @@ interface ITheme {
     syntaxGraphEdgeLabelFontSize: number,
     popupMenuHeight: string,
     tokenHeaderHeight: string
-
 }
 
 export const theme: ITheme = {
     fonts: {
         defaultFont: { family: 'Noto Sans' },
-        defaultArabicFont: { family: 'Hafs', rtl: true },
-        verseEndFont: { family: 'Uthmani Hafs', rtl: true },
-        edgeLabelFont: { family: 'Traditional Arabic', rtl: true },
+        defaultArabicFont: { family: 'Hafs' },
+        verseEndFont: { family: 'Uthmani Hafs' },
         hiddenWordFont: { family: 'Times New Roman' },
     },
     appHeaderHeight: '50px',
@@ -32,7 +30,7 @@ export const theme: ITheme = {
     syntaxGraphTokenFontSize: 34,
     syntaxGraphHiddenWordFontSize: 24,
     syntaxGraphTagFontSize: 18,
-    syntaxGraphEdgeLabelFontSize: 24,
+    syntaxGraphEdgeLabelFontSize: 16,
     popupMenuHeight: '250px',
     tokenHeaderHeight: '80px'
 }

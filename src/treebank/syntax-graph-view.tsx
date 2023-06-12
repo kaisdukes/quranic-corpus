@@ -76,13 +76,11 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     const defaultFont = theme.fonts.defaultFont;
     const defaultArabicFont = theme.fonts.defaultArabicFont;
     const hiddenWordFont = theme.fonts.hiddenWordFont;
-    const edgeLabelFont = theme.fonts.edgeLabelFont;
 
     // metrics
     const defaultFontMetrics = fontService.getFontMetrics(defaultFont);
     const defaultArabicFontMetrics = fontService.getFontMetrics(defaultArabicFont);
     const hiddenWordFontMetrics = fontService.getFontMetrics(hiddenWordFont);
-    const edgeLabelFontMetrics = fontService.getFontMetrics(edgeLabelFont);
     const {
         syntaxGraphHeaderFontSize,
         syntaxGraphTokenFontSize,
@@ -312,11 +310,11 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                             <SVGText
                                 ref={svgDom.dependencyTagRefs[i]}
                                 text={syntaxGraph.edgeLabels[i]}
-                                font={edgeLabelFont}
+                                font={defaultFont}
                                 fontSize={syntaxGraphEdgeLabelFontSize}
-                                fontMetrics={edgeLabelFontMetrics}
+                                fontMetrics={defaultFontMetrics}
+                                rtl={true}
                                 box={edgeLabel}
-                                singleLineHeight={true}
                                 className={className} />
                         </Fragment>
                     )

@@ -31,8 +31,7 @@ export const SVGArabicToken = forwardRef((
         return joinedSegments;
     }, [segments]);
 
-    const { rtl } = font;
-    const position = getTextPosition(box, fontMetrics, fontSize, rtl);
+    const position = getTextPosition(box, fontMetrics, fontSize, true);
     return (
         <text
             ref={ref}
@@ -40,7 +39,7 @@ export const SVGArabicToken = forwardRef((
             y={position?.y}
             fontSize={fontSize}
             fontFamily={font.family}
-            direction={rtl ? 'rtl' : undefined}>
+            direction={'rtl'}>
             {
                 segments.map((segment, i) => (
                     <tspan

@@ -118,10 +118,9 @@ export class SyntaxGraphVisualizer {
 
                 // layout edge label
                 const edgeLabel = edgeLabels[i];
-                y += 8;
+                y += 5;
                 edgeLabel.x = maximaX - edgeLabel.width * 0.5;
                 edgeLabel.y = y;
-                edgeLabel.height = theme.syntaxGraphEdgeLabelFontSize;
                 this.heightMap.addSpan(x1, x2, y + edgeLabel.height);
             }
         }

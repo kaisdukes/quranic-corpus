@@ -47,10 +47,7 @@ export class FontService {
         const { family } = font;
         this.g.font = `${fontSize}px ${family}`;
         const textMetrics = this.g.measureText('abc');
-        const fontMetrics = {
-            ascenderHeight: textMetrics.fontBoundingBoxAscent / fontSize,
-            descenderHeight: textMetrics.fontBoundingBoxDescent / fontSize
-        }
+        const fontMetrics = { descenderHeight: textMetrics.fontBoundingBoxDescent / fontSize }
         this.fontMetrics.set(family, fontMetrics);
     }
 }
