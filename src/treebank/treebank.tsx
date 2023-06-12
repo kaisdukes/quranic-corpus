@@ -38,7 +38,6 @@ export const Treebank = () => {
     const [irab, setIrab] = useState<string[] | null>(null);
     const syntaxService = container.resolve(SyntaxService);
     const irabService = container.resolve(IrabService);
-    const baseUrl = '/treebank';
 
     useEffect(() => {
         (async () => {
@@ -66,14 +65,14 @@ export const Treebank = () => {
     const getGraphUrl = (graphLocation?: GraphLocation) => {
         if (!graphLocation) return undefined;
         const { location, graphNumber } = graphLocation;
-        const url = `${baseUrl}/${formatLocation(location)}`;
+        const url = `/treebank/${formatLocation(location)}`;
         return graphNumber === 1 ? url : `${url}?graph=${graphNumber}`;
     }
 
     return (
         <Workspace
             className='treebank'
-            navigation={{ chapterNumber, url: baseUrl }}
+            navigation={{ chapterNumber }}
             focusMode={false}
             info={irab && <IrabView irab={irab} />}>
             <h1>Corpus 2.0: Renderer Test</h1>

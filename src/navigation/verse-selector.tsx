@@ -1,19 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { SelectorList } from './selector-list';
+import { getPagePath } from './navigation';
 import { container } from 'tsyringe';
 import './verse-selector.scss';
 
 type Props = {
     chapterNumber: number,
-    url: string,
     onClose: () => void
 }
 
-export const VerseSelector = ({ chapterNumber, url, onClose }: Props) => {
+export const VerseSelector = ({ chapterNumber, onClose }: Props) => {
     const chapterService = container.resolve(ChapterService);
     const chapters = chapterService.chapters;
     const verseCount = chapterService.getChapter(chapterNumber).verseCount;
+    const url = getPagePath(useLocation());
 
     return (
         <div className='verse-selector'>

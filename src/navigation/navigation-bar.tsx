@@ -13,7 +13,7 @@ import { container } from 'tsyringe';
 import hamburger from './../images/icons/hamburger.svg'
 import './navigation-bar.scss';
 
-export const NavigationBar = ({ chapterNumber, url }: NavigationProps) => {
+export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
     const [showVerseSelectorPopup, setShowVerseSelectorPopup] = useState(false);
     const verseSelectorPopupRef = useRef<HTMLDivElement | null>(null);
 
@@ -46,7 +46,6 @@ export const NavigationBar = ({ chapterNumber, url }: NavigationProps) => {
             <PopupMenu ref={verseSelectorPopupRef} showPopup={showVerseSelectorPopup}>
                 <VerseSelector
                     chapterNumber={chapterNumber}
-                    url={url}
                     onClose={() => setShowVerseSelectorPopup(false)} />
             </PopupMenu>
             <PopupMenu ref={hamburgerPopupRef} showPopup={showHamburgerPopup}>
