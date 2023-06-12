@@ -18,13 +18,13 @@
                 position: fixed;
                 bottom: 0;
                 width: calc(100% - 20px);
-                height: calc(100vh - var(--app-header-height) + 15px);
+                height: 90%;
                 z-index: 1;
                 background: white;
                 overflow-y: scroll;
                 margin: 0 10px;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
             }
         }
     }
