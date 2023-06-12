@@ -191,27 +191,28 @@ export const WordByWord = () => {
 
     return (
         <Workspace
-            className='word-by-word'
             navigation={{ chapterNumber, url: '/wordbyword' }}
             focusMode={false}
             info={selectedToken && <TokenPane token={selectedToken} />}>
-            <CorpusHeader />
-            {loadingTop && <LoadingBanner />}
-            <div ref={loadingRefTop} />
-            {
-                verses.length > 0 && verses[0].location[1] === 1 &&
-                <>
-                    <ChapterHeader chapter={chapter} />
-                    <Bismillah className='bismillah' />
-                </>
-            }
-            {
-                readerMode
-                    ? <ReaderView verses={verses} onClickToken={setSelectedToken} />
-                    : <DetailView verses={verses} onClickToken={setSelectedToken} />
-            }
-            {loadingBottom && <LoadingBanner />}
-            <div ref={loadingRefBottom} />
+            <div className='word-by-word'>
+                <CorpusHeader />
+                {loadingTop && <LoadingBanner />}
+                <div ref={loadingRefTop} />
+                {
+                    verses.length > 0 && verses[0].location[1] === 1 &&
+                    <>
+                        <ChapterHeader chapter={chapter} />
+                        <Bismillah className='bismillah' />
+                    </>
+                }
+                {
+                    readerMode
+                        ? <ReaderView verses={verses} onClickToken={setSelectedToken} />
+                        : <DetailView verses={verses} onClickToken={setSelectedToken} />
+                }
+                {loadingBottom && <LoadingBanner />}
+                <div ref={loadingRefBottom} />
+            </div>
         </Workspace>
     )
 }

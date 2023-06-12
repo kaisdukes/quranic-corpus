@@ -6,7 +6,7 @@ import { combineClassNames } from '../theme/class-names';
 import './workspace.scss';
 
 type Props = {
-    className: string,
+    className?: string,
     navigation: NavigationProps,
     focusMode: boolean,
     children: ReactNode,
