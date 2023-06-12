@@ -86,9 +86,12 @@ export const Workspace = ({ className, navigation, focusMode, children, info }: 
                 </div>
                 {
                     info &&
-                    <div className={combineClassNames('info-pane', focusMode ? 'popup' : undefined)}>
-                        {info}
-                    </div>
+                    <>
+                        {focusMode && <div className='popup-overlay' />}
+                        <div className={combineClassNames('info-pane', focusMode ? 'popup' : undefined)}>
+                            {info}
+                        </div>
+                    </>
                 }
                 <Footer type='mobile' />
             </div>
