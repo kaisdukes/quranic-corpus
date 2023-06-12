@@ -192,7 +192,7 @@ export const WordByWord = () => {
     return (
         <Workspace
             navigation={{ chapterNumber, url: '/wordbyword' }}
-            focusMode={false}
+            focusMode={true}
             info={selectedToken && <TokenPane token={selectedToken} />}>
             <div className='word-by-word'>
                 <CorpusHeader />
