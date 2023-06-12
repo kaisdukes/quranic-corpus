@@ -6,6 +6,7 @@
         margin-top: 10px;
         height: 100px;
         width: auto;
+        flex-shrink: 0;
 
         path {
             fill: rgb(63, 132, 161);
