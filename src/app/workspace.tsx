@@ -38,14 +38,6 @@ export const Workspace = ({ className, navigation, focusMode, children, info }: 
     const splitterRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (focusMode && info) {
-            document.body.classList.add('no-scroll-mobile');
-        } else {
-            document.body.classList.remove('no-scroll-mobile');
-        }
-    }, [focusMode, info]);
-
-    useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (!isDragging || !workspaceRef.current) return;
             const containerRect = workspaceRef.current.getBoundingClientRect();
