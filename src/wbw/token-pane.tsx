@@ -1,15 +1,18 @@
 import { Fragment } from 'react';
 import { Token } from '../corpus/orthography/token';
+import { CloseButton } from '../components/close-button';
 import { formatLocation } from '../corpus/orthography/location';
 import './token-pane.scss';
 
 type Props = {
-    token: Token
+    token: Token,
+    onClose: () => void
 }
 
-export const TokenPane = ({ token }: Props) => {
+export const TokenPane = ({ token, onClose }: Props) => {
     return (
         <div className='token-pane'>
+            <CloseButton onClick={onClose} /><br />
             *** TEST ***<br />
             Location: {formatLocation(token.location)}<br />
             Translation: {token.translation}<br />

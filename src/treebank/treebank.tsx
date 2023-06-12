@@ -34,7 +34,6 @@ export const Treebank = () => {
     const { location, graphNumber } = graphLocation;
     const [chapterNumber, verseNumber] = location;
     const { setOverlay } = useOverlay();
-    const [leftSplitterPosition, setLeftSplitterPosition] = useState(300);
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const [irab, setIrab] = useState<string[] | null>(null);
     const syntaxService = container.resolve(SyntaxService);

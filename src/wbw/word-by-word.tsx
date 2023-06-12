@@ -71,7 +71,7 @@ export const WordByWord = () => {
     const { settings } = useSettings();
     const { readerMode, translations } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
-    const [selectedToken, setSelectedToken] = useState<Token>();
+    const [selectedToken, setSelectedToken] = useState<Token | null>(null);
 
     const loadVerses = async (up: boolean, verses: Verse[]) => {
         if (isLoadingRef.current) return;
@@ -193,7 +193,7 @@ export const WordByWord = () => {
         <Workspace
             navigation={{ chapterNumber, url: '/wordbyword' }}
             focusMode={true}
-            info={selectedToken && <TokenPane token={selectedToken} />}>
+            info={selectedToken && <TokenPane token={selectedToken} onClose={() => setSelectedToken(null)} />}>
             <div className='word-by-word'>
                 <CorpusHeader />
                 {loadingTop && <LoadingBanner />}
