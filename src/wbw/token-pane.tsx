@@ -1,34 +1,22 @@
-import { Fragment } from 'react';
-import { Token } from '../corpus/orthography/token';
+import { Location } from '../corpus/orthography/location';
 import { CloseButton } from '../components/close-button';
 import { formatLocation } from '../corpus/orthography/location';
+import { useLocation } from 'react-router-dom';
 import './token-pane.scss';
 
 type Props = {
-    token: Token,
-    onClose: () => void
+    location: Location
 }
 
-export const TokenPane = ({ token, onClose }: Props) => {
+export const TokenPane = ({ location }: Props) => {
+    const { pathname: url } = useLocation();
     return (
         <div className='token-pane'>
-            <CloseButton onClick={onClose} /><br />
+            <div className='header'>
+                <CloseButton url={url} />
+            </div>
             *** TEST ***<br />
-            Location: {formatLocation(token.location)}<br />
-            Translation: {token.translation}<br />
-            Phonetic: {token.phonetic}<br />
-            {token.root && <>Root: {token.root}<br /></>}
-            {
-                token.segments.map((segment, i) => (
-                    <Fragment key={i}>
-                        <br />
-                        *** SEGMENT ***<br />
-                        Arabic: {segment.arabic}<br />
-                        POS tag: {segment.posTag}<br />
-                        {segment.pronounType && <>Pronoun type: {segment.pronounType}<br /></>}
-                    </Fragment>
-                ))
-            }
+            Location: {formatLocation(location)}<br />
         </div>
     )
 }

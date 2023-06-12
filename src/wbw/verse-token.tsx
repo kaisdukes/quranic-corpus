@@ -1,19 +1,20 @@
 import { Token } from '../corpus/orthography/token';
 import { ArabicToken } from '../arabic/arabic-token';
 import { TokenFooter } from './token-footer';
+import { Link } from 'react-router-dom';
+import { formatLocation } from '../corpus/orthography/location';
 import './verse-token.scss';
 
 type Props = {
-    token: Token,
-    onClick: () => void
+    token: Token
 }
 
-export const VerseToken = ({ token, onClick }: Props) => {
-
+export const VerseToken = ({ token }: Props) => {
+    const { location } = token;
     return (
-        <div className='verse-token' onClick={onClick}>
+        <Link className='verse-token' to={`#${formatLocation(location)}`}>
             <ArabicToken token={token} />
             <TokenFooter token={token} />
-        </div>
+        </Link>
     )
 }

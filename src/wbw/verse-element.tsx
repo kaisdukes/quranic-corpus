@@ -1,5 +1,4 @@
 import { IconButton } from '../components/icon-button';
-import { Token } from '../corpus/orthography/token';
 import { Verse } from '../corpus/orthography/verse';
 import { VerseToken } from './verse-token';
 import { SectionMark } from '../components/section-mark';
@@ -12,11 +11,10 @@ import copy from '../images/icons/copy.svg';
 import './verse-element.scss';
 
 type Props = {
-    verse: Verse,
-    onClickToken: (token: Token) => void
+    verse: Verse
 }
 
-export const VerseElement = ({ verse, onClickToken }: Props) => {
+export const VerseElement = ({ verse }: Props) => {
     const { location, tokens, translations, verseMark } = verse;
 
     const handleCopy = async () => {
@@ -34,10 +32,7 @@ export const VerseElement = ({ verse, onClickToken }: Props) => {
                 {verseMark === 'section' && <SectionMark />}
                 {
                     tokens.map((token, i) => (
-                        <VerseToken
-                            key={`token-${i}`}
-                            token={token}
-                            onClick={() => onClickToken(token)} />
+                        <VerseToken key={`token-${i}`} token={token} />
                     ))
                 }
                 {verseMark === 'sajdah' && <SajdahMark />}

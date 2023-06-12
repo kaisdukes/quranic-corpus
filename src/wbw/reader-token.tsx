@@ -1,21 +1,22 @@
 import { Token } from '../corpus/orthography/token';
 import { ArabicToken } from '../arabic/arabic-token';
+import { Link } from 'react-router-dom';
+import { formatLocation } from '../corpus/orthography/location';
 import { getVerseId } from './verse-id';
 import './reader-token.scss';
 
 type Props = {
-    token: Token,
-    onClick: () => void
+    token: Token
 }
 
-export const ReaderToken = ({ token, onClick }: Props) => {
+export const ReaderToken = ({ token }: Props) => {
     const { location } = token;
     return (
-        <div
+        <Link
             id={location[2] === 1 ? getVerseId(location) : undefined}
             className='reader-token'
-            onClick={onClick}>
+            to={`#${formatLocation(location)}`}>
             <ArabicToken token={token} />
-        </div>
+        </Link>
     )
 }
