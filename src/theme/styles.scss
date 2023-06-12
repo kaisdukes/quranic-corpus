@@ -137,8 +137,10 @@ body {
     margin: 0;
     font-family: var(--default-font-family);
 
-    &.no-scroll {
-        overflow: hidden;
+    @media only screen and (max-width: 599px) {
+        &.no-scroll-mobile {
+            overflow: hidden;
+        }
     }
 }
 

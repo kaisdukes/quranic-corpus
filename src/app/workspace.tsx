@@ -39,9 +39,9 @@ export const Workspace = ({ className, navigation, focusMode, children, info }: 
 
     useEffect(() => {
         if (focusMode && info) {
-            document.body.classList.add('no-scroll');
+            document.body.classList.add('no-scroll-mobile');
         } else {
-            document.body.classList.remove('no-scroll');
+            document.body.classList.remove('no-scroll-mobile');
         }
     }, [focusMode, info]);
 
