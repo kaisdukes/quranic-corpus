@@ -7,7 +7,7 @@ type Props = {
 export const IrabView = ({ irab }: Props) => {
     return (
         <div className='irab-view'>
-            <h3>Grammar (إعراب)</h3>
+            <h1>Grammar (إعراب)</h1>
             <ul>
                 {
                     irab.map((item, i) => (

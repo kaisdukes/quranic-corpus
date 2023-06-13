@@ -1,3 +1,14 @@
 .pos-tag {
-    border: 1px solid salmon;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+
+    .node-circle {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        margin-bottom: 7px;
+    }
 }

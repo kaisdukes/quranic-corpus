@@ -5,6 +5,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 5px;
+        margin-bottom: 5px;
 
         h1 {
             margin: 0 0 0 15;
@@ -14,6 +15,7 @@
 
     section {
         margin: 0 20 20 20;
+        line-height: 1.6em;
     }
 
     @media only screen and (max-width: 599px) {
@@ -21,6 +23,13 @@
         header,
         section {
             font-size: 90%;
+        }
+    }
+
+    @media only screen and (min-width: 600px) {
+        header {
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
     }
 }
