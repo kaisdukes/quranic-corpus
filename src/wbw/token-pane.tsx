@@ -1,4 +1,5 @@
 import { Location } from '../corpus/orthography/location';
+import { IndeterminateProgressBar } from '../components/indeterminate-progress-bar';
 import { CloseButton } from '../components/close-button';
 import { formatLocation } from '../corpus/orthography/location';
 import { useLocation } from 'react-router-dom';
@@ -12,6 +13,7 @@ export const TokenPane = ({ location }: Props) => {
     const { pathname: url } = useLocation();
     return (
         <div className='token-pane'>
+            <IndeterminateProgressBar/>
             <div className='header'>
                 <CloseButton url={url} />
             </div>
