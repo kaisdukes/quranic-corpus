@@ -9,6 +9,8 @@ import { PopupLink } from '../components/popup-link';
 import { PopupMenu } from '../components/popup-menu';
 import { VerseSelector } from './verse-selector';
 import { HamburgerMenu } from './hamburger-menu';
+import { IndeterminateProgressBar } from '../components/indeterminate-progress-bar';
+import { useProgress } from '../app/progress-context';
 import { container } from 'tsyringe';
 import hamburger from './../images/icons/hamburger.svg'
 import './navigation-bar.scss';
@@ -22,6 +24,7 @@ export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
 
     const chapterService = container.resolve(ChapterService);
     const chapter = chapterService.getChapter(chapterNumber);
+    const { progress } = useProgress();
 
     return (
         <nav className='navigation-bar'>
@@ -43,6 +46,7 @@ export const NavigationBar = ({ chapterNumber }: NavigationProps) => {
                     <img src={hamburger} />
                 </PopupLink>
             </header>
+            {progress && <IndeterminateProgressBar />}
             <PopupMenu ref={verseSelectorPopupRef} showPopup={showVerseSelectorPopup}>
                 <VerseSelector
                     chapterNumber={chapterNumber}

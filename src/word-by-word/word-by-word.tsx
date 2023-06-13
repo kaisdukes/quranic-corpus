@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData, useLocation } from 'react-router-dom';
 import { Workspace } from '../app/workspace';
 import { ChapterService } from '../corpus/orthography/chapter-service';
 import { MorphologyService } from '../corpus/morphology/morphology-service';
+import { WordMorphology } from '../corpus/morphology/word-morphology';
 import { Verse } from '../corpus/orthography/verse';
 import { Location, parseHashLocation, parseLocation } from '../corpus/orthography/location';
 import { ReactComponent as Bismillah } from '../images/bismillah.svg';
@@ -13,8 +14,9 @@ import { ChapterHeader } from './chapter-header';
 import { CorpusHeader } from '../components/corpus-header';
 import { CorpusError } from '../errors/corpus-error';
 import { LoadingBanner } from '../components/loading-banner';
-import { TokenPane } from './token-pane';
+import { WordMorphologyView } from '../word-morphology/word-morphology-view';
 import { getVerseId } from './verse-id';
+import { useProgress } from '../app/progress-context';
 import { container } from 'tsyringe';
 import './word-by-word.scss';
 
@@ -58,7 +60,10 @@ export const WordByWord = () => {
     const location = useLoaderData() as Location;
     const [chapterNumber, verseNumber] = location;
     const { hash } = useLocation();
-    const hashLocation = parseHashLocation(hash);
+    const { showProgress } = useProgress();
+
+    // memoize to prevent useEffect triggers (due to a new object instance even if hash hasn't changed)
+    const hashLocation = useMemo(() => parseHashLocation(hash), [hash]);
 
     // services
     const chapterService = container.resolve(ChapterService);
@@ -75,6 +80,7 @@ export const WordByWord = () => {
     const { settings } = useSettings();
     const { readerMode, translations } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
+    const [wordMorphology, setWordMorphology] = useState<WordMorphology>();
 
     // refs
     const loadingRefTop = useRef<HTMLDivElement>(null);
@@ -197,11 +203,23 @@ export const WordByWord = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (!hashLocation) {
+            setWordMorphology(undefined);
+            return;
+        }
+        (async () => {
+            showProgress(true);
+            setWordMorphology(await morphologyService.getWordMorphology(hashLocation));
+            showProgress(false);
+        })();
+    }, [hashLocation])
+
     return (
         <Workspace
             navigation={{ chapterNumber }}
             focusMode={true}
-            info={hashLocation && <TokenPane location={hashLocation} />}>
+            info={wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />}>
             <div className='word-by-word'>
                 <CorpusHeader />
                 {loadingTop && <LoadingBanner />}

@@ -1,5 +1,6 @@
 import { ApiBase } from '../../app/api-base';
 import { Verse } from '../orthography/verse';
+import { WordMorphology } from './word-morphology';
 import { formatLocation, Location } from '../orthography/location';
 import { singleton } from 'tsyringe';
 import axios from 'axios';
@@ -18,5 +19,12 @@ export class MorphologyService extends ApiBase {
                 }
             });
         return response.data as Verse[];
+    }
+
+    async getWordMorphology(location: Location) {
+        const response = await axios.get(
+            this.url('/morphology/word'),
+            { params: { location: formatLocation(location) } });
+        return response.data as WordMorphology;
     }
 }

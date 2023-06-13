@@ -2,15 +2,15 @@ import 'reflect-metadata'
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LoadingOverlay } from './components/loading-overlay';
+import { IndeterminateProgressBar } from './components/indeterminate-progress-bar';
 import { theme, applyStyles } from './theme/theme';
 import { FontService } from './typography/font-service';
 import { MetadataService } from './app/metadata-service';
 import { SettingsService } from './settings/settings-service';
-import { OverlayProvider, useOverlay } from './app/overlay-context';
+import { ProgressProvider } from './app/progress-context';
 import { SettingsProvider, useSettings } from './settings/settings-context';
 import { Home } from './home/home';
-import { WordByWord, wordByWordLoader } from './wbw/word-by-word';
+import { WordByWord, wordByWordLoader } from './word-by-word/word-by-word';
 import { Treebank, treebankLoader } from './treebank/treebank';
 import { ErrorPage } from './errors/error-page';
 import { container } from 'tsyringe';
@@ -41,7 +41,6 @@ const Root = () => {
     const metadataService = container.resolve(MetadataService);
     const settingsService = container.resolve(SettingsService);
 
-    const { overlay, setOverlay } = useOverlay();
     const settingsContext = useSettings();
     const [booting, setBooting] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -56,7 +55,6 @@ const Root = () => {
             } catch (e) {
                 setError(e as Error);
             } finally {
-                setOverlay(false);
                 setBooting(false);
             }
         };
@@ -69,18 +67,15 @@ const Root = () => {
     }
 
     return (
-        <>
-            {!booting && <RouterProvider router={router} />}
-            {overlay && <LoadingOverlay />}
-        </>
+        booting ? <IndeterminateProgressBar /> : <RouterProvider router={router} />
     )
 }
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-    <OverlayProvider>
+    <ProgressProvider>
         <SettingsProvider>
             <Root />
         </SettingsProvider>
-    </OverlayProvider>
+    </ProgressProvider>
 )

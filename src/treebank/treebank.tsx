@@ -10,8 +10,8 @@ import { SyntaxGraphView } from './syntax-graph-view';
 import { CorpusError } from '../errors/corpus-error';
 import { PrevNextNavigation } from '../navigation/prev-next-navigation';
 import { IrabView } from './irab-view';
+import { useProgress } from '../app/progress-context';
 import { AxiosError } from 'axios';
-import { useOverlay } from '../app/overlay-context';
 import { container } from 'tsyringe';
 import './treebank.scss';
 
@@ -33,7 +33,7 @@ export const Treebank = () => {
     const graphLocation = useLoaderData() as GraphLocation;
     const { location, graphNumber } = graphLocation;
     const [chapterNumber, verseNumber] = location;
-    const { setOverlay } = useOverlay();
+    const { showProgress } = useProgress();
     const [syntaxGraph, setSyntaxGraph] = useState<SyntaxGraph | null>(null);
     const [irab, setIrab] = useState<string[] | null>(null);
     const syntaxService = container.resolve(SyntaxService);
@@ -41,7 +41,7 @@ export const Treebank = () => {
 
     useEffect(() => {
         (async () => {
-            setOverlay(true);
+            showProgress(true);
             try {
                 var syntaxGraph = await syntaxService.getSyntax(graphLocation);
                 var tokenRange = syntaxGraph.getTokenRange();
@@ -58,7 +58,7 @@ export const Treebank = () => {
                     throw e;
                 }
             }
-            setOverlay(false);
+            showProgress(false);
         })();
     }, [chapterNumber, verseNumber, graphNumber])
 
