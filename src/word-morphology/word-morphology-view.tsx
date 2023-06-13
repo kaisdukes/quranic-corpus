@@ -26,34 +26,38 @@ export const WordMorphologyView = ({ wordMorphology }: Props) => {
             </header>
             <TaggedToken token={token} />
             <section>
-                <div>
+                <div className='summary'>
                     <MarkupView markup={summary} />
                 </div>
-                {
-                    (() => {
-                        const descriptions = [];
-                        let i = 0;
-                        for (const segment of segments) {
-                            if (segment.posTag !== 'DET') {
-                                const className = colorService.getSegmentColor(segment);
-                                descriptions.push(
-                                    <div key={`description-${i}`} className='segment'>
-                                        <NodeCircle className={className} />
-                                        <div className='description'>
-                                            <span className={className}>{segment.posTag}</span> - <MarkupView markup={segmentDescriptions[i++]} />
+                <div className='descriptions'>
+                    {
+                        (() => {
+                            const descriptions = [];
+                            let i = 0;
+                            for (const segment of segments) {
+                                if (segment.posTag !== 'DET') {
+                                    const className = colorService.getSegmentColor(segment);
+                                    descriptions.push(
+                                        <div key={`description-${i}`} className='segment'>
+                                            <NodeCircle className={className} />
+                                            <div className='description'>
+                                                <span className={className}>{segment.posTag}</span> - <MarkupView markup={segmentDescriptions[i++]} />
+                                            </div>
                                         </div>
-                                    </div>
-                                )
+                                    )
+                                }
                             }
-                        }
-                        return descriptions;
-                    })()
-                }
-                {
-                    arabicGrammar.split('\n').map((line, i) => (
-                        <div key={`grammar-${i}`} className='grammar markup'>{line}</div>
-                    ))
-                }
+                            return descriptions;
+                        })()
+                    }
+                </div>
+                <div className='grammar'>
+                    {
+                        arabicGrammar.split('\n').map((line, i) => (
+                            <div key={`grammar-${i}`} className='markup'>{line}</div>
+                        ))
+                    }
+                </div>
             </section>
         </div>
     )

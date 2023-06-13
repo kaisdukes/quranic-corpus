@@ -17,17 +17,26 @@
         margin: 0 20 20 20;
         line-height: 1.6em;
 
-        .segment {
-            display: flex;
+        .summary {
+            margin-top: 20px;
+        }
 
-            .node-circle {
-                margin-left: 5px;
-                margin-top: 10px;
-                margin-right: 10px;
+        .descriptions {
+            margin-top: 20px;
+
+            .segment {
+                display: flex;
+
+                .node-circle {
+                    margin-left: 5px;
+                    margin-top: 10px;
+                    margin-right: 10px;
+                }
             }
         }
 
         .grammar {
+            margin-top: 20px;
             direction: rtl;
         }
     }
