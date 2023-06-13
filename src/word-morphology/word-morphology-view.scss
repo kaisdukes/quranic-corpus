@@ -16,6 +16,20 @@
     section {
         margin: 0 20 20 20;
         line-height: 1.6em;
+
+        .segment {
+            display: flex;
+
+            .node-circle {
+                margin-left: 5px;
+                margin-top: 10px;
+                margin-right: 10px;
+            }
+        }
+
+        .grammar {
+            direction: rtl;
+        }
     }
 
     @media only screen and (max-width: 599px) {

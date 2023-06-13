@@ -18,14 +18,12 @@ export const TaggedToken = ({ token }: Props) => {
                 {
                     (() => {
                         const posTags = [];
-                        let j = 0;
                         for (var i = segments.length - 1; i >= 0; i--) {
                             const segment = segments[i];
                             if (segment.posTag !== 'DET') {
                                 posTags.push(
-                                    <PosTag key={j} segment={segment} />
-                                );
-                                j++;
+                                    <PosTag key={i} segment={segment} />
+                                )
                             }
                         }
                         return posTags;

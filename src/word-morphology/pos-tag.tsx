@@ -1,6 +1,6 @@
 import { Segment } from '../corpus/morphology/segment';
 import { ColorService } from '../theme/color-service';
-import { combineClassNames } from '../theme/class-names';
+import { NodeCircle } from './node-circle';
 import { container } from 'tsyringe';
 import './pos-tag.scss';
 
@@ -13,7 +13,7 @@ export const PosTag = ({ segment }: Props) => {
     const className = colorService.getSegmentColor(segment);
     return (
         <div className='pos-tag'>
-            <div className={combineClassNames('node-circle', className)} />
+            <NodeCircle className={className} />
             <div className={className}>{segment.posTag}</div>
         </div>
     )
