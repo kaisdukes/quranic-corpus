@@ -1,16 +1,15 @@
 .close-button {
-    border-radius: 25px;
+    border-radius: 20px;
     transition: border-color 300ms;
-    border: 1px solid #e5e5e5;
     cursor: pointer;
 
     &:hover {
-        border: 1px solid #a9a9a9;
+        background: #e5e5e5;
     }
 
     svg {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         color: black;
     }
 }

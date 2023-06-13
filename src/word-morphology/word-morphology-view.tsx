@@ -1,4 +1,6 @@
+import { Fragment } from 'react';
 import { WordMorphology } from '../corpus/morphology/word-morphology';
+import { TaggedToken } from './tagged-token';
 import { CloseButton } from '../components/close-button';
 import { useLocation } from 'react-router-dom';
 import './word-morphology-view.scss';
@@ -9,12 +11,26 @@ type Props = {
 
 export const WordMorphologyView = ({ wordMorphology }: Props) => {
     const { pathname: url } = useLocation();
+    const { token, summary, segmentDescriptions, arabicGrammar } = wordMorphology;
     return (
         <div className='word-morphology-view'>
-            <div className='header'>
+            <header>
+                <h1>Quranic Grammar</h1>
                 <CloseButton url={url} />
-            </div>
-            TEST: {JSON.stringify(wordMorphology)}<br />
+            </header>
+            <TaggedToken token={token} />
+            <br />
+            <section>
+                {summary}<br />
+                <br />
+                {
+                    segmentDescriptions.map((description, i) => (
+                        <Fragment key={`description-${i}`}>{description}<br /></Fragment>
+                    ))
+                }
+                <br />
+                {arabicGrammar}
+            </section>
         </div>
     )
 }

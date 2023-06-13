@@ -32,7 +32,7 @@ export const Workspace = ({ className, navigation, focusMode, children, info }: 
     // - Covers the bottom 2/3rds of the screen when displayed.
     // - It's independently scrollable, without affecting the scroll position of the main content.
 
-    const [infoPaneWidth, setInfoPaneWidth] = useState(300);
+    const [infoPaneWidth, setInfoPaneWidth] = useState(400);
     const workspaceRef = useRef<HTMLDivElement | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const splitterRef = useRef<HTMLDivElement | null>(null);
