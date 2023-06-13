@@ -1,0 +1,22 @@
+.token-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    div {
+        line-height: 1.6em;
+        direction: ltr;
+
+        &.location {
+            color: #787878;
+        }
+
+        &.phonetic {
+            color: #4886d0;
+        }
+
+        @media only screen and (max-width: 599px) {
+            font-size: 90%;
+        }
+    }
+}
