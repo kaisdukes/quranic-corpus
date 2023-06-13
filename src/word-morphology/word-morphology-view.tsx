@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { WordMorphology } from '../corpus/morphology/word-morphology';
 import { TaggedToken } from './tagged-token';
 import { CloseButton } from '../components/close-button';
+import { MarkupView } from '../components/markup-view';
 import { useLocation } from 'react-router-dom';
 import './word-morphology-view.scss';
 
@@ -21,11 +22,11 @@ export const WordMorphologyView = ({ wordMorphology }: Props) => {
             <TaggedToken token={token} />
             <br />
             <section>
-                {summary}<br />
+                <MarkupView markup={summary} /><br />
                 <br />
                 {
                     segmentDescriptions.map((description, i) => (
-                        <Fragment key={`description-${i}`}>{description}<br /></Fragment>
+                        <Fragment key={`description-${i}`}><MarkupView markup={description} /><br /></Fragment>
                     ))
                 }
                 <br />
