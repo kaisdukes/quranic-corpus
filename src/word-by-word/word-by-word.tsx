@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData, useLocation } from 'react-router-dom';
 import { Workspace } from '../app/workspace';
 import { ChapterService } from '../corpus/orthography/chapter-service';
@@ -61,9 +61,6 @@ export const WordByWord = () => {
     const [chapterNumber, verseNumber] = location;
     const { hash } = useLocation();
     const { showProgress } = useProgress();
-
-    // memoize to prevent useEffect triggers (due to a new object instance even if hash hasn't changed)
-    const hashLocation = useMemo(() => parseHashLocation(hash), [hash]);
 
     // services
     const chapterService = container.resolve(ChapterService);
@@ -204,16 +201,18 @@ export const WordByWord = () => {
     }, []);
 
     useEffect(() => {
+        const hashLocation = parseHashLocation(hash);
         if (!hashLocation) {
             setWordMorphology(undefined);
             return;
         }
+
         (async () => {
             showProgress(true);
             setWordMorphology(await morphologyService.getWordMorphology(hashLocation));
             showProgress(false);
         })();
-    }, [hashLocation])
+    }, [hash])
 
     return (
         <Workspace
