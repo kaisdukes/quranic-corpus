@@ -5,6 +5,5 @@ export type Token = {
     location: Location,
     translation: string,
     phonetic: string,
-    root?: string,
     segments: Segment[]
 }
