@@ -227,7 +227,7 @@ export const WordByWord = () => {
                     verses.length > 0 && verses[0].location[1] === 1 &&
                     <>
                         <ChapterHeader chapter={chapter} />
-                        {chapter.chapterNumber != 1 && chapter.chapterNumber != 9 && <Bismillah className='bismillah' />}
+                        {chapter.chapterNumber !== 1 && chapter.chapterNumber !== 9 && <Bismillah className='bismillah' />}
                     </>
                 }
                 {
