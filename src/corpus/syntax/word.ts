@@ -1,13 +1,13 @@
 import { PosTag } from '../morphology/pos-tag';
 import { Token } from '../orthography/token';
 
-export type WordType = 'token' | 'reference' | 'hidden';
+export type WordType = 'token' | 'reference' | 'elided';
 
 export type Word = {
     type: WordType,
     token?: Token,
-    hiddenText?: string,
-    hiddenPosTag?: PosTag,
+    elidedText?: string,
+    elidedPosTag?: PosTag,
     startNode: number,
     endNode: number
 }

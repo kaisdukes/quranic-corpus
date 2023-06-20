@@ -41,7 +41,7 @@ export class SyntaxGraph {
     }
 
     brackets(word: Word) {
-        return word.type === 'reference' || (word.type === 'hidden' && word.hiddenText);
+        return word.type === 'reference' || (word.type === 'elided' && word.elidedText);
     }
 
     isPhraseNode(node: number) {

@@ -181,8 +181,8 @@ export class SyntaxGraphVisualizer {
             bra!.y = y + bracketDeltaY;
         }
 
-        // ellipsis
-        if (!word.token && !word.hiddenText) {
+        // ellision
+        if (!word.token && !word.elidedText) {
             token.y += bracketDeltaY;
         }
         y += 65;

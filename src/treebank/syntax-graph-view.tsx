@@ -75,16 +75,16 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
     // fonts
     const defaultFont = theme.fonts.defaultFont;
     const defaultArabicFont = theme.fonts.defaultArabicFont;
-    const hiddenWordFont = theme.fonts.hiddenWordFont;
+    const elidedWordFont = theme.fonts.elidedWordFont;
 
     // metrics
     const defaultFontMetrics = fontService.getFontMetrics(defaultFont);
     const defaultArabicFontMetrics = fontService.getFontMetrics(defaultArabicFont);
-    const hiddenWordFontMetrics = fontService.getFontMetrics(hiddenWordFont);
+    const elidedWordFontMetrics = fontService.getFontMetrics(elidedWordFont);
     const {
         syntaxGraphHeaderFontSize,
         syntaxGraphTokenFontSize,
-        syntaxGraphHiddenWordFontSize,
+        syntaxGraphElidedWordFontSize,
         syntaxGraphTagFontSize,
         syntaxGraphEdgeLabelFontSize
     } = theme;
@@ -135,9 +135,9 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                             <SVGText
                                                 ref={wordElement.braRef}
                                                 text={'('}
-                                                font={hiddenWordFont}
-                                                fontSize={syntaxGraphHiddenWordFontSize}
-                                                fontMetrics={hiddenWordFontMetrics}
+                                                font={elidedWordFont}
+                                                fontSize={syntaxGraphElidedWordFontSize}
+                                                fontMetrics={elidedWordFontMetrics}
                                                 box={wordLayout && wordLayout.bra}
                                                 className='silver' />
                                         }
@@ -154,9 +154,9 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                             <SVGText
                                                 ref={wordElement.ketRef}
                                                 text={')'}
-                                                font={hiddenWordFont}
-                                                fontSize={syntaxGraphHiddenWordFontSize}
-                                                fontMetrics={hiddenWordFontMetrics}
+                                                font={elidedWordFont}
+                                                fontSize={syntaxGraphElidedWordFontSize}
+                                                fontMetrics={elidedWordFontMetrics}
                                                 box={wordLayout && wordLayout.ket}
                                                 className='silver' />
                                         }
@@ -195,22 +195,22 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                 ) : (
                                     <>
                                         {
-                                            word.hiddenText ?
+                                            word.elidedText ?
                                                 <>
                                                     {
                                                         brackets &&
                                                         <SVGText
                                                             ref={wordElement.braRef}
                                                             text={'('}
-                                                            font={hiddenWordFont}
-                                                            fontSize={syntaxGraphHiddenWordFontSize}
-                                                            fontMetrics={hiddenWordFontMetrics}
+                                                            font={elidedWordFont}
+                                                            fontSize={syntaxGraphElidedWordFontSize}
+                                                            fontMetrics={elidedWordFontMetrics}
                                                             box={wordLayout && wordLayout.bra}
                                                             className='silver' />
                                                     }
                                                     <SVGText
                                                         ref={wordElement.tokenRef}
-                                                        text={word.hiddenText}
+                                                        text={word.elidedText}
                                                         font={defaultArabicFont}
                                                         fontSize={syntaxGraphTokenFontSize}
                                                         fontMetrics={defaultArabicFontMetrics}
@@ -221,9 +221,9 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                                         <SVGText
                                                             ref={wordElement.ketRef}
                                                             text={')'}
-                                                            font={hiddenWordFont}
-                                                            fontSize={syntaxGraphHiddenWordFontSize}
-                                                            fontMetrics={hiddenWordFontMetrics}
+                                                            font={elidedWordFont}
+                                                            fontSize={syntaxGraphElidedWordFontSize}
+                                                            fontMetrics={elidedWordFontMetrics}
                                                             box={wordLayout && wordLayout.ket}
                                                             className='silver' />
                                                     }
@@ -231,15 +231,15 @@ export const SyntaxGraphView = ({ syntaxGraph }: Props) => {
                                                 : <SVGText
                                                     ref={wordElement.tokenRef}
                                                     text={'(*)'}
-                                                    font={hiddenWordFont}
-                                                    fontSize={syntaxGraphHiddenWordFontSize}
-                                                    fontMetrics={hiddenWordFontMetrics}
+                                                    font={elidedWordFont}
+                                                    fontSize={syntaxGraphElidedWordFontSize}
+                                                    fontMetrics={elidedWordFontMetrics}
                                                     box={wordLayout && wordLayout.token}
                                                     className='silver' />
                                         }
                                         <SVGText
                                             ref={wordElement.posTagRefs[0]}
-                                            text={word.hiddenPosTag!}
+                                            text={word.elidedPosTag!}
                                             font={defaultFont}
                                             fontSize={syntaxGraphTagFontSize}
                                             fontMetrics={defaultFontMetrics}
