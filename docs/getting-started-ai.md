@@ -47,7 +47,7 @@ Another area of interest to AI is verse segmentation: dividing larger verses int
 
 Large portions of the Quran contain lengthy verses. The Quranic Treebank is designed primarily as an educational resource, allowing users of the corpus to gain deeper linguistic understanding of the Classical Arabic language of the Quran through side-by-side comparison with *i’rāb* (إعراب), traditional linguistic analysis. For this reason, dependency graphs are kept intentionally short, for easier display on mobile devices. Larger syntactic structures that cross graphs are linked together through reference nodes.
 
-To complete the treebank, we will need to perform verse segmentation. There are multiple ways this could be done, but one possibility would be to train a machine learning model using four sources of data:
+To complete the treebank, we will need to perform verse segmentation. There are several ways this could be done, but one possibility would be to train a machine learning model using four sources of data:
 
 **Existing segmentation:** The existing segmentation implied by the existing dependency graphs covering 50% of the Quran.
 
