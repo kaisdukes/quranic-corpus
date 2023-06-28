@@ -53,12 +53,10 @@ To complete the treebank, we will need to perform verse segmentation. There are 
 
 **Existing segmentation:** The existing segmentation implied by the existing dependency graphs covering 50% of the Quran.
 
-**Reference grammar alignment:** The breakdown of verses into word groups in the reference grammar used to construct the treebank, Salih’s al-I’rāb al-Mufassal. In principle, this could be a strong choice for training the model as the treebank was initially segmented to support easier alignment and cross-referencing with al-I’rāb al-Mufassal.
+**Reference grammar alignment:** The breakdown of verses into word groups in the reference grammar used to construct the treebank, Salih’s *al-I’rāb al-Mufassal*. In principle, this could be a strong choice for training the model as the treebank was initially segmented to support easier alignment and cross-referencing with *al-I’rāb al-Mufassal*.
 
-**Pause marks:** Although the Classical Arabic Uthmani script of the Quran doesn’t contain modern punctuation like full stops or commas, it does contain [pause marks](https://corpus.quran.com/documentation/pausemarks.jsp) (to support waqf and tajweed), which may aid in segmentation.
+**Pause marks:** Although the Classical Arabic Uthmani script of the Quran doesn’t contain modern punctuation like full stops or commas, it does contain [pause marks](https://corpus.quran.com/documentation/pausemarks.jsp) (to support *waqf* and *tajweed*), which may aid in segmentation.
 
 **Punctuation from translations:** The Quran now has word-aligned translations in multiple languages, which often include punctuation. Using this data may also help boost the accuracy of the verse segmenter.
 
-For any model, it would be essential to perform evaluation to test the accuracy of the segmenter. Because evaluation would need to test against the existing segmentation, it would make sense to start with that as the first dataset, and then try the other sources to see how that might boost accuracy. Choosing just one signal, like waqf marks, might not lead to optimal accuracy.
-
-
+For any model, it would be essential to perform evaluation to test the accuracy of the segmenter. Because evaluation would need to test against the existing segmentation, it would make sense to start with that as the first dataset, and then try the other sources to see how that might boost accuracy. Choosing just one signal, like *waqf* marks, might not lead to optimal accuracy.
