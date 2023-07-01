@@ -40,21 +40,3 @@ We understand that this is a significant commitment, possibly requiring one or t
 Once you are feeling more comfortable with the NLP background to the project, we would love to invite you for a series of 1-1 sessions where we can make a plan for supporting you to gain the required expertise to start working on the parser.
 
 For a deeper understanding of the existing 2011 SVM paper, we recommend Chapters 9 and 10 of Dr. Dukes’ PhD thesis: *[Statistical Parsing by Machine Learning from a Classical Arabic Treebank](https://arxiv.org/pdf/1510.07193.pdf)*.
-
-### Verse Segmentation
-
-Another area of interest to AI is verse segmentation: dividing larger verses into multiple dependency graphs, and merging smaller verses into one graph, where this makes sense semantically and simplifies the diagrams.
-
-Large portions of the Quran contain lengthy verses. The Quranic Treebank is designed primarily as an educational resource, allowing users of the corpus to gain deeper linguistic understanding of the Classical Arabic language of the Quran through side-by-side comparison with *i’rāb* (إعراب), traditional linguistic analysis. For this reason, dependency graphs are kept intentionally short, for easier display on mobile devices. Larger syntactic structures that cross graphs are linked together through reference nodes.
-
-To complete the treebank, we will need to perform verse segmentation. There are several ways this could be done, but one possibility would be to train a machine learning model using four sources of data:
-
-**Existing segmentation:** The existing segmentation implied by the existing dependency graphs covering 50% of the Quran.
-
-**Reference grammar alignment:** The breakdown of verses into word groups in the reference grammar used to construct the treebank, Salih’s *al-I’rāb al-Mufassal*. In principle, this could be a strong choice for training the model as the treebank was initially segmented to support easier alignment and cross-referencing with *al-I’rāb al-Mufassal*.
-
-**Pause marks:** Although the Classical Arabic Uthmani script of the Quran doesn’t contain modern punctuation like full stops or commas, it does contain [pause marks](https://corpus.quran.com/documentation/pausemarks.jsp) (to support *waqf* and *tajweed*), which may aid in segmentation.
-
-**Punctuation from translations:** The Quran now has word-aligned translations in multiple languages, which often include punctuation. Using this data may also help boost the accuracy of the verse segmenter.
-
-For any model, it would be essential to perform evaluation to test the accuracy of the segmenter. Because evaluation would need to test against the existing segmentation, it would make sense to start with that as the first dataset, and then try the other sources to see how that might boost accuracy. Choosing just one signal, like *waqf* marks, might not lead to optimal accuracy.
