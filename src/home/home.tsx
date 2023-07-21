@@ -51,7 +51,7 @@ export const Home = () => {
                 continuous improvement.
             </p>
             <div className='projects'>
-                <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1xev7hjna-hjNJHHGCEgLWeTsEzO0vgw'>
+                <a href='https://join.slack.com/t/quraniccorpus/shared_invite/zt-1zp5zdz5w-b7hbwYPlZABDMm19ZeKWdA'>
                     <img src={slack} />
                 </a>
                 <a href='https://github.com/kaisdukes/quranic-corpus'>
